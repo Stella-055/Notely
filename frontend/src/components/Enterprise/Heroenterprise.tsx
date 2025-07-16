@@ -13,7 +13,7 @@ const Heroenterprise = () => {
             <img className="size-7 rounded-full border-3 border-white -translate-x-4"
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=50&h=50&auto=format&fit=crop" alt="userImage3"/>
         </div>
-        <p className="-translate-x-2">Join community of 1m+ founders </p>
+        <p className="-translate-x-2">Join community of 1m+ users </p>
        </div>
     <h1 className="text-4xl md:text-6xl text-center font-semibold max-w-4xl mt-5 ">
     Notes that Work as Hard as Your Team
