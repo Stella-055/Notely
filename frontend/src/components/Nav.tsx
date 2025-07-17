@@ -19,16 +19,17 @@ const Nav = () => {
                     : "group "
                 }>Why Notely
                 <div className= " bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300" > </div></NavLink>
+                <NavLink to="/enterprise" className={({ isActive }) =>
+                  isActive
+                    ? ""
+                    : "group"
+                }>Enterprise  <div className= " bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300" > </div></NavLink>
 <NavLink to="/plans" className={({ isActive }) =>
                   isActive
                     ? ""
                     : "group"
                 }>Plans  <div className= " bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300" > </div></NavLink>
-<NavLink to="/enterprise" className={({ isActive }) =>
-                  isActive
-                    ? ""
-                    : "group"
-                }>Enterprise  <div className= " bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300" > </div></NavLink>
+
      </div>
 
      <div className=" flex gap-2 justify-center items-center">
