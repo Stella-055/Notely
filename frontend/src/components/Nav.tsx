@@ -33,8 +33,8 @@ const Nav = () => {
      </div>
 
      <div className=" flex gap-2 justify-center items-center">
-     <NavLink to="/login" className="font-bold">Login</NavLink>
-     <Button variant="contained">Start Free</Button>
+     <NavLink to="/signin" className="font-bold">Login</NavLink>
+     <Button variant="contained" href="/register">Start Free</Button>
      </div>
 
         </nav>

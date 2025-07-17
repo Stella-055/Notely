@@ -27,7 +27,7 @@ const Whtweoffer = () => {
         <h1>Journal</h1>
         <img src="/meeting.jpg" className="w-36 h-28"/>
       </div> </div>
-      <div className="flex flex-col items-center justify-center max-w-5xl w-full mx-2 rounded-2xl shadow-md bg-gradient-to-r from-purple-600/20 to-blue-500/30px-4 py-20 text-center mt-7">
+      <div className="flex flex-col items-center justify-center max-w-5xl w-full mx-2 rounded-2xl shadow-md bg-gradient-to-r from-purple-600/20 to-blue-500/30 px-4 py-20 text-center mt-7">
             <div className="flex items-center -space-x-7">
                 <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200" alt="image"
                     className="h-16 w-16 rounded-full border-4 border-white" />
