@@ -1,6 +1,8 @@
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { Button } from '@mui/material';
+import Whtweoffer from '@/components/Whtweoffer';
+import Contact from '@/components/Contact';
 
 const Home = () => {
   return (
@@ -28,7 +30,10 @@ const Home = () => {
         </ImageListItem>
       ))}
     </ImageList>
-    </div> </>
+    </div>
+    <Whtweoffer/>
+    <Contact/>
+     </>
   )
 }
 
