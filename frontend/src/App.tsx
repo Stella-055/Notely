@@ -35,7 +35,7 @@ function App() {
     <Route path="otp" element={<OTP/>}/></Route>
 <Route path="/dashboard"  element={<Dashboard/>}> 
     <Route index element={<Overview/>}/>
-    
+    <Route path="notes" element={<Notes/>}/>
     </Route>
    </Routes>
       

@@ -7,6 +7,16 @@ import { FaBookmark } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import Divider from '@mui/material/Divider';
+import { TbSettings } from "react-icons/tb";
+import { TbHelpCircleFilled } from "react-icons/tb";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import { Button } from "@mui/material";
 
@@ -26,14 +36,28 @@ const SideNav = () => {
            <NavLink to="/dashboard/notes" className="text-white flex items-center"> Notes <FaNotesMedical color="white" size={20}/></NavLink> 
            <NavLink to="/dashboard" className="text-white flex items-center"> Workspace <VscWorkspaceTrusted color="white" size={20}/></NavLink> 
            <NavLink to="/dashboard" className="text-white flex items-center"> Tasks <GrTask  color="white" size={20}  /></NavLink> 
-           <NavLink to="/dashboard" className="text-white flex items-center"> Bookmark <FaBookmark color="white" size={20} /> </NavLink> 
-           <NavLink to="/dashboard" className="text-white flex items-center"> Trash <FaTrash color="white" size={20}/></NavLink> 
+           <NavLink to="/dashboard" className="text-white flex items-center"> Bookmark <FaBookmark color="white" size={15} /> </NavLink> 
+           <NavLink to="/dashboard" className="text-white flex items-center"> Trash <FaTrash color="white" size={15}/></NavLink> 
+           <DropdownMenu>
+  <DropdownMenuTrigger className="border-none" > <h1 className="text-white flex font-medium items-center">Settings  <TbSettings color="white" size={20} /></h1> </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Password</DropdownMenuItem>
+    <DropdownMenuItem>Subscription</DropdownMenuItem>
+    <DropdownMenuItem>Security & privacy</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+          
+           
            </div> </div>
+           
 
            <div className="flex flex-col gap-2 items-center">
            <Divider orientation="horizontal"  sx={{width:"10rem", backgroundColor:"white", height:"0.5px"}}/>
-           <NavLink to="/dashboard" className="text-white flex items-center"> Settings<FaTrash color="white" size={15}/></NavLink> 
-<Button variant="contained" size="small"  sx={{border:1, borderColor:"white"}} endIcon={<IoIosLogOut />}>Logout</Button>
+           <NavLink to="/dashboard" className="text-white flex items-center"> <TbHelpCircleFilled color="white" size={18} />Help</NavLink> 
+<Button variant="contained" size="small"  sx={{border:1, borderColor:"white"}} startIcon={<IoIosLogOut />}>Logout</Button>
            </div>
 
              </div>

@@ -1,9 +1,10 @@
+import Notecategory from "@/components/Notecategory"
 
 
 const Notes = () => {
   return (
-    <div>
-      hey
+    <div className="flex w-full">
+    <Notecategory/>
     </div>
   )
 }
