@@ -14,6 +14,7 @@ import Common from "./pages/Common"
 import Dashboard from "./pages/Dashboard"
 import Notes from "./pages/Notes"
 import Overview from "./pages/Overview"
+import Profile from "./pages/Profile"
 
 
 
@@ -36,6 +37,7 @@ function App() {
 <Route path="/dashboard"  element={<Dashboard/>}> 
     <Route index element={<Overview/>}/>
     <Route path="notes" element={<Notes/>}/>
+    <Route path="profile" element={<Profile/>}/>
     </Route>
    </Routes>
       

@@ -43,7 +43,7 @@ const SideNav = () => {
   <DropdownMenuContent>
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>  <NavLink to="/dashboard/profile" > Profile</NavLink> </DropdownMenuItem>
     <DropdownMenuItem>Password</DropdownMenuItem>
     <DropdownMenuItem>Subscription</DropdownMenuItem>
     <DropdownMenuItem>Security & privacy</DropdownMenuItem>
@@ -52,7 +52,7 @@ const SideNav = () => {
           
            
            </div> </div>
-           
+
 
            <div className="flex flex-col gap-2 items-center">
            <Divider orientation="horizontal"  sx={{width:"10rem", backgroundColor:"white", height:"0.5px"}}/>
