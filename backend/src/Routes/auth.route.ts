@@ -8,4 +8,5 @@ route.post("/login",validatesigninDetails,validateEmailorUsername,signinUser)
 route.post("/refresh", refreshuserToken)
 route.post("/forgotpassword",forgotpasswordEmail,sendOtp )
 route.post("/verifyotp",verifyOtp)
+route.post("/update-password")
 export default route;

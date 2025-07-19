@@ -1,10 +1,10 @@
 import {NextFunction, Request,Response} from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import zxcvbn from "zxcvbn";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 
 import { transporter } from '../Nodemailer/transpoter';
-import { verify } from '../../node_modules/@types/jsonwebtoken/index.d';
 
 const prisma = new PrismaClient();
 
@@ -177,11 +177,38 @@ export const verifyOtp = async (req: Request, res: Response) => {
         res.status(400).json({ message: "Otp expired" });
         return;
       }
-   res.status(200).json({ message: 'Otp verified successfully' });
+      const tempToken = jwt.sign({ useremail }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: "10m" });
+   res.status(200).json({ message: 'Otp verified successfully', tempToken });
  } catch (error) {
         return res.status(500).json({ message: 'Internal server error' });
         
     }
     
+ }
+
+ export const update_Password = async (req: Request, res: Response) => {
+    try {
+        const { tempToken, newPassword } = req.body;
+        if (!tempToken || !newPassword) {
+            return res.status(400).json({ message: ' password is required' });
+        }
+        const decoded = jwt.verify(tempToken, process.env.ACCESS_TOKEN_SECRET!) as JwtPayload;
+        const useremail = decoded.useremail;
+
+        const passwordStrength = zxcvbn(newPassword);
+        
+                if (passwordStrength.score < 3) {
+                    return res.status(400).json({ message: 'Password is too weak' });
+                }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await prisma.user.update({
+            where: { useremail },
+            data: { password: hashedPassword, otp: null, otpExpiresAt: null },
+        });
+        res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
  }
 
