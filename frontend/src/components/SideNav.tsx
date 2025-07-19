@@ -26,9 +26,11 @@ const SideNav = () => {
       
 <div className="flex flex-col justify-between  h-80 ">
 
-        <div className="flex gap-2.5 rounded-2xl">
+   
+          <a href="/">
+          <div className="flex gap-2.5 rounded-2xl">
                 <img src="/notelylogo.png" alt="logo" className="w-9 bg-white rounded-2xl p-2"  />
-                <h2 className="text-2xl text-white font-extrabold">Notely</h2>  </div> 
+                <h2 className="text-2xl text-white font-extrabold">Notely</h2>  </div> </a>
                 <Divider orientation="horizontal"  sx={{width:"10rem", backgroundColor:"white", height:"0.5px"}}/>
            <div className="flex flex-col gap-4 justify-center ">
            
@@ -44,7 +46,7 @@ const SideNav = () => {
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem>  <NavLink to="/dashboard/profile" > Profile</NavLink> </DropdownMenuItem>
-    <DropdownMenuItem>Password</DropdownMenuItem>
+    <DropdownMenuItem> <NavLink to="/dashboard/password" > Password</NavLink> </DropdownMenuItem>
     <DropdownMenuItem>Subscription</DropdownMenuItem>
     <DropdownMenuItem>Security & privacy</DropdownMenuItem>
   </DropdownMenuContent>

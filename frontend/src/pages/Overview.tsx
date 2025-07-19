@@ -36,7 +36,8 @@ function Overview() {
       <Chip label="school" variant="outlined" />
     </Stack>
     <div className='flex text-gray-700'>
-    <IoAddCircleSharp size={24} />Add a new note
+      <a href="/dashboard/newnote">
+    <IoAddCircleSharp size={24} />Add a new note </a>
     </div>
       </div>
       <div>

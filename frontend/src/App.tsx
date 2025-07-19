@@ -15,6 +15,8 @@ import Dashboard from "./pages/Dashboard"
 import Notes from "./pages/Notes"
 import Overview from "./pages/Overview"
 import Profile from "./pages/Profile"
+import Updatepass from "./pages/Updatepass"
+import Newnote from "./pages/Newnote"
 
 
 
@@ -38,6 +40,8 @@ function App() {
     <Route index element={<Overview/>}/>
     <Route path="notes" element={<Notes/>}/>
     <Route path="profile" element={<Profile/>}/>
+    <Route path="password" element={<Updatepass/>}/>
+    <Route path="newnote" element={<Newnote/>}/>
     </Route>
    </Routes>
       
