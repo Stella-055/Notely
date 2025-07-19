@@ -1,0 +1,111 @@
+import { Request, Response, NextFunction } from 'express';
+import { PrismaClient } from "@prisma/client";
+import zxcvbn from "zxcvbn";
+import bcrypt from "bcrypt";
+
+const prisma = new PrismaClient();
+export const registerDetails= (req:Request, res:Response, next:NextFunction) => {
+
+    try {
+        const{firstname ,lastname,useremail,username,password}=req.body;
+
+    if (!firstname || !lastname || !useremail || !username || !password) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    next();
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+    
+}
+
+ export const validateEmailUsername= async (req: Request, res: Response, next: NextFunction) => {
+
+
+    try {
+        const { useremail, username } = req.body;
+
+        const existingEmail = await prisma.user.findUnique({
+            where: { useremail },
+        });
+
+        if (existingEmail) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        const existingUsername = await prisma.user.findUnique({
+            where: { username },
+        });
+
+        if (existingUsername) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        next();
+        
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
+
+export const validatePasswordStrength = async(req: Request, res: Response, next: NextFunction) => {
+
+
+    try {
+        
+        const {password} = req.body;
+
+        const passwordStrength = zxcvbn(password);
+
+        if (passwordStrength.score < 3) {
+            return res.status(400).json({ message: 'Password is too weak' });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
+
+ export const validatesigninDetails = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { username, password,useremail } = req.body;
+        if (!username && !useremail) {
+            return res.status(400).json({ message: 'Please provide a username or email' });
+        }
+
+        if ( !password) {
+            return res.status(400).json({ message: 'Please provide a password' });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
+export const  validateEmailorUsername = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { useremail,password,username } = req.body;
+
+       const user= await prisma.user.findFirst({
+            where: {OR: [{ useremail }, { username }] }
+        });
+        if (!user) {
+            return res.status(400).json({ message: 'Owner does not exist' });
+        } 
+        if(!user.password) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        const isPasswordValid =  bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        
+        next();
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
