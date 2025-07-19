@@ -4,6 +4,7 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^6.4.17",
     "@types/zxcvbn": "^4.4.5",
     "prisma": "^6.12.0",
     "typescript": "^5.8.3"
@@ -27,6 +28,7 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "zxcvbn": "^4.4.2"

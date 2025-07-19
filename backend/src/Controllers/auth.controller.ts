@@ -1,8 +1,10 @@
-import {Request,Response} from "express";
+import {NextFunction, Request,Response} from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
-import { userdetails } from '../types/type.d';
+
+import { transporter } from '../Nodemailer/transpoter';
+import { verify } from '../../node_modules/@types/jsonwebtoken/index.d';
 
 const prisma = new PrismaClient();
 
@@ -130,3 +132,56 @@ export const refreshuserToken= async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+export const sendOtp= async (req: Request, res: Response) => {
+    const { useremail } = req.body;
+    try {
+        const otp = Math.floor(100000 + Math.random() * 900000);
+    const expiryOtp = new Date(Date.now() + 24 * 60 * 60 * 1000);
+   const user=await prisma.user.update({
+      where: { useremail },
+      data: { otp: otp, otpExpiresAt: expiryOtp },
+    });
+
+    await transporter.sendMail({
+       
+  from: `"Notely Support" <${process.env.SENDER_EMAIL}>`,
+        to: useremail,
+        subject: "Account Verification Otp",
+        text: `Hello ${user.username},Your Otp is ${otp}.Use this to verify this account as yours.If you did not request an Otp please ignore it. We got it under control`,
+      });
+      res.status(200).json({ message: 'Otp sent successfully' });
+    } catch (error) {
+        console.error("OTP Send Error:", error);
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
+
+export const verifyOtp = async (req: Request, res: Response) => {
+ try {
+    const { useremail, otp } = req.body;
+    if (!useremail || !otp) {
+      return res.status(400).json({ message: 'Email and OTP are required' });
+    }
+    const user = await prisma.user.findUnique({
+      where: { useremail },
+    });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+    if (user.otpExpiresAt && new Date() > user.otpExpiresAt) {
+        res.status(400).json({ message: "Otp expired" });
+        return;
+      }
+   res.status(200).json({ message: 'Otp verified successfully' });
+ } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+    
+ }
+

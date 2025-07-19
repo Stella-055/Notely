@@ -109,3 +109,27 @@ export const  validateEmailorUsername = async (req: Request, res: Response, next
         
     }
 }
+
+export const forgotpasswordEmail= async (req: Request, res: Response,next:NextFunction) => {
+    try {
+        const { useremail } = req.body;
+
+        if (!useremail) {
+            return res.status(400).json({ message: 'Please provide an email' });
+        }
+        const user = await prisma.user.findUnique({
+            where: { useremail },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Provide a valid email' });
+        }
+
+       next()
+        
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+        
+    }
+}
+    
