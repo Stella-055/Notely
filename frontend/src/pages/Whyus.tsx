@@ -1,20 +1,19 @@
-import Experience from "@/components/Enterprise/Experience"
-import Calltoaction from "@/components/Whyus/Calltoaction"
+import Experience from "@/components/Enterprise/Experience";
+import Calltoaction from "@/components/Whyus/Calltoaction";
 
-import Herowhyus from "@/components/Whyus/Herowhyus"
-import Testimonials from "@/components/Whyus/Testimonials"
-
+import Herowhyus from "@/components/Whyus/Herowhyus";
+import Testimonials from "@/components/Whyus/Testimonials";
 
 const Whyus = () => {
   return (
     <div>
-        <Herowhyus/>
-      <Testimonials/>
+      <Herowhyus />
+      <Testimonials />
 
-      <Experience/>
-      <Calltoaction/>
+      <Experience />
+      <Calltoaction />
     </div>
-  )
-}
+  );
+};
 
-export default Whyus
+export default Whyus;

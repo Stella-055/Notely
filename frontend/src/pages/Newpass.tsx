@@ -1,11 +1,5 @@
-
-
 const Newpass = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default Newpass
+export default Newpass;

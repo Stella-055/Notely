@@ -1,15 +1,15 @@
-import Footer from "@/components/Footer"
-import Nav from "@/components/Nav"
-import { Outlet } from "react-router-dom"
+import Footer from "@/components/Footer";
+import Nav from "@/components/Nav";
+import { Outlet } from "react-router-dom";
 
 const Common = () => {
   return (
     <>
-    <Nav/>
+      <Nav />
       <Outlet />
-      <Footer/>
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Common
+export default Common;

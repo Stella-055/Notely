@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const steps = ["Title", "Synopsis", "Genre", "Confirm"];
 
-const Create=()=> {
+const Create = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -77,9 +77,15 @@ const Create=()=> {
         )}
         {step === 3 && (
           <div className="text-sm space-y-2">
-            <p><strong>Title:</strong> {formData.title}</p>
-            <p><strong>Synopsis:</strong> {formData.synopsis}</p>
-            <p><strong>Genre:</strong> {formData.genre}</p>
+            <p>
+              <strong>Title:</strong> {formData.title}
+            </p>
+            <p>
+              <strong>Synopsis:</strong> {formData.synopsis}
+            </p>
+            <p>
+              <strong>Genre:</strong> {formData.genre}
+            </p>
           </div>
         )}
       </div>
@@ -108,6 +114,6 @@ const Create=()=> {
       </div>
     </div>
   );
-}
+};
 
-export default Create
+export default Create;

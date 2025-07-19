@@ -1,52 +1,50 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom";
 
-import Enterprise from "./pages/Enterprise"
+import Enterprise from "./pages/Enterprise";
 
-import Plans from "./pages/Plans"
-import Whyus from "./pages/Whyus"
-import Home from "./pages/Home"
-import Register from "./pages/Register"
-import Signin from "./pages/Signin"
-import Forgotpassowrd from "./pages/Forgotpassowrd"
-import { OTP } from "./pages/Otp"
-
-import Common from "./pages/Common"
-import Dashboard from "./pages/Dashboard"
-import Notes from "./pages/Notes"
-import Overview from "./pages/Overview"
-import Profile from "./pages/Profile"
-import Updatepass from "./pages/Updatepass"
-import Newnote from "./pages/Newnote"
-
-
+import Plans from "./pages/Plans";
+import Whyus from "./pages/Whyus";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Signin from "./pages/Signin";
+import Forgotpassowrd from "./pages/Forgotpassowrd";
+import { OTP } from "./pages/Otp";
+import Protected from "./components/Protected";
+import Common from "./pages/Common";
+import Dashboard from "./pages/Dashboard";
+import Notes from "./pages/Notes";
+import Overview from "./pages/Overview";
+import Profile from "./pages/Profile";
+import Updatepass from "./pages/Updatepass";
+import Newnote from "./pages/Newnote";
+import Resetpassword from "./pages/Resetpassword";
 
 function App() {
-
-
   return (
     <>
- 
-   <Routes >
-    <Route path="/" element={<Common/>}>
-   <Route index element={<Home/>}/>
-    <Route path="enterprise" element={<Enterprise/>}/>
-    <Route path="whynotely" element={<Whyus/>}/>
-    <Route path="plans" element={<Plans/>}/>
-    <Route path="register" element={<Register/>}/>
-    <Route path="signin" element={<Signin/>}/>
-    <Route path="forgotpassword" element={<Forgotpassowrd/>}/>
-    <Route path="otp" element={<OTP/>}/></Route>
-<Route path="/dashboard"  element={<Dashboard/>}> 
-    <Route index element={<Overview/>}/>
-    <Route path="notes" element={<Notes/>}/>
-    <Route path="profile" element={<Profile/>}/>
-    <Route path="password" element={<Updatepass/>}/>
-    <Route path="newnote" element={<Newnote/>}/>
-    </Route>
-   </Routes>
-      
+      <Routes>
+        <Route path="/" element={<Common />}>
+          <Route index element={<Home />} />
+          <Route path="enterprise" element={<Enterprise />} />
+          <Route path="whynotely" element={<Whyus />} />
+          <Route path="plans" element={<Plans />} />
+          <Route path="register" element={<Register />} />
+          <Route path="signin" element={<Signin />} />
+          <Route path="forgotpassword" element={<Forgotpassowrd />} />
+          <Route path="otp" element={<OTP />} />
+          <Route path="resetpassword" element={<Resetpassword />} />
+        </Route>
+        <Route path="/dashboard" element={<Protected>
+          <Dashboard /> </Protected>}>
+          <Route index element={<Protected><Overview /></Protected> } />
+          <Route path="notes" element={ <Protected><Notes /> </Protected> } />
+          <Route path="profile" element={ <Protected><Profile /> </Protected> } />
+          <Route path="password" element={ <Protected><Updatepass /> </Protected> } />
+          <Route path="newnote" element={ <Protected> <Newnote />  </Protected>} />
+        </Route>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

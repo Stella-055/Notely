@@ -1,14 +1,13 @@
-import Not from "@/components/Not"
-import Notecategory from "@/components/Notecategory"
-
+import Not from "@/components/Not";
+import Notecategory from "@/components/Notecategory";
 
 const Notes = () => {
   return (
     <div className="flex w-full">
-    <Notecategory/>
-    <Not/>
+      <Notecategory />
+      <Not />
     </div>
-  )
-}
+  );
+};
 
-export default Notes
+export default Notes;

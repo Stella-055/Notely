@@ -1,14 +1,13 @@
-import Create from "@/components/Create"
-import Usernav from "@/components/Usernav"
-
+import Create from "@/components/Create";
+import Usernav from "@/components/Usernav";
 
 const Newnote = () => {
   return (
     <div className="flex flex-col w-full">
-      <Usernav/>
-      <Create/>
+      <Usernav />
+      <Create />
     </div>
-  )
-}
+  );
+};
 
-export default Newnote
+export default Newnote;
