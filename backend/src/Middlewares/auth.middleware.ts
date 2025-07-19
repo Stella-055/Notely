@@ -71,8 +71,8 @@ export const validatePasswordStrength = async(req: Request, res: Response, next:
 
  export const validatesigninDetails = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { username, password,useremail } = req.body;
-        if (!username && !useremail) {
+        const { usercredential, password } = req.body;
+        if (!usercredential) {
             return res.status(400).json({ message: 'Please provide a username or email' });
         }
 
@@ -87,13 +87,13 @@ export const validatePasswordStrength = async(req: Request, res: Response, next:
 }
 export const  validateEmailorUsername = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { useremail,password,username } = req.body;
+        const { usercredential,password } = req.body;
 
        const user= await prisma.user.findFirst({
-            where: {OR: [{ useremail }, { username }] }
+            where: {OR: [{ useremail:usercredential }, { username:usercredential }] }
         });
         if (!user) {
-            return res.status(400).json({ message: 'Owner does not exist' });
+            return res.status(400).json({ message: 'invalid credentials' });
         } 
         if(!user.password) {
             return res.status(400).json({ message: 'Invalid credentials' });

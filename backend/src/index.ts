@@ -1,10 +1,10 @@
 import express, { Request, Response, Express } from "express";
-
+import cookie from "cookie-parser";
 import authRoute from "./Routes/auth.route";
 const app:Express=express();
 app.use(express.json());
 
-
+app.use(cookie());
 app.get("/", (_req: Request, res: Response) => {
     res.send("welcome to Notely");
   });
