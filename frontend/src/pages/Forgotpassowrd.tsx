@@ -37,10 +37,11 @@ if(axios.isAxiosError(error)){
   })
   return (
     <div className="w-full flex justify-center items-center pt-32">
-      <div className="bg-gray-50 text-gray-500 max-w-96 mx-4 md:p-6 p-4 text-left text-sm rounded shadow-[0px_0px_10px_0px] shadow-black/10 border">
+      <div className="bg-gray-50 text-gray-500 max-w-96 mx-4 md:p-6 p-4 text-left text-sm rounded shadow-[0px_0px_10px_0px] shadow-black/10 border ">
+     <div className="flex justify-center items-center w-full flex-col"><img src="/notelylogo.png" alt="logo" className="w-14" />
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
           Forget Password?
-        </h2>
+        </h2></div> 
         {formerror && 
           <Alert severity="error"variant="filled" className="mb-4">
             {formerror}

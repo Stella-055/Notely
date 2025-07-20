@@ -1,13 +1,16 @@
 import { useState } from "react";
 
-const steps = ["Title", "Synopsis", "Genre", "Confirm"];
+const steps = ["Genre", "Title", "Synopsis", "content"];
 
 const Create = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
+    genre: "",
     title: "",
     synopsis: "",
-    genre: "",
+    content:"",
+
+   
   });
 
   const handleNext = () => {
@@ -19,8 +22,14 @@ const Create = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      {/* Progress Bar */}
+    <div className="flex flex-col items-center justify-center  bg-white w-1/2 py-12">
+      <div className="flex flex-col items-center pt-6">
+      <h1 className="text-2xl font-bold ">Create Your Note</h1>
+      <p>Just a few steps and you will be there</p>
+      </div>
+      
+    <div className="w-96 p-6">
+     
       <div className="flex items-center mb-8">
         {steps.map((label, index) => (
           <div key={index} className="flex-1 flex flex-col items-center">
@@ -38,9 +47,23 @@ const Create = () => {
         ))}
       </div>
 
-      {/* Step Forms */}
+     
       <div className="mb-4">
-        {step === 0 && (
+      {step === 0 && (
+          <select
+            className="border p-2 w-full rounded"
+            value={formData.genre}
+            onChange={(e) =>
+              setFormData({ ...formData, genre: e.target.value })
+            }
+          >
+            <option value="">Select Genre</option>
+            <option value="Drama">General</option>
+            <option value="Action">Work</option>
+            <option value="Comedy">School</option>
+          </select>
+        )}
+        {step === 1 && (
           <input
             type="text"
             placeholder="Enter Title"
@@ -51,7 +74,7 @@ const Create = () => {
             }
           />
         )}
-        {step === 1 && (
+        {step === 2 && (
           <textarea
             placeholder="Enter Synopsis"
             className="border p-2 w-full rounded"
@@ -61,36 +84,25 @@ const Create = () => {
             }
           />
         )}
-        {step === 2 && (
-          <select
-            className="border p-2 w-full rounded"
-            value={formData.genre}
-            onChange={(e) =>
-              setFormData({ ...formData, genre: e.target.value })
-            }
-          >
-            <option value="">Select Genre</option>
-            <option value="Drama">Drama</option>
-            <option value="Action">Action</option>
-            <option value="Comedy">Comedy</option>
-          </select>
-        )}
+        
         {step === 3 && (
           <div className="text-sm space-y-2">
-            <p>
-              <strong>Title:</strong> {formData.title}
-            </p>
-            <p>
-              <strong>Synopsis:</strong> {formData.synopsis}
-            </p>
-            <p>
-              <strong>Genre:</strong> {formData.genre}
-            </p>
+            <textarea
+            placeholder="Enter Content"
+            className="border p-2 w-full rounded"
+            value={formData.synopsis}
+            onChange={(e) =>
+              setFormData({ ...formData, synopsis: e.target.value })
+            }
+          />
+       
+          <input type="checkbox" name="publish" id="publish" className="mr-1" />
+          <label htmlFor="publish">Publish note</label>
           </div>
         )}
       </div>
 
-      {/* Navigation Buttons */}
+     
       <div className="flex justify-between">
         <button
           onClick={handlePrev}
@@ -107,12 +119,12 @@ const Create = () => {
             Next
           </button>
         ) : (
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded">
             Submit
           </button>
         )}
       </div>
-    </div>
+    </div> </div>
   );
 };
 

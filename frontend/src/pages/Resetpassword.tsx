@@ -30,15 +30,11 @@ const{mutate,isPending}=useMutation({
     onError: (error) => {
         if (axios.isAxiosError(error)) {
           setErrors(error.response?.data.message);
-          localStorage.removeItem("otpEmail");
-          localStorage.removeItem("tempToken");
-          navigate("/forgotpassword");
+        
           return;
         } else {
           setErrors("something went wrong");
-          localStorage.removeItem("otpEmail");
-          localStorage.removeItem("tempToken");
-          navigate("/forgotpassword");
+         
           return;
         }
       

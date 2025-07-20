@@ -182,7 +182,7 @@ export const verifyOtp = async (req: Request, res: Response) => {
     const tempToken = jwt.sign(
       { useremail },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: "1h" },
+     
     );
     res.status(200).json({ message: "Otp verified successfully", tempToken });
   } catch (error) {

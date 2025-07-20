@@ -13,7 +13,7 @@ const Profile = () => {
       <Usernav />
 
       <div className="p-5">
-        <h1 className="font-bold text-2xl">Account Information</h1>
+        <h1 className="font-bold text-2xl text-gray-700">Account Information</h1>
         <div className=" px-10 w-5/6">
           <div className="my-6 w-28 relative">
             <Avatar
@@ -224,7 +224,7 @@ const Profile = () => {
                 Your Bio
               </label>
               <textarea
-                className="w-80 border  border-gray-300 bg-gray-50"
+                className="w-80 border  border-gray-300 bg-gray-50 p-2 text-gray-500 "
                 name=""
                 id="bio"
               ></textarea>
