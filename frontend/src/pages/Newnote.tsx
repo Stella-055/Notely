@@ -6,9 +6,8 @@ const Newnote = () => {
     <div className="flex flex-col w-full ">
       <Usernav />
       <div className="h-full w-full flex items-center justify-center">
-      <Create />
+        <Create />
       </div>
-      
     </div>
   );
 };

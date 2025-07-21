@@ -68,7 +68,7 @@ export const signinUser = async (req: Request, res: Response) => {
         path: "/api/auth",
       })
       .status(200)
-      .json({ message: "Logged in",username:username });
+      .json({ message: "Logged in", username: username });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
@@ -179,11 +179,7 @@ export const verifyOtp = async (req: Request, res: Response) => {
       res.status(400).json({ message: "Otp expired" });
       return;
     }
-    const tempToken = jwt.sign(
-      { useremail },
-      process.env.ACCESS_TOKEN_SECRET!,
-     
-    );
+    const tempToken = jwt.sign({ useremail }, process.env.ACCESS_TOKEN_SECRET!);
     res.status(200).json({ message: "Otp verified successfully", tempToken });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
@@ -199,16 +195,17 @@ export const update_Password = async (req: Request, res: Response) => {
     let decoded: JwtPayload;
 
     try {
-      decoded = jwt.verify(tempToken, process.env.ACCESS_TOKEN_SECRET!) as JwtPayload;
+      decoded = jwt.verify(
+        tempToken,
+        process.env.ACCESS_TOKEN_SECRET!,
+      ) as JwtPayload;
     } catch (err) {
       return res.status(401).json({ message: " You are Unauthorized" });
     }
 
-  
     const useremail = decoded.useremail;
-   
-    const passwordStrength =zxcvbn(newPassword);
-   
+
+    const passwordStrength = zxcvbn(newPassword);
 
     if (passwordStrength.score < 3) {
       return res.status(400).json({ message: "Password is too weak" });
@@ -220,7 +217,7 @@ export const update_Password = async (req: Request, res: Response) => {
     });
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

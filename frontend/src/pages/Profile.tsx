@@ -13,7 +13,9 @@ const Profile = () => {
       <Usernav />
 
       <div className="p-5">
-        <h1 className="font-bold text-2xl text-gray-700">Account Information</h1>
+        <h1 className="font-bold text-2xl text-gray-700">
+          Account Information
+        </h1>
         <div className=" px-10 w-5/6">
           <div className="my-6 w-28 relative">
             <Avatar

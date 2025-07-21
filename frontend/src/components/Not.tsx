@@ -39,7 +39,6 @@ const Not = () => {
         className="text-gray-500 mb-5 h-20"
         id="synopsis"
       >
-     
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero atque
         architecto nobis quibusdam tenetur placeat voluptatem dolorum
         necessitatibus facere. Quae dicta neque, quis ratione optio nesciunt

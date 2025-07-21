@@ -44,18 +44,20 @@ const Nav = () => {
           </div>
         </NavLink>
       </div>
-      {user?<Button variant="contained" href="/dashboard">
-         Dashboard
-        </Button>:
-      <div className=" flex gap-2 justify-center items-center">
-      
-        <NavLink to="/signin" className="font-bold">
-          Login
-        </NavLink>
-        <Button variant="contained" href="/register">
-          Start Free
+      {user ? (
+        <Button variant="contained" href="/dashboard">
+          Dashboard
         </Button>
-      </div>}
+      ) : (
+        <div className=" flex gap-2 justify-center items-center">
+          <NavLink to="/signin" className="font-bold">
+            Login
+          </NavLink>
+          <Button variant="contained" href="/register">
+            Start Free
+          </Button>
+        </div>
+      )}
     </nav>
   );
 };

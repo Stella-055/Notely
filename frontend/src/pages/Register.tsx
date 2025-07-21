@@ -4,53 +4,53 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import api from "@/Api/axios";
 import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
-import{ Eye,EyeOff} from "lucide-react";
+import Alert from "@mui/material/Alert";
+import { Eye, EyeOff } from "lucide-react";
 const Register = () => {
-    const navigate = useNavigate();
-type userdetails={
+  const navigate = useNavigate();
+  type userdetails = {
     firstname: string;
     lastname: string;
     username: string;
     useremail: string;
     password: string;
-}
- const [user, setUser] = useState<userdetails>({
+  };
+  const [user, setUser] = useState<userdetails>({
     firstname: "",
     lastname: "",
     username: "",
     useremail: "",
-    password: ""
+    password: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
-const [formerror, setFormError] = useState<null| string>();
-const[visibility,setVisibility]=useState(false)
-const[visibility1,setVisibility1]=useState(false)
-  const{mutate,isPending}=useMutation({
-    mutationKey:["register"],
-    mutationFn: async(newuser:userdetails)=>{
-        const response= await api.post("/auth/register",newuser)
-        return response.data
+  const [formerror, setFormError] = useState<null | string>();
+  const [visibility, setVisibility] = useState(false);
+  const [visibility1, setVisibility1] = useState(false);
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async (newuser: userdetails) => {
+      const response = await api.post("/auth/register", newuser);
+      return response.data;
     },
     onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          setFormError(error.response?.data.message);
-          return;
-        } else {
-          setFormError("something went wrong");
-          return;
-        }
-      },
-      onSuccess: () => {
-        navigate("/signin");
-      },
-  })
-  function registerUser(){
+      if (axios.isAxiosError(error)) {
+        setFormError(error.response?.data.message);
+        return;
+      } else {
+        setFormError("something went wrong");
+        return;
+      }
+    },
+    onSuccess: () => {
+      navigate("/signin");
+    },
+  });
+  function registerUser() {
     if (user.password !== confirmPassword) {
       setFormError("Passwords do not match");
       return;
     }
-   setFormError(null)
+    setFormError(null);
     mutate(user);
   }
   return (
@@ -82,24 +82,32 @@ const[visibility1,setVisibility1]=useState(false)
           </p>
           <div className="w-full h-px bg-gray-300/90"></div>
         </div>
-  {formerror && <Alert severity="error" variant="filled" sx={{position:"fixed",top:"5rem" , marginBottom:"1rem"}}>{formerror}</Alert>}
+        {formerror && (
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ position: "fixed", top: "5rem", marginBottom: "1rem" }}
+          >
+            {formerror}
+          </Alert>
+        )}
         <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2  ">
-        <svg
-                  className="mr-3"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
-                    stroke="#6B7280"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+          <svg
+            className="mr-3"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+              stroke="#6B7280"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           <input
             type="text"
             placeholder="First Name"
@@ -110,53 +118,51 @@ const[visibility1,setVisibility1]=useState(false)
           />
         </div>
         <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mt-4">
-        <svg
-                  className="mr-3"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
-                    stroke="#6B7280"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+          <svg
+            className="mr-3"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+              stroke="#6B7280"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           <input
             type="text"
             placeholder="Last Name"
             value={user.lastname}
-
             onChange={(e) => setUser({ ...user, lastname: e.target.value })}
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
             required
           />
         </div>
         <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 mt-4">
-        <svg
-                  className="mr-3"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
-                    stroke="#6B7280"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+          <svg
+            className="mr-3"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 15.75v-1.5a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v1.5m9-10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+              stroke="#6B7280"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           <input
             type="text"
             placeholder="User Name"
-
             onChange={(e) => setUser({ ...user, username: e.target.value })}
             value={user.username}
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
@@ -181,7 +187,6 @@ const[visibility1,setVisibility1]=useState(false)
           <input
             type="email"
             placeholder="Email id"
-
             onChange={(e) => setUser({ ...user, useremail: e.target.value })}
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
             required
@@ -202,16 +207,20 @@ const[visibility1,setVisibility1]=useState(false)
             />
           </svg>
           <input
-            type={visibility?"text":"password"}
+            type={visibility ? "text" : "password"}
             placeholder="Password"
-
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
             required
           />
-          <div className="mr-3">  {visibility?<EyeOff  size={17} onClick={()=>setVisibility(!visibility)}/>:<Eye size={17} onClick={()=>setVisibility(!visibility)}/>}</div>
-         
-          
+          <div className="mr-3">
+            {" "}
+            {visibility ? (
+              <EyeOff size={17} onClick={() => setVisibility(!visibility)} />
+            ) : (
+              <Eye size={17} onClick={() => setVisibility(!visibility)} />
+            )}
+          </div>
         </div>
         <div className="flex items-center mt-4 w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2 ">
           <svg
@@ -227,14 +236,21 @@ const[visibility1,setVisibility1]=useState(false)
             />
           </svg>
           <input
-             type={visibility1?"text":"password"}
+            type={visibility1 ? "text" : "password"}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder=" confirm Password"
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
             required
           />
-                    <div className="mr-3">  {visibility1?<EyeOff  size={17} onClick={()=>setVisibility1(!visibility1)}/>:<Eye size={17} onClick={()=>setVisibility1(!visibility1)}/>}</div>
+          <div className="mr-3">
+            {" "}
+            {visibility1 ? (
+              <EyeOff size={17} onClick={() => setVisibility1(!visibility1)} />
+            ) : (
+              <Eye size={17} onClick={() => setVisibility1(!visibility1)} />
+            )}
+          </div>
         </div>
 
         <div className="w-full flex items-center justify-between mt-8 mb-8 text-gray-500/80">
@@ -249,7 +265,12 @@ const[visibility1,setVisibility1]=useState(false)
           </a>
         </div>
 
-        <Button variant="contained" fullWidth loading={isPending} onClick={registerUser}>
+        <Button
+          variant="contained"
+          fullWidth
+          loading={isPending}
+          onClick={registerUser}
+        >
           Create Account
         </Button>
         <p className="text-gray-500/90 text-sm mt-4">

@@ -18,11 +18,11 @@ import Profile from "./pages/Profile";
 import Updatepass from "./pages/Updatepass";
 import Newnote from "./pages/Newnote";
 import Resetpassword from "./pages/Resetpassword";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 function App() {
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Common />}>
           <Route index element={<Home />} />
@@ -35,13 +35,55 @@ function App() {
           <Route path="otp" element={<OTP />} />
           <Route path="resetpassword" element={<Resetpassword />} />
         </Route>
-        <Route path="/dashboard" element={<Protected>
-          <Dashboard /> </Protected>}>
-          <Route index element={<Protected><Overview /></Protected> } />
-          <Route path="notes" element={ <Protected><Notes /> </Protected> } />
-          <Route path="profile" element={ <Protected><Profile /> </Protected> } />
-          <Route path="password" element={ <Protected><Updatepass /> </Protected> } />
-          <Route path="newnote" element={ <Protected> <Newnote />  </Protected>} />
+        <Route
+          path="/dashboard"
+          element={
+            <Protected>
+              <Dashboard />{" "}
+            </Protected>
+          }
+        >
+          <Route
+            index
+            element={
+              <Protected>
+                <Overview />
+              </Protected>
+            }
+          />
+          <Route
+            path="notes"
+            element={
+              <Protected>
+                <Notes />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <Protected>
+                <Profile />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="password"
+            element={
+              <Protected>
+                <Updatepass />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="newnote"
+            element={
+              <Protected>
+                {" "}
+                <Newnote />{" "}
+              </Protected>
+            }
+          />
         </Route>
       </Routes>
     </>

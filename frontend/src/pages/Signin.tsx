@@ -4,47 +4,46 @@ import { useMutation } from "@tanstack/react-query";
 import api from "@/Api/axios";
 import useUser from "@/stores/userStore";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import  Alert  from '@mui/material/Alert';
+import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 const Signin = () => {
-  const{setUserName}=useUser()
-  const navigate=useNavigate()
-type userdetails={
-  usercredential:string
-  password:string
-}
+  const { setUserName } = useUser();
+  const navigate = useNavigate();
+  type userdetails = {
+    usercredential: string;
+    password: string;
+  };
 
-const [user,setUser]=useState<userdetails>({
-  usercredential:"",
-  password:""
-})
-const [formError, setFormError] = useState<null|string>();
-const{mutate,isPending}=useMutation({
-  mutationKey:["signin"],
-  mutationFn:async(user:userdetails)=>{
-    const result = await api.post("/auth/login", user);
+  const [user, setUser] = useState<userdetails>({
+    usercredential: "",
+    password: "",
+  });
+  const [formError, setFormError] = useState<null | string>();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["signin"],
+    mutationFn: async (user: userdetails) => {
+      const result = await api.post("/auth/login", user);
       return result.data;
-  },
-  onError:(error)=>{
-    if(axios.isAxiosError(error)) {
-      setFormError(error.response?.data.message);
-      return
-    }else {
-      setFormError("something went wrong");
-      return;
-    }
-   
-  },
-  onSuccess:(data)=>{
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        setFormError(error.response?.data.message);
+        return;
+      } else {
+        setFormError("something went wrong");
+        return;
+      }
+    },
+    onSuccess: (data) => {
+      setFormError(null);
+      setUserName({ username: data.username });
+      navigate("/dashboard");
+    },
+  });
+  function signinuser() {
     setFormError(null);
-    setUserName({username:data.username})
-    navigate("/dashboard")
+    mutate(user);
   }
-})
-function signinuser(){
-  setFormError(null);
-  mutate(user)
-}
   return (
     <div className="w-full flex flex-col items-center justify-center pt-24">
       <form className="md:w-96 w-80 flex flex-col items-center justify-center">
@@ -70,7 +69,15 @@ function signinuser(){
           </p>
           <div className="w-full h-px bg-gray-300/90"></div>
         </div>
-{formError && <Alert severity="error"sx={{width:"100%",marginBottom:"1rem"}} variant="filled">{formError}</Alert>}
+        {formError && (
+          <Alert
+            severity="error"
+            sx={{ width: "100%", marginBottom: "1rem" }}
+            variant="filled"
+          >
+            {formError}
+          </Alert>
+        )}
         <div className="flex items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
           <svg
             width="16"
@@ -90,7 +97,9 @@ function signinuser(){
             type="email"
             placeholder="Email id"
             value={user.usercredential}
-            onChange={(e) => setUser({ ...user, usercredential: e.target.value })}
+            onChange={(e) =>
+              setUser({ ...user, usercredential: e.target.value })
+            }
             className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
             required
           />
@@ -131,7 +140,12 @@ function signinuser(){
           </a>
         </div>
 
-        <Button variant="contained" fullWidth onClick={signinuser} loading={isPending}>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={signinuser}
+          loading={isPending}
+        >
           Login
         </Button>
         <p className="text-gray-500/90 text-sm mt-4">
