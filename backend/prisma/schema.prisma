@@ -16,7 +16,7 @@ datasource db {
 
 model User {
 
-  id String @id  @default(uuid())
+  id String @id @unique  @default(uuid())
   firstname String @map("first_name")
   lastname String @map("last_name")
   username String  @unique@map("user_name")
@@ -24,6 +24,7 @@ model User {
   password String? @map("user_password")
   googleId   String?  @unique
   profileImg String? @map("profile_img")
+  bio String? @map("bio")
   package String?   @default("Free Tier") @map("user_package")
   refreshToken String? @map("refresh_token")
   isVerified Boolean @default(false) @map("is_verified")
@@ -31,5 +32,23 @@ model User {
   otpExpiresAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  entries Entry[]
   @@map("user")
+}
+
+model Entry{
+ id String @id @unique  @default(uuid())
+ genre String @map("genre")
+ title String @map("title")
+ synopsis String @map("synopsis")
+ content String @map("content")
+ isPublished Boolean @default(false) @map("is_published")
+ isBookmarked Boolean @default(false) @map("is_bookmarked")
+ isPinned Boolean @default(false) @map("is_pinned")
+isDeleted Boolean @default(false) @map("is_deleted")
+ createdAt DateTime @default(now()) @map("created_at")
+ updatedAt DateTime @updatedAt @map("updated_at")
+ userId String @map("user_id")
+ user  User @relation(fields: [userId], references: [id] ,onDelete: Cascade)
+ @@map("entry")
 }

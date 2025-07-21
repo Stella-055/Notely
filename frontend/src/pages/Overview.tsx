@@ -13,8 +13,41 @@ import { MdOutlineEditNote } from "react-icons/md";
 import { RiChatDeleteLine } from "react-icons/ri";
 import { TiPinOutline } from "react-icons/ti";
 import { BsBookmarkStarFill } from "react-icons/bs";
+import dayjs from "dayjs"
 import { BsBookmarkStar } from "react-icons/bs";
+import { HashLoader } from "react-spinners";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/Api/axios";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 function Overview() {
+  const navigate=useNavigate()
+const { data, isLoading, error } = useQuery({
+  queryKey:["get-enteries"],
+  queryFn:async()=>{
+    const response = await api.get("/entries")
+    return response.data.entries
+  },
+  
+})
+type Entry={
+  id: string;
+  userId: string;
+  genre: string;
+  title: string;
+  synopsis: string;
+  content: string;
+  isPublished: boolean;
+  createdAt: string;
+  isBookmarked:boolean;
+  isPinned:boolean
+}
+
   return (
     <div className="w-full ">
       <div className="flex justify-between bg-white w-full p-4">
@@ -59,57 +92,80 @@ function Overview() {
           <Chip label="work" variant="outlined" />
           <Chip label="school" variant="outlined" />
         </Stack>
-        <div className="flex text-gray-700">
+      
           <a href="/dashboard/newnote">
+          <div className="flex text-gray-700">
             <IoAddCircleSharp size={24} />
-            Add a new note{" "}
+            Add a new note{" "} </div>
           </a>
-        </div>
+       
       </div>
       <div>
-        <Card sx={{ width: "18rem" }}>
-          <CardContent>
-            <TiPinOutline />
-            <div className="flex justify-between">
-              <Typography
-                gutterBottom
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                General
-              </Typography>
-              <Typography
-                gutterBottom
-                sx={{ color: "text.secondary", fontSize: 14 }}
-              >
-                July 7th 2025
-              </Typography>{" "}
-            </div>
-            <Typography variant="h5" component="div" color="primary">
-              Physics
-            </Typography>
+       {error ?  <div className="w-full flex justify-center items-center h-96"><Alert severity="error" sx={{backgroundColor:"#3B82F6"}} variant="filled">{error.message || "something went wrong while fetching your notes"}</Alert> </div>:
+        isLoading?<div className="w-full flex justify-center items-center h-96"><HashLoader color="#3B82F6
+" /></div>:
+        
+        <div>
+          {data.length!== 0?
+          data.map((entry:Entry,index:number)=>{
+            return(<Card key={index}  sx={{ width: "18rem"}}>
+              <CardContent>
+                <TiPinOutline />
+                <div className="flex justify-between">
+                  <Typography
+                    gutterBottom
+                    sx={{ color: "text.secondary", fontSize: 14 }}
+                  >
+                  {entry.genre}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    sx={{ color: "text.secondary", fontSize: 14 }}
+                  >
+                     {dayjs(entry.createdAt).format("DD MMMM YYYY")}
+        
+                  </Typography>{" "}
+                </div>
+                <Typography variant="h5" component="div" color="primary" sx={{textTransform:"capitalize"}}>
+                  {entry.title}
+                </Typography>
+    
+                <Typography variant="body2">
+                  {entry.synopsis.slice(0,200)}...
+                  <br />
+                </Typography>
+              </CardContent>
+              <CardActions className="flex  flex-col justify-center gap-2">
+                <Divider
+                  orientation="horizontal"
+                  sx={{ width: "20rem", backgroundColor: "white", height: "0.5px" }}
+                />
+                <div className="flex  justify-between w-full">
+                  <Button size="small"onClick={()=>navigate(`/dashboard/notes/${entry.id}`)} >Learn More</Button>
+                  <div className="flex gap-2 items-center">
+                    {" "}
+                    <BsBookmarkStar color="grey" size={20} />{" "}
+                    <MdOutlineEditNote size={25} color="grey"  onClick={()=>navigate(`/dashboard/notes/${entry.id}`)}/>
+                    <Popover>
+  <PopoverTrigger><RiChatDeleteLine size={25} color="#3B82F6" /></PopoverTrigger>
+  <PopoverContent> <h1>Are you sure you want to delete?</h1>
+  <p>This action can not be undone</p>
+  <div>
+    <Button variant="contained" sx={{backgroundColor:"gray"}}>Cancel</Button> <Button variant="contained" color="error">Yes</Button></div></PopoverContent>
+</Popover>
+                    
+                  </div>{" "}
+                </div>
+              </CardActions>
+            </Card>)
+          })
+          : <div className="w-full flex justify-center items-center h-96"><Alert severity="info" variant="filled">Your notes will show here</Alert></div>}
+          
+          
+          </div>}
 
-            <Typography variant="body2">
-              Lorem ipsum dolor sit amet consecteolestias repellendus culpa nam
-              praesentium assumenda ea vel cum quam.
-              <br />
-            </Typography>
-          </CardContent>
-          <CardActions className="flex  flex-col justify-center gap-2">
-            <Divider
-              orientation="horizontal"
-              sx={{ width: "20rem", backgroundColor: "white", height: "0.5px" }}
-            />
-            <div className="flex  justify-between w-full">
-              <Button size="small">Learn More</Button>
-              <div className="flex gap-2 items-center">
-                {" "}
-                <BsBookmarkStar color="grey" size={20} />{" "}
-                <MdOutlineEditNote size={25} color="grey" />
-                <RiChatDeleteLine size={25} color="#3B82F6" />
-              </div>{" "}
-            </div>
-          </CardActions>
-        </Card>{" "}
+        
+     
       </div>
     </div>
   );

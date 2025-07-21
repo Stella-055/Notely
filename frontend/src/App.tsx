@@ -22,7 +22,7 @@ import { Toaster } from "@/components/ui/sonner";
 function App() {
   return (
     <>
-      <Toaster />
+      <Toaster   />
       <Routes>
         <Route path="/" element={<Common />}>
           <Route index element={<Home />} />
@@ -52,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path="notes"
+            path="notes/:id"
             element={
               <Protected>
                 <Notes />{" "}

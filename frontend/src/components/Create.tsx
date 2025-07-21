@@ -39,13 +39,19 @@ const Create = () => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message,{
+          position: 'top-center',
+        });
       } else {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong",{
+          position: 'top-center',
+        });
       }
     },
     onSuccess: () => {
-      toast.success("Note created successfully");
+      toast.success("Note created successfully",{
+        position: 'top-center',
+      });
       setFormData({
         genre: "",
         title: "",
@@ -133,6 +139,7 @@ const Create = () => {
                 type="checkbox"
                 name="publish"
                 id="publish"
+                checked={formData.publish}
                 onClick={() =>
                   setFormData({ ...formData, publish: !formData.publish })
                 }

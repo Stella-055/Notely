@@ -7,7 +7,7 @@ export interface userdetails {
 declare global {
   namespace Express {
     interface Request {
-      owner: userdetails;
+      user: userdetails;
     }
   }
 }

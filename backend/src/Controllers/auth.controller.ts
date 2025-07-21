@@ -79,7 +79,7 @@ export const refreshuserToken = async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-      return res.status(401).json({ message: "Unauthorized user" });
+      return res.status(403).json({ message: "forbidden" });
     }
     jwt.verify(
       refreshToken,
@@ -232,6 +232,9 @@ export const logoutUser = async (req: Request, res: Response) => {
         err: VerifyErrors | null,
         decoded: JwtPayload | String | undefined,
       ) {
+        if (err) {
+          return res.status(403).json({ message: "forbidden" });
+        }
         await prisma.user.update({
           where: { id: (decoded as JwtPayload).id },
           data: { refreshToken: null },
