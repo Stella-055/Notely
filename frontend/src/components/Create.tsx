@@ -1,17 +1,30 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
-
+import axios from "axios";
+import api from "@/Api/axios";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner"
 const steps = ["Genre", "Title", "Synopsis", "content"];
 
 const Create = () => {
+  type FormDetails={
+    genre:string,
+    title:string,
+    synopsis:string,
+    content:string,
+    publish:boolean
+  }
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     genre: "",
     title: "",
     synopsis: "",
     content:"",
-
+     publish:false
    
   });
+
+
 
   const handleNext = () => {
     if (step < steps.length - 1) setStep(step + 1);
@@ -20,6 +33,31 @@ const Create = () => {
   const handlePrev = () => {
     if (step > 0) setStep(step - 1);
   };
+
+  const {isPending,mutate}=useMutation({
+    mutationKey: ["create-note"],
+    mutationFn: async (data:FormDetails) => {
+      const response = await api.post("/entries", data);
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+    onSuccess: () => {
+      toast.success("Note created successfully");
+      setFormData({
+        genre: "",
+        title: "",    
+        synopsis: "",
+        content:"",
+        publish:false
+    })
+  }
+})
 
   return (
     <div className="flex flex-col items-center justify-center  bg-white w-1/2 py-12">
@@ -34,7 +72,8 @@ const Create = () => {
         {steps.map((label, index) => (
           <div key={index} className="flex-1 flex flex-col items-center">
             <div
-              className={`rounded-full w-8 h-8 flex items-center justify-center ${
+            onClick={()=>setStep(index)}
+              className={`rounded-full w-8 h-8 flex items-center justify-center cursor-pointer ${
                 index === step
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-gray-700"
@@ -77,7 +116,7 @@ const Create = () => {
         {step === 2 && (
           <textarea
             placeholder="Enter Synopsis"
-            className="border p-2 w-full rounded"
+            className="border p-2 w-full rounded resize-y "
             value={formData.synopsis}
             onChange={(e) =>
               setFormData({ ...formData, synopsis: e.target.value })
@@ -89,14 +128,14 @@ const Create = () => {
           <div className="text-sm space-y-2">
             <textarea
             placeholder="Enter Content"
-            className="border p-2 w-full rounded"
-            value={formData.synopsis}
+            className="border p-2 w-full rounded resize-y "
+            value={formData.content}
             onChange={(e) =>
-              setFormData({ ...formData, synopsis: e.target.value })
+              setFormData({ ...formData, content: e.target.value })
             }
           />
        
-          <input type="checkbox" name="publish" id="publish" className="mr-1" />
+          <input type="checkbox" name="publish" id="publish" onClick={()=>setFormData({...formData,publish:!formData.publish})} className="mr-1" />
           <label htmlFor="publish">Publish note</label>
           </div>
         )}
@@ -119,9 +158,9 @@ const Create = () => {
             Next
           </button>
         ) : (
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">
+          <Button variant="contained" loading={isPending} onClick={()=>mutate(formData)}>
             Submit
-          </button>
+          </Button>
         )}
       </div>
     </div> </div>

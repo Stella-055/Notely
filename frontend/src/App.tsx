@@ -18,10 +18,11 @@ import Profile from "./pages/Profile";
 import Updatepass from "./pages/Updatepass";
 import Newnote from "./pages/Newnote";
 import Resetpassword from "./pages/Resetpassword";
-
+import { Toaster } from "@/components/ui/sonner"
 function App() {
   return (
     <>
+    <Toaster/>
       <Routes>
         <Route path="/" element={<Common />}>
           <Route index element={<Home />} />
