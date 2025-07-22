@@ -4,12 +4,13 @@ import { IoNotificationsCircleOutline } from "react-icons/io5";
 import api from "@/Api/axios";
 const Usernav = () => {
   const { data } = useQuery({
-    queryKey: ["get-enteries"],
+    queryKey: ["get-user"],
     queryFn: async () => {
-      const response = await api.get("/entries");
-      return response.data.entries;
+      const response = await api.get("/user");
+      return response.data.user;
     },
   });
+  
   return (
     <div className="flex justify-between bg-white w-full p-4">
       <div>
@@ -26,6 +27,7 @@ const Usernav = () => {
           <input
             type="text"
             placeholder="Find a Note"
+          
             className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
           />
           <button
@@ -38,11 +40,11 @@ const Usernav = () => {
       </div>
       <div className="flex items-center gap-2 text-gray-700">
         <Avatar
-          alt={data ? data.user.username : "?"}
+          alt={data?.username|| "user"}
           sx={{ width: 30, height: 30 }}
-          src={data ? data.user.profileImg : ""}
+          src={data?.profileImg || ""}
         />
-        Hi {data ? data.user.username : "user"}{" "}
+        Hi {data?.username || "user"}
         <IoNotificationsCircleOutline size={20} />{" "}
       </div>
     </div>

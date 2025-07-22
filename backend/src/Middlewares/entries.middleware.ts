@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { userdetails } from "../types/type";
-import { PrismaClient } from "@prisma/client";
+
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 
 export const validateUser = (

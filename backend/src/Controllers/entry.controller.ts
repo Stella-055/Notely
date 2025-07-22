@@ -13,6 +13,7 @@ export const getEntry = async (req: Request, res: Response) => {
     }
     const entry = await prisma.entry.findFirst({
       where: { AND: [{ id: id }, { isDeleted: false }, { userId: userId }] },
+      include:{user:true}
     });
     if (!entry) {
       return res.status(404).json({ message: "entry not found" });

@@ -26,14 +26,24 @@ const Trash = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-deleted-enteries/trash"],
     queryFn: async () => {
-      const response = await api.get("/entries");
+      const response = await api.get("/entries/trash");
+      console.log(response.data.entries)
       return response.data.entries;
     },
   });
+  const userdet = useQuery({
+      queryKey: ["get-user"],
+      queryFn: async () => {
+        const response = await api.get("/user");
+        return response.data.user;
+      },
+    });
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["delete:note"],
     mutationFn: async (noteid: string) => {
-      const response = await api.delete(`/entry/restore/${noteid}`);
+      const response = await api.patch(`/entry/restore/${noteid}`);
+     
       return response.data;
     },
     onError: (error) => {
@@ -82,15 +92,15 @@ const Trash = () => {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={data ? data.user.username : "?"}
+            alt={userdet.data?.username|| "user"}
             sx={{ width: 30, height: 30 }}
-            src={data ? data.user.profileImg : ""}
+            src={userdet.data?.profileImg || ""}
           />
-          Hi {data ? data.user.username : "user"}{" "}
+          Hi {userdet.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
-      <div className="flex flex-col text-gray-600 p-4 bg-white mt-1 w-80 rounded  ">
+      <div className="flex flex-col text-gray-600 p-4  m-3    ">
         <h1 className="text-2xl">Notes are available for 30days.</h1>
         <span>After that time ,notes will be permanently deleted </span>
       </div>
@@ -113,7 +123,7 @@ const Trash = () => {
           />
         </div>
       ) : (
-        <div>
+        <div className="p-4">
           {data.length !== 0 ? (
             data.map((entry: Entry, index: number) => {
               return (

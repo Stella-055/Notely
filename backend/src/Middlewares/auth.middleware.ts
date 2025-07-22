@@ -165,7 +165,7 @@ export const updatePasswordValidation = async (
     if (!user || !user.password) {
       return res.status(404).json({ message: "User not found" });
     }
-    const isOldPasswordValid = bcrypt.compare(oldpassword, user.password);
+    const isOldPasswordValid = await bcrypt.compare(oldpassword, user.password);
     if (!isOldPasswordValid) {
       return res.status(400).json({ message: "Old password is incorrect" });
     }

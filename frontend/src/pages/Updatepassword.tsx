@@ -45,7 +45,7 @@ const Updatepassword = () => {
   function handleupdatePassword() {
     setErrors(null);
     if (confirmpassword !== passwords.newpassword) {
-      setErrors("password and confirm password do not match");
+    return  setErrors("password and confirm password do not match");
     }
     mutate(passwords);
   }

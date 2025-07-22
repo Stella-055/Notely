@@ -18,7 +18,7 @@ export const createEntry = async (req: Request, res: Response) => {
         isPublished: publish,
       },
     });
-    res.status(200).json({ message: "Note created successfully" });
+   return res.status(200).json({ message: "Note created successfully" });
   } catch (error) {
     return res.status(500).json({ message: "internal server error" });
   }
@@ -29,6 +29,7 @@ export const getEntries = async (req: Request, res: Response) => {
   try {
     const entries = await prisma.entry.findMany({
       where: { AND: [{ userId: id }, { isDeleted: false }] },
+      include:{user:true}
     });
     return res.status(200).json({ entries });
   } catch (error) {

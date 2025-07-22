@@ -7,8 +7,153 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import api from "@/Api/axios";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
 const Profile = () => {
+   const { data } = useQuery({
+      queryKey: ["get-user-details"],
+      queryFn: async () => {
+        const response = await api.get("/user");
+        console.log(response.data)
+        return response.data;
+      },
+    });
+   
+type userDetails={
+  firstname:string,
+  lastname:string,
+  username:string,
+  useremail:string,
+  profileImg:string,
+  bio:string,
+
+ 
+}
+const [image, setImage] = useState<File | null>();
+const [loading, setLoading] = useState(false);
+    const [userdetails,setUserDetails]=useState<userDetails>({firstname:"-",lastname:"-",username:"-",useremail:"-",bio:"",profileImg:""})
+    const { isPending, mutate } = useMutation({
+      mutationKey: ["update-primary-info"],
+      mutationFn: async (data: userDetails) => {
+        const response = await api.patch("/user", data);
+        return response.data;
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.message, {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Something went wrong", {
+            position: "top-center",
+          });
+        }
+      },
+      onSuccess: () => {
+        toast.success("Updated Details successfully", {
+          position: "top-center",
+        });
+        
+      },
+    });
+    type profileimageDetails={
+      profileImg:string
+    }
+    const uploadImg = useMutation({
+      mutationKey: ["update-primary-info"],
+      mutationFn: async (data: profileimageDetails) => {
+        const response = await api.patch("/user/profileimage", data);
+        return response.data;
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.message, {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Something went wrong", {
+            position: "top-center",
+          });
+        }
+      },
+      onSuccess: () => {
+        toast.success("Updated profile image successfully", {
+          position: "top-center",
+        });
+        
+      },
+    });
+    useEffect(() => {
+      if (data) {
+        setUserDetails({
+    
+          firstname: data.user.firstname , 
+          lastname:data.user.lastname  ,
+          username:data.user.username  ,
+          useremail:data.user.useremail ,
+          profileImg:data.user.profileImg|| "",
+          bio:data.user.bio
+        });
+      }
+    }, [data]);
+    async function imageupload() {
+      if (!image) {
+        toast.error("No image selected");
+        return;
+      }
+      const uploadUrl = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append(
+        "upload_preset",
+        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+      );
+  
+      try {
+        setLoading(true);
+        const response = await axios.post(uploadUrl, formData);
+        setLoading(false);
+        console.log(response.data.secure_url)
+        return response.data.secure_url;
+      } catch (error) {
+        setLoading(false);
+        if (axios.isAxiosError(error)) {
+          toast(error.response?.data.message,{
+            position: "top-center",
+          });
+          return;
+        } else {
+          toast("something went wrong during image upload",{
+            position: "top-center",
+          });
+          return;
+        }
+      }
+    }
+    function updateUserDetails(){
+      mutate(userdetails)
+    }
+
+    async function updateProfile(){
+      if (!image) {
+        toast.error("No image selected",{
+          position: "top-center",
+        });
+        return;
+      }
+      const uploadedUrl= await imageupload()
+      if(!uploadedUrl){
+        toast.error("Error uploading Image",{
+          position: "top-center",
+        })
+      }
+      uploadImg.mutate({profileImg:uploadedUrl})
+    }
   return (
     <div className="w-full">
       <Usernav />
@@ -20,9 +165,9 @@ const Profile = () => {
         <div className=" px-10 w-5/6">
           <div className="my-6 w-28 relative">
             <Avatar
-              alt="Remy Sharp"
-              src="/profile.jpg"
-              sx={{ width: 120, height: 120 }}
+              alt={data?data.username:"user"}
+              src={userdetails.profileImg}
+              sx={{ width: 120, height: 120, fontSize:"4rem" }}
             />
             <div className="absolute top-20">
               <Popover>
@@ -78,7 +223,14 @@ const Profile = () => {
                       </span>{" "}
                       to select a file
                     </p>
-                    <input id="fileInput" type="file" className="hidden" />
+                    <input id="fileInput" type="file" className="hidden" 
+              accept="image/*"
+           
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const file = e.target.files?.[0];
+
+                if (file) setImage(file);
+              }}/>
                   </label>
 
                   <div className="mt-2 flex justify-end gap-4">
@@ -88,12 +240,14 @@ const Profile = () => {
                     >
                       Cancel
                     </button>
-                    <button
+                    <Button
                       type="button"
+                      loading={loading}
+                      onClick={updateProfile}
                       className="px-6 py-2 bg-blue-500 hover:bg-indigo-600 active:scale-95 transition-all text-white rounded"
                     >
                       Upload Picture
-                    </button>
+                    </Button>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -111,7 +265,8 @@ const Profile = () => {
                   id="firstname"
                   className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
                   type="text"
-                  value="stella"
+                  onChange={(e)=>setUserDetails({...userdetails,firstname:e.target.value})}
+                  value={userdetails.firstname}
                 />
                 <svg
                   className="mr-3"
@@ -139,8 +294,10 @@ const Profile = () => {
               <div className="flex items-center text-sm bg-white h-12 border pl-2 rounded border-gray-500/30 w-80 max-w-md">
                 <input
                   id="lastname"
+                  onChange={(e)=>setUserDetails({...userdetails,lastname:e.target.value})}
                   className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
                   type="email"
+                  value={userdetails.lastname}
                   placeholder="Enter your name"
                 />
                 <svg
@@ -171,7 +328,8 @@ const Profile = () => {
                   id="username"
                   className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
                   type="text"
-                  value="stella"
+                  onChange={(e)=>setUserDetails({...userdetails,username:e.target.value})}
+                  value={userdetails.username}
                 />
                 <svg
                   className="mr-3"
@@ -201,7 +359,8 @@ const Profile = () => {
                   id="useremail    "
                   className="px-2 w-full h-full outline-none text-gray-500 bg-transparent"
                   type="text"
-                  value="stella"
+                  onChange={(e)=>setUserDetails({...userdetails,useremail:e.target.value})}
+                  value={userdetails.useremail}
                 />
                 <svg
                   className="mr-3"
@@ -229,11 +388,15 @@ const Profile = () => {
               <textarea
                 className="w-80 border  border-gray-300 bg-gray-50 p-2 text-gray-500 "
                 name=""
+                onChange={(e)=>setUserDetails({...userdetails,bio:e.target.value})}
                 id="bio"
+                value={userdetails.bio}
               ></textarea>
             </div>
             <Button
               variant="contained"
+              loading={isPending}
+              onClick={updateUserDetails}
               sx={{ height: "2rem ", marginTop: "2rem", width: "20rem" }}
             >
               UPDATE

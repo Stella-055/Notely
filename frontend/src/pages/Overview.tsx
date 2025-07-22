@@ -35,13 +35,17 @@ function Overview() {
     queryKey: ["get-enteries"],
     queryFn: async () => {
       const response = await api.get("/entries");
+      console.log(response.data.entries)
       return response.data.entries;
     },
   });
+  const user = data?.[0]?.user;
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["delete:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.delete(`/entry/${noteid}`);
+      console.log(response.data)
       return response.data;
     },
     onError: (error) => {
@@ -104,11 +108,11 @@ function Overview() {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={data ? data.user.username : "?"}
+            alt={user?.username|| "user"}
             sx={{ width: 30, height: 30 }}
-            src={data ? data.user.profileImg : ""}
+            src={user?.profileImg || ""}
           />
-          Hi {data ? data.user.username : "user"}
+          Hi {user?.username || "user"}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
@@ -148,7 +152,7 @@ function Overview() {
             />
           </div>
         ) : (
-          <div>
+          <div className="flex gap-2">
             {data.length !== 0 ? (
               data.map((entry: Entry, index: number) => {
                 return (

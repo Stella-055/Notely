@@ -21,10 +21,10 @@ const Not = () => {
   const info = !entryid ? "Note will show here" : null;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["get-enteries", entryid],
+    queryKey: ["get-entery", entryid],
     queryFn: async () => {
-      const response = await api.get(`/entries/${entryid}`);
-      return response.data.entries;
+      const response = await api.get(`/entry/${entryid}`);
+      return response.data.entry;
     },
     enabled: !!entryid,
   });
@@ -68,23 +68,23 @@ const Not = () => {
           </Alert>
         </div>
       ) : (
-        <div>
+        <div className="flex flex-col">
           <input
             type="text"
             disabled
             value={data.title}
-            className="mb-5 text-3xl font-semibold"
+            className="mb-5 text-3xl font-semibold capitalize"
           />
           <label htmlFor="synopsis" className="text-gray-500">
             Synopsis:
           </label>
-          <textarea disabled className="text-gray-500 mb-5 h-20" id="synopsis">
+          <textarea disabled className="text-gray-500 mb-5 h-20 capitalize" id="synopsis">
             {data.synopsis}
           </textarea>
-          <label htmlFor="content" className="text-gray-900">
+          <label htmlFor="content" className="text-gray-500">
             Content:
           </label>
-          <textarea name="" id="content" className="h-96" disabled>
+          <textarea name="" id="content" className="h-96 text-gray-500" disabled>
             {data.content}
           </textarea>
         </div>
