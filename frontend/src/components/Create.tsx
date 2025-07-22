@@ -39,18 +39,18 @@ const Create = () => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message,{
-          position: 'top-center',
+        toast.error(error.response?.data.message, {
+          position: "top-center",
         });
       } else {
-        toast.error("Something went wrong",{
-          position: 'top-center',
+        toast.error("Something went wrong", {
+          position: "top-center",
         });
       }
     },
     onSuccess: () => {
-      toast.success("Note created successfully",{
-        position: 'top-center',
+      toast.success("Note created successfully", {
+        position: "top-center",
       });
       setFormData({
         genre: "",
@@ -97,9 +97,9 @@ const Create = () => {
               }
             >
               <option value="">Select Genre</option>
-              <option value="Drama">General</option>
-              <option value="Action">Work</option>
-              <option value="Comedy">School</option>
+              <option value="GeneraL">General</option>
+              <option value="Work">Work</option>
+              <option value="School">School</option>
             </select>
           )}
           {step === 1 && (

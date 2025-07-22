@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { RiGalleryView2 } from "react-icons/ri";
 import { FaNotesMedical } from "react-icons/fa6";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
-import { GrTask } from "react-icons/gr";
+
 import { FaBookmark } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
@@ -57,15 +57,15 @@ const SideNav = () => {
             {" "}
             Workspace <VscWorkspaceTrusted color="white" size={20} />
           </NavLink>
-          <NavLink to="/dashboard" className="text-white flex items-center">
-            {" "}
-            Tasks <GrTask color="white" size={20} />
-          </NavLink>
+
           <NavLink to="/dashboard" className="text-white flex items-center">
             {" "}
             Bookmark <FaBookmark color="white" size={15} />{" "}
           </NavLink>
-          <NavLink to="/dashboard" className="text-white flex items-center">
+          <NavLink
+            to="/dashboard/trash"
+            className="text-white flex items-center"
+          >
             {" "}
             Trash <FaTrash color="white" size={15} />
           </NavLink>
@@ -85,7 +85,7 @@ const SideNav = () => {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 {" "}
-                <NavLink to="/dashboard/password"> Password</NavLink>{" "}
+                <NavLink to="/dashboard/updatepassword"> Password</NavLink>{" "}
               </DropdownMenuItem>
               <DropdownMenuItem>Subscription</DropdownMenuItem>
               <DropdownMenuItem>Security & privacy</DropdownMenuItem>

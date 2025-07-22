@@ -6,6 +6,7 @@ import {
   validateEmailUsername,
   validatePasswordStrength,
   validatesigninDetails,
+  updatePasswordValidation,
 } from "../Middlewares/auth.middleware";
 import {
   logoutUser,
@@ -14,8 +15,10 @@ import {
   sendOtp,
   signinUser,
   update_Password,
+  updateUserPassword,
   verifyOtp,
 } from "../Controllers/auth.controller";
+import { validateUser } from "../Middlewares/entries.middleware";
 const route = Router();
 
 route.post(
@@ -36,4 +39,10 @@ route.post("/forgotpassword", forgotpasswordEmail, sendOtp);
 route.post("/verifyotp", verifyOtp);
 route.post("/update-password", update_Password);
 route.post("/logout", logoutUser);
+route.post(
+  "/password",
+  validateUser,
+  updatePasswordValidation,
+  updateUserPassword,
+);
 export default route;

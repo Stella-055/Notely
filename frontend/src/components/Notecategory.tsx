@@ -1,6 +1,7 @@
 import { MdOutlinePlayArrow } from "react-icons/md";
 import { ImMenu4 } from "react-icons/im";
-
+import { HashLoader } from "react-spinners";
+import { Alert } from "@mui/material";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaArrowCircleDown } from "react-icons/fa";
 import { Button } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/Api/axios";
+import dayjs from "dayjs";
+import useUser from "@/stores/userStore";
 const Notecategory = () => {
+  const { setEntry } = useUser();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get-enteries"],
+    queryFn: async () => {
+      const response = await api.get("/entries");
+      return response.data.entries;
+    },
+  });
+  type Entry = {
+    id: string;
+    userId: string;
+    genre: string;
+    title: string;
+    synopsis: string;
+    content: string;
+    isPublished: boolean;
+    createdAt: string;
+    isBookmarked: boolean;
+    isPinned: boolean;
+  };
   return (
     <div className="flex flex-col h-screen w-80 p-6 gap-2 border-r">
       <div className="flex justify-between">
@@ -24,7 +49,7 @@ const Notecategory = () => {
             <DropdownMenuLabel>Category</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>General</DropdownMenuItem>
-            <DropdownMenuItem>Other</DropdownMenuItem>
+            <DropdownMenuItem>Work</DropdownMenuItem>
             <DropdownMenuItem>School</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>{" "}
@@ -32,7 +57,7 @@ const Notecategory = () => {
 
       <div className="flex justify-between">
         <p className="text-gray-500 " style={{ fontSize: ".9rem" }}>
-          4notes
+          {data ? data.length : 0}notes
         </p>
         <div className="flex gap-1">
           <MdOutlinePlayArrow color="grey" />
@@ -57,20 +82,52 @@ const Notecategory = () => {
           />
         </div>
       </div>
-      <Button variant="contained">Add a Note</Button>
+      <Button variant="contained" href="/dashboard/newnote">
+        Add a Note
+      </Button>
 
       <div className="scroll-auto">
-        <div className="shadow-gray-400 shadow p-2">
-          <div className="flex justify-between">
-            {" "}
-            <h1 className="text-gray-500">General</h1>{" "}
-            <h1 className="text-gray-500">July 7th 2025</h1>{" "}
+        {error ? (
+          <div className="w-full flex justify-center items-center h-96">
+            <Alert
+              severity="error"
+              sx={{ backgroundColor: "#3B82F6" }}
+              variant="filled"
+            >
+              {error.message ||
+                "something went wrong while fetching your notes"}
+            </Alert>{" "}
           </div>
-          <h1 className="font-bold">Atomic Habits</h1>
-          <p className="text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut unde t!
-          </p>
-        </div>
+        ) : isLoading ? (
+          <div className="w-full flex justify-center items-center h-96">
+            <HashLoader
+              color="#3B82F6
+"
+            />
+          </div>
+        ) : (
+          data.slice(0, 5).map((entry: Entry, index: number) => {
+            return (
+              <div key={index} className="shadow-gray-400 shadow p-2">
+                <div
+                  className="flex justify-between"
+                  onClick={() => setEntry(entry.id)}
+                >
+                  {" "}
+                  <h1 className="text-gray-500">{entry.genre}</h1>{" "}
+                  <h1 className="text-gray-500">
+                    {" "}
+                    {dayjs(entry.createdAt).format("DD MMMM YYYY")}
+                  </h1>{" "}
+                </div>
+                <h1 className="font-bold">{entry.title}</h1>
+                <p className="text-gray-500">
+                  {entry.synopsis.slice(0, 200)}...
+                </p>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

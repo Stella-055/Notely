@@ -145,3 +145,32 @@ export const forgotpasswordEmail = async (
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+export const updatePasswordValidation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { oldpassword, newpassword } = req.body;
+  const { id } = req.user;
+  try {
+    if (!oldpassword) {
+      return res.status(400).json({ message: "Old password is required" });
+    }
+    if (!newpassword) {
+      return res.status(400).json({ message: "New password is required" });
+    }
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    if (!user || !user.password) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const isOldPasswordValid = bcrypt.compare(oldpassword, user.password);
+    if (!isOldPasswordValid) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

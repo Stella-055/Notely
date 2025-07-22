@@ -19,10 +19,12 @@ import Updatepass from "./pages/Updatepass";
 import Newnote from "./pages/Newnote";
 import Resetpassword from "./pages/Resetpassword";
 import { Toaster } from "@/components/ui/sonner";
+import Trash from "./pages/Trash";
+import Updatepassword from "./pages/Updatepassword";
 function App() {
   return (
     <>
-      <Toaster   />
+      <Toaster />
       <Routes>
         <Route path="/" element={<Common />}>
           <Route index element={<Home />} />
@@ -60,10 +62,26 @@ function App() {
             }
           />
           <Route
+            path="notes"
+            element={
+              <Protected>
+                <Notes />{" "}
+              </Protected>
+            }
+          />
+          <Route
             path="profile"
             element={
               <Protected>
                 <Profile />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="updatepassword"
+            element={
+              <Protected>
+                <Updatepassword />{" "}
               </Protected>
             }
           />
@@ -81,6 +99,15 @@ function App() {
               <Protected>
                 {" "}
                 <Newnote />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="trash"
+            element={
+              <Protected>
+                {" "}
+                <Trash />{" "}
               </Protected>
             }
           />

@@ -7,14 +7,35 @@ import { ImParagraphLeft } from "react-icons/im";
 import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
 import { RiChatDeleteLine } from "react-icons/ri";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import api from "@/Api/axios";
+import { HashLoader } from "react-spinners";
+import useUser from "@/stores/userStore";
+import { Alert } from "@mui/material";
+
 const Not = () => {
+  const { entry } = useUser();
+  const { id } = useParams();
+  const entryid = entry || id;
+  const info = !entryid ? "Note will show here" : null;
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get-enteries", entryid],
+    queryFn: async () => {
+      const response = await api.get(`/entries/${entryid}`);
+      return response.data.entries;
+    },
+    enabled: !!entryid,
+  });
+
   return (
-    <div className=" scroll-auto flex flex-col h-screen w-full p-5">
+    <div className="scroll-auto flex flex-col h-screen w-full p-5">
       <div className="flex justify-between mb-6">
-        <Chip label="General" />{" "}
+        <Chip label={data ? data.genre : "Genre"} />
         <div className="flex gap-2">
           <FaBold /> <LiaItalicSolid />
-          <FaUnderline /> <ImParagraphCenter /> <ImParagraphLeft />{" "}
+          <FaUnderline /> <ImParagraphCenter /> <ImParagraphLeft />
           <ImParagraphRight />
         </div>
         <div className="flex gap-2">
@@ -22,46 +43,52 @@ const Not = () => {
           <RiChatDeleteLine size={25} color="#3B82F6" />
         </div>
       </div>
-
-      <input
-        type="text"
-        disabled
-        value="Physics atomic habits"
-        className="mb-5 text-3xl font-semibold"
-      />
-      <label htmlFor="synopsis" className="text-gray-500">
-        Synopsis:
-      </label>
-
-      <textarea
-        name=""
-        disabled
-        className="text-gray-500 mb-5 h-20"
-        id="synopsis"
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero atque
-        architecto nobis quibusdam tenetur placeat voluptatem dolorum
-        necessitatibus facere. Quae dicta neque, quis ratione optio nesciunt
-        tempora et esse necessitatibus.
-      </textarea>
-      <label htmlFor="content" className="text-gray-900">
-        Content:
-      </label>
-      <textarea name="" id="content" className="h-96" disabled>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, laborum
-        error? Distinctio est quos nulla consequatur debitis eligendi placeat
-        magni consectetur, dolorum possimus, blanditiis vitae ab deserunt odio
-        molestias tempore. Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit. Molestiae ratione nobis id fugit amet rem, enim quidem voluptatum
-        earum quos alias quam libero excepturi modi pariatur magnam nemo
-        asperiores quisquam. Lorem ipsum dolor, sit amet consectetur adipisicing
-        elit. Asperiores labore at earum sunt minima totam, laborum impedit
-        voluptatem corporis id exercitationem ad culpa ea iure consectetur est
-        architecto repellendus cupiditate! Lorem ipsum dolor sit amet,
-        consectetur adipisicing elit. Cum quibusdam hic necessitatibus assumenda
-        blanditiis, quia placeat architecto possimus ex perferendis! Qui non
-        illum quod blanditiis ea eius molestiae quas eos.
-      </textarea>
+      {info ? (
+        <div className="w-full flex justify-center items-center h-96">
+          <Alert
+            severity="error"
+            sx={{ backgroundColor: "#3B82F6" }}
+            variant="filled"
+          >
+            {info}
+          </Alert>{" "}
+        </div>
+      ) : isLoading ? (
+        <div className="w-full flex justify-center items-center h-96">
+          <HashLoader color="#3B82F6" />
+        </div>
+      ) : error ? (
+        <div className="w-full flex justify-center items-center h-96">
+          <Alert
+            severity="error"
+            sx={{ backgroundColor: "#3B82F6" }}
+            variant="filled"
+          >
+            {error.message || "Note will show here"}
+          </Alert>
+        </div>
+      ) : (
+        <div>
+          <input
+            type="text"
+            disabled
+            value={data.title}
+            className="mb-5 text-3xl font-semibold"
+          />
+          <label htmlFor="synopsis" className="text-gray-500">
+            Synopsis:
+          </label>
+          <textarea disabled className="text-gray-500 mb-5 h-20" id="synopsis">
+            {data.synopsis}
+          </textarea>
+          <label htmlFor="content" className="text-gray-900">
+            Content:
+          </label>
+          <textarea name="" id="content" className="h-96" disabled>
+            {data.content}
+          </textarea>
+        </div>
+      )}
     </div>
   );
 };

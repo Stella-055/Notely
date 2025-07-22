@@ -251,3 +251,24 @@ export const logoutUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const updateUserPassword = async (req: Request, res: Response) => {
+  const { newpassword } = req.body;
+  const { id } = req.user;
+  try {
+    const passwordstrength = zxcvbn(newpassword);
+
+    if (passwordstrength.score < 3) {
+      return res.status(400).json({ message: "Password is too weak" });
+    }
+
+    const hashedpassword = await bcrypt.hash(newpassword, 10);
+    await prisma.user.update({
+      where: { id: id },
+      data: { password: hashedpassword },
+    });
+    return res.status(200).json({ message: "updated pasword successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

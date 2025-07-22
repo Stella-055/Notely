@@ -1,6 +1,15 @@
 import Avatar from "@mui/material/Avatar";
+import { useQuery } from "@tanstack/react-query";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
+import api from "@/Api/axios";
 const Usernav = () => {
+  const { data } = useQuery({
+    queryKey: ["get-enteries"],
+    queryFn: async () => {
+      const response = await api.get("/entries");
+      return response.data.entries;
+    },
+  });
   return (
     <div className="flex justify-between bg-white w-full p-4">
       <div>
@@ -29,11 +38,12 @@ const Usernav = () => {
       </div>
       <div className="flex items-center gap-2 text-gray-700">
         <Avatar
-          alt="Remy Sharp"
+          alt={data ? data.user.username : "?"}
           sx={{ width: 30, height: 30 }}
-          src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=50"
+          src={data ? data.user.profileImg : ""}
         />
-        Hi Frank <IoNotificationsCircleOutline size={20} />{" "}
+        Hi {data ? data.user.username : "user"}{" "}
+        <IoNotificationsCircleOutline size={20} />{" "}
       </div>
     </div>
   );
