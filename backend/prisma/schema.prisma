@@ -32,6 +32,7 @@ model User {
   otpExpiresAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  bookmarks String[]
   entries Entry[]
   @@map("user")
 }

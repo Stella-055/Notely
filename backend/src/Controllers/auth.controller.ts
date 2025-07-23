@@ -53,7 +53,7 @@ export const signinUser = async (req: Request, res: Response) => {
       where: { id },
       data: { refreshToken: refreshToken },
     });
-     return res
+     return res.clearCookie("accessToken").clearCookie("refreshToken")
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
@@ -80,8 +80,10 @@ export const refreshuserToken = async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
-      return res.status(403).json({ message: "forbidden" });
+      return res.status(403).json({ message: "forbidden1" });
     }
+
+   
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET!,
@@ -90,14 +92,14 @@ export const refreshuserToken = async (req: Request, res: Response) => {
         decoded: JwtPayload | String | undefined,
       ) {
         if (err) {
-        return   res.status(403).json({ message: "forbidden" });
+        return   res.status(403).json({ message: "forbidden12" });
         }
         const user = await prisma.user.findFirst({
           where: { id: (decoded as JwtPayload).id },
         });
 
         if (!user || user.refreshToken !== refreshToken ) {
-          return res.status(403).json({ message: "forbidden" });
+          return res.status(403).json({ message: "forbidden123" });
         }
         const accessToken = jwt.sign(
           { id: user.id, username: user.username },
@@ -114,7 +116,7 @@ export const refreshuserToken = async (req: Request, res: Response) => {
           where: { id: user.id },
           data: { refreshToken: newrefreshToken },
         });
-     return   res
+     return   res.clearCookie("accesscookie").clearCookie("refreshToken")
           .cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,

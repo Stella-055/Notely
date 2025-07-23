@@ -14,7 +14,12 @@ import { Button } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios from "axios";
-const Trash = () => {
+const Bookmarked = () => {
+
+    type User={
+        username:string,
+        profileImg:string
+    }
   type Entry = {
     id: string;
     userId: string;
@@ -22,11 +27,12 @@ const Trash = () => {
     title: string;
     synopsis: string;
     createdAt: string;
+    user:User
   };
   const { data, isLoading, error } = useQuery({
-    queryKey: ["get-deleted-enteries/trash"],
+    queryKey: ["get-bookmarked-entries"],
     queryFn: async () => {
-      const response = await api.get("/entries/trash");
+      const response = await api.get("/entries/bookmark");
       console.log(response.data.entries)
       return response.data.entries;
     },
@@ -40,9 +46,9 @@ const Trash = () => {
     });
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["delete:note"],
+    mutationKey: ["unbookmark:note"],
     mutationFn: async (noteid: string) => {
-      const response = await api.patch(`/entry/restore/${noteid}`);
+      const response = await api.patch(`/entries/bookmark/${noteid}`);
      
       return response.data;
     },
@@ -58,7 +64,7 @@ const Trash = () => {
       }
     },
     onSuccess: () => {
-      toast.success("Restored note successfully", {
+      toast.success("Removed Note from bookmarks successfully", {
         position: "top-center",
       });
     },
@@ -100,10 +106,7 @@ const Trash = () => {
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
-      <div className="flex flex-col text-gray-600 p-4  m-3    ">
-        <h1 className="text-2xl">Notes are available for 30days.</h1>
-        <span>After that time ,notes will be permanently deleted </span>
-      </div>
+   
       {error ? (
         <div className="w-full flex justify-center items-center h-96">
           <Alert
@@ -166,13 +169,21 @@ const Trash = () => {
                         height: "0.5px",
                       }}
                     />
-
+              <div className="flex items-center gap-2 text-gray-700">
+          <Avatar
+            alt={entry.user?.username|| "user"}
+            sx={{ width: 30, height: 30 }}
+            src={entry.user?.profileImg || ""}
+          />
+          Author: {entry.user?.username || "user"}{" "}
+      
+        </div>
                     <Button
                       size="small"
                       onClick={() => mutate(entry.id)}
                       loading={isPending}
                     >
-                      Restore
+                   unfavorite
                     </Button>
                   </CardActions>
                 </Card>
@@ -181,7 +192,7 @@ const Trash = () => {
           ) : (
             <div className="w-full flex justify-center items-center h-96">
               <Alert severity="info" variant="filled">
-                Deleted notes will show here
+              Your favorite Notes will show here
               </Alert>
             </div>
           )}
@@ -191,4 +202,4 @@ const Trash = () => {
   );
 };
 
-export default Trash;
+export default Bookmarked;

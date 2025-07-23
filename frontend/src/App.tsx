@@ -21,6 +21,7 @@ import Resetpassword from "./pages/Resetpassword";
 import { Toaster } from "@/components/ui/sonner";
 import Trash from "./pages/Trash";
 import Updatepassword from "./pages/Updatepassword";
+import Bookmarked from "./pages/Bookmarked";
 function App() {
   return (
     <>
@@ -108,6 +109,15 @@ function App() {
               <Protected>
                 {" "}
                 <Trash />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="bookmark"
+            element={
+              <Protected>
+                {" "}
+                <Bookmarked />{" "}
               </Protected>
             }
           />

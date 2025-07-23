@@ -39,7 +39,13 @@ function Overview() {
       return response.data.entries;
     },
   });
-  const user = data?.[0]?.user;
+  const userdet = useQuery({
+    queryKey: ["get-user"],
+    queryFn: async () => {
+      const response = await api.get("/user");
+      return response.data.user;
+    },
+  });
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["delete:note"],
@@ -78,7 +84,54 @@ function Overview() {
     isBookmarked: boolean;
     isPinned: boolean;
   };
-
+  const removebookmark= useMutation({
+    mutationKey: ["unbookmark:note"],
+    mutationFn: async (noteid: string) => {
+      const response = await api.patch(`/entries/bookmark/${noteid}`);
+     
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: () => {
+      toast.success("Removed Note from bookmarks successfully", {
+        position: "top-center",
+      });
+    },
+  });
+  const addbookmark= useMutation({
+    mutationKey: ["addbookmark:note"],
+    mutationFn: async (noteid: string) => {
+      const response = await api.post(`/entries/bookmark/${noteid}`);
+     
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: () => {
+      toast.success("Added Note to bookmarks successfully", {
+        position: "top-center",
+      });
+    },
+  });
   return (
     <div className="w-full ">
       <div className="flex justify-between bg-white w-full p-4">
@@ -108,11 +161,11 @@ function Overview() {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={user?.username|| "user"}
+            alt={userdet.data?.username|| "user"}
             sx={{ width: 30, height: 30 }}
-            src={user?.profileImg || ""}
+            src={userdet.data?.profileImg || ""}
           />
-          Hi {user?.username || "user"}
+          Hi {userdet.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
@@ -152,7 +205,7 @@ function Overview() {
             />
           </div>
         ) : (
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             {data.length !== 0 ? (
               data.map((entry: Entry, index: number) => {
                 return (
@@ -208,9 +261,9 @@ function Overview() {
                         </Button>
                         <div className="flex gap-2 items-center">
                           {entry.isBookmarked ? (
-                            <BsBookmarkStarFill color="grey" size={20} />
+                            <BsBookmarkStarFill color="grey" size={20} onClick={()=>removebookmark.mutate(entry.id)} />
                           ) : (
-                            <BsBookmarkStar color="grey" size={20} />
+                            <BsBookmarkStar color="grey" size={20} onClick={()=>addbookmark.mutate(entry.id)} />
                           )}{" "}
                           <MdOutlineEditNote
                             size={25}
