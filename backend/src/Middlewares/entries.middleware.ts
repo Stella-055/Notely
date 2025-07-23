@@ -30,7 +30,7 @@ export const validateEntryDetails = (
   res: Response,
   next: NextFunction,
 ) => {
-  const { genre, title, synopsis, content, publish } = req.body;
+  const { genre, title, synopsis, content, isPublished } = req.body;
 
   if (!genre) {
     return res.status(400).json({ message: "Genre is required" });
@@ -44,7 +44,7 @@ export const validateEntryDetails = (
   if (!content) {
     return res.status(400).json({ message: "Content is required" });
   }
-  if (publish === undefined) {
+  if (isPublished === undefined) {
     return res.status(400).json({ message: "Publish status is required" });
   }
 

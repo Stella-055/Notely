@@ -15,11 +15,10 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios from "axios";
 const Bookmarked = () => {
-
-    type User={
-        username:string,
-        profileImg:string
-    }
+  type User = {
+    username: string;
+    profileImg: string;
+  };
   type Entry = {
     id: string;
     userId: string;
@@ -27,29 +26,29 @@ const Bookmarked = () => {
     title: string;
     synopsis: string;
     createdAt: string;
-    user:User
+    user: User;
   };
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-bookmarked-entries"],
     queryFn: async () => {
       const response = await api.get("/entries/bookmark");
-      console.log(response.data.entries)
+      console.log(response.data.entries);
       return response.data.entries;
     },
   });
   const userdet = useQuery({
-      queryKey: ["get-user"],
-      queryFn: async () => {
-        const response = await api.get("/user");
-        return response.data.user;
-      },
-    });
+    queryKey: ["get-user"],
+    queryFn: async () => {
+      const response = await api.get("/user");
+      return response.data.user;
+    },
+  });
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["unbookmark:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.patch(`/entries/bookmark/${noteid}`);
-     
+
       return response.data;
     },
     onError: (error) => {
@@ -98,7 +97,7 @@ const Bookmarked = () => {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={userdet.data?.username|| "user"}
+            alt={userdet.data?.username || "user"}
             sx={{ width: 30, height: 30 }}
             src={userdet.data?.profileImg || ""}
           />
@@ -106,7 +105,7 @@ const Bookmarked = () => {
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
-   
+
       {error ? (
         <div className="w-full flex justify-center items-center h-96">
           <Alert
@@ -169,21 +168,20 @@ const Bookmarked = () => {
                         height: "0.5px",
                       }}
                     />
-              <div className="flex items-center gap-2 text-gray-700">
-          <Avatar
-            alt={entry.user?.username|| "user"}
-            sx={{ width: 30, height: 30 }}
-            src={entry.user?.profileImg || ""}
-          />
-          Author: {entry.user?.username || "user"}{" "}
-      
-        </div>
+                    <div className="flex items-center gap-2 text-gray-700">
+                      <Avatar
+                        alt={entry.user?.username || "user"}
+                        sx={{ width: 30, height: 30 }}
+                        src={entry.user?.profileImg || ""}
+                      />
+                      Author: {entry.user?.username || "user"}{" "}
+                    </div>
                     <Button
                       size="small"
                       onClick={() => mutate(entry.id)}
                       loading={isPending}
                     >
-                   unfavorite
+                      unfavorite
                     </Button>
                   </CardActions>
                 </Card>
@@ -192,7 +190,7 @@ const Bookmarked = () => {
           ) : (
             <div className="w-full flex justify-center items-center h-96">
               <Alert severity="info" variant="filled">
-              Your favorite Notes will show here
+                Your favorite Notes will show here
               </Alert>
             </div>
           )}

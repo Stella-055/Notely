@@ -10,7 +10,7 @@ const Usernav = () => {
       return response.data.user;
     },
   });
-  
+
   return (
     <div className="flex justify-between bg-white w-full p-4">
       <div>
@@ -27,7 +27,6 @@ const Usernav = () => {
           <input
             type="text"
             placeholder="Find a Note"
-          
             className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
           />
           <button
@@ -40,7 +39,7 @@ const Usernav = () => {
       </div>
       <div className="flex items-center gap-2 text-gray-700">
         <Avatar
-          alt={data?.username|| "user"}
+          alt={data?.username || "user"}
           sx={{ width: 30, height: 30 }}
           src={data?.profileImg || ""}
         />

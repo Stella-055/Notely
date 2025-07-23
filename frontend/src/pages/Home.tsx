@@ -5,7 +5,7 @@ import Whtweoffer from "@/components/Whtweoffer";
 import Contact from "@/components/Contact";
 import useUser from "@/stores/userStore";
 const Home = () => {
-  const {user}=useUser()
+  const { user } = useUser();
   return (
     <>
       <div className="flex justify-center items-center pt-12 w-full flex-wrap">
@@ -23,7 +23,9 @@ const Home = () => {
             focused, and in sync. Access your notes anywhere, share with ease,
             and turn clutter into clarity.
           </p>
-          <Button variant="contained" href={user?"/dashboard":"/signin"}>Get Started</Button>
+          <Button variant="contained" href={user ? "/dashboard" : "/signin"}>
+            Get Started
+          </Button>
         </div>
 
         <ImageList

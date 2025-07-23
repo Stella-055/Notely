@@ -27,23 +27,23 @@ const Trash = () => {
     queryKey: ["get-deleted-enteries/trash"],
     queryFn: async () => {
       const response = await api.get("/entries/trash");
-      console.log(response.data.entries)
+      console.log(response.data.entries);
       return response.data.entries;
     },
   });
   const userdet = useQuery({
-      queryKey: ["get-user"],
-      queryFn: async () => {
-        const response = await api.get("/user");
-        return response.data.user;
-      },
-    });
+    queryKey: ["get-user"],
+    queryFn: async () => {
+      const response = await api.get("/user");
+      return response.data.user;
+    },
+  });
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["delete:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.patch(`/entry/restore/${noteid}`);
-     
+
       return response.data;
     },
     onError: (error) => {
@@ -92,7 +92,7 @@ const Trash = () => {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={userdet.data?.username|| "user"}
+            alt={userdet.data?.username || "user"}
             sx={{ width: 30, height: 30 }}
             src={userdet.data?.profileImg || ""}
           />

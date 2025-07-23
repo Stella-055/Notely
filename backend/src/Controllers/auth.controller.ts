@@ -6,7 +6,6 @@ import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 
 import { transporter } from "../Nodemailer/transpoter";
 
-
 const prisma = new PrismaClient();
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -53,18 +52,20 @@ export const signinUser = async (req: Request, res: Response) => {
       where: { id },
       data: { refreshToken: refreshToken },
     });
-     return res.clearCookie("accessToken").clearCookie("refreshToken")
+    return res
+      .clearCookie("accessToken")
+      .clearCookie("refreshToken")
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
-       
+
         maxAge: 1000 * 60 * 15,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
-      
+
         maxAge: 1000 * 60 * 60 * 24 * 7,
         path: "/",
       })
@@ -83,7 +84,6 @@ export const refreshuserToken = async (req: Request, res: Response) => {
       return res.status(403).json({ message: "forbidden1" });
     }
 
-   
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET!,
@@ -92,13 +92,13 @@ export const refreshuserToken = async (req: Request, res: Response) => {
         decoded: JwtPayload | String | undefined,
       ) {
         if (err) {
-        return   res.status(403).json({ message: "forbidden12" });
+          return res.status(403).json({ message: "forbidden12" });
         }
         const user = await prisma.user.findFirst({
           where: { id: (decoded as JwtPayload).id },
         });
 
-        if (!user || user.refreshToken !== refreshToken ) {
+        if (!user || user.refreshToken !== refreshToken) {
           return res.status(403).json({ message: "forbidden123" });
         }
         const accessToken = jwt.sign(
@@ -116,7 +116,9 @@ export const refreshuserToken = async (req: Request, res: Response) => {
           where: { id: user.id },
           data: { refreshToken: newrefreshToken },
         });
-     return   res.clearCookie("accesscookie").clearCookie("refreshToken")
+        return res
+          .clearCookie("accesscookie")
+          .clearCookie("refreshToken")
           .cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
@@ -136,7 +138,7 @@ export const refreshuserToken = async (req: Request, res: Response) => {
       },
     );
   } catch (error) {
-     return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -156,7 +158,7 @@ export const sendOtp = async (req: Request, res: Response) => {
       subject: "Account Verification Otp",
       text: `Hello ${user.username},Your Otp is ${otp}.Use this to verify this account as yours.If you did not request an Otp please ignore it. We got it under control`,
     });
-     return res.status(200).json({ message: "Otp sent successfully" });
+    return res.status(200).json({ message: "Otp sent successfully" });
   } catch (error) {
     console.error("OTP Send Error:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -218,7 +220,7 @@ export const update_Password = async (req: Request, res: Response) => {
       where: { useremail },
       data: { password: hashedPassword, otp: null, otpExpiresAt: null },
     });
-   return res.status(200).json({ message: "Password updated successfully" });
+    return res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -245,7 +247,7 @@ export const logoutUser = async (req: Request, res: Response) => {
       },
     );
 
-   return res
+    return res
       .clearCookie("accessToken")
       .clearCookie("refreshToken")
       .status(200)

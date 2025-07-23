@@ -18,7 +18,7 @@ export const createEntry = async (req: Request, res: Response) => {
         isPublished: publish,
       },
     });
-   return res.status(200).json({ message: "Note created successfully" });
+    return res.status(200).json({ message: "Note created successfully" });
   } catch (error) {
     return res.status(500).json({ message: "internal server error" });
   }
@@ -29,7 +29,7 @@ export const getEntries = async (req: Request, res: Response) => {
   try {
     const entries = await prisma.entry.findMany({
       where: { AND: [{ userId: id }, { isDeleted: false }] },
-      include:{user:true}
+      include: { user: true },
     });
     return res.status(200).json({ entries });
   } catch (error) {
@@ -53,7 +53,7 @@ export const getBookmarkedEntries = async (req: Request, res: Response) => {
   const { id } = req.user;
   try {
     const user = await prisma.user.findFirst({
-      where: {id:id},
+      where: { id: id },
       select: {
         bookmarks: true,
       },
@@ -65,12 +65,12 @@ export const getBookmarkedEntries = async (req: Request, res: Response) => {
     const bookmarkedEntries = await prisma.entry.findMany({
       where: {
         id: {
-          in: user.bookmarks, 
+          in: user.bookmarks,
         },
       },
-      include:{user:true}
+      include: { user: true },
     });
-    return res.status(200).json({entries: bookmarkedEntries });
+    return res.status(200).json({ entries: bookmarkedEntries });
   } catch (error) {
     return res.status(500).json({ message: "internal server error" });
   }
@@ -81,14 +81,14 @@ export const bookmarkEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const Bookmarknote= await prisma.entry.findUnique({
-      where:{id:id}
-    })
-    if(Bookmarknote?.userId == userId){
+    const Bookmarknote = await prisma.entry.findUnique({
+      where: { id: id },
+    });
+    if (Bookmarknote?.userId == userId) {
       await prisma.entry.update({
-        where:{id:id},
-        data:{isBookmarked:true}
-      })
+        where: { id: id },
+        data: { isBookmarked: true },
+      });
     }
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -97,22 +97,22 @@ export const bookmarkEntry = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-  
     if (user.bookmarks.includes(id)) {
       return res.status(400).json({ message: "Already bookmarked" });
     }
 
-   
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
         bookmarks: {
-          set: [...user.bookmarks, id], 
+          set: [...user.bookmarks, id],
         },
       },
     });
 
-    return res.status(200).json({ message: "Bookmark added", bookmarks: updatedUser.bookmarks });
+    return res
+      .status(200)
+      .json({ message: "Bookmark added", bookmarks: updatedUser.bookmarks });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
@@ -123,14 +123,14 @@ export const unbookmarkEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const Bookmarknote= await prisma.entry.findUnique({
-      where:{id:id}
-    })
-    if(Bookmarknote?.userId == userId){
+    const Bookmarknote = await prisma.entry.findUnique({
+      where: { id: id },
+    });
+    if (Bookmarknote?.userId == userId) {
       await prisma.entry.update({
-        where:{id:id},
-        data:{isBookmarked:false}
-      })
+        where: { id: id },
+        data: { isBookmarked: false },
+      });
     }
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -139,22 +139,22 @@ export const unbookmarkEntry = async (req: Request, res: Response) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-  
     if (!user.bookmarks.includes(id)) {
       return res.status(400).json({ message: "Note is not bookmarked" });
     }
 
-   
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
         bookmarks: {
-          set: user.bookmarks.filter(Id => Id !== id)
+          set: user.bookmarks.filter((Id) => Id !== id),
         },
       },
     });
 
-    return res.status(200).json({ message: "Bookmark added", bookmarks: updatedUser.bookmarks });
+    return res
+      .status(200)
+      .json({ message: "Bookmark added", bookmarks: updatedUser.bookmarks });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }

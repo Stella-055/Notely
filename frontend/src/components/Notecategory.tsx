@@ -15,9 +15,9 @@ import { Button } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/Api/axios";
 import dayjs from "dayjs";
-import useUser from "@/stores/userStore";
+import { useNavigate } from "react-router-dom";
 const Notecategory = () => {
-  const { setEntry } = useUser();
+  const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
     queryFn: async () => {
@@ -108,11 +108,12 @@ const Notecategory = () => {
         ) : (
           data.slice(0, 5).map((entry: Entry, index: number) => {
             return (
-              <div key={index} className="shadow-gray-400 shadow p-2">
-                <div
-                  className="flex justify-between"
-                  onClick={() => setEntry(entry.id)}
-                >
+              <div
+                key={index}
+                className="shadow-gray-400 shadow p-2 "
+                onClick={() => navigate(`/dashboard/notes/${entry.id}`)}
+              >
+                <div className="flex justify-between ">
                   {" "}
                   <h1 className="text-gray-500">{entry.genre}</h1>{" "}
                   <h1 className="text-gray-500">

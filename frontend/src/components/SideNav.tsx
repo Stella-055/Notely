@@ -58,7 +58,10 @@ const SideNav = () => {
             Workspace <VscWorkspaceTrusted color="white" size={20} />
           </NavLink>
 
-          <NavLink to="/dashboard/bookmark" className="text-white flex items-center">
+          <NavLink
+            to="/dashboard/bookmark"
+            className="text-white flex items-center"
+          >
             {" "}
             Bookmark <FaBookmark color="white" size={15} />{" "}
           </NavLink>

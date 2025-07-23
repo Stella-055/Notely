@@ -35,7 +35,6 @@ function Overview() {
     queryKey: ["get-enteries"],
     queryFn: async () => {
       const response = await api.get("/entries");
-      console.log(response.data.entries)
       return response.data.entries;
     },
   });
@@ -51,7 +50,7 @@ function Overview() {
     mutationKey: ["delete:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.delete(`/entry/${noteid}`);
-      console.log(response.data)
+      console.log(response.data);
       return response.data;
     },
     onError: (error) => {
@@ -84,11 +83,11 @@ function Overview() {
     isBookmarked: boolean;
     isPinned: boolean;
   };
-  const removebookmark= useMutation({
+  const removebookmark = useMutation({
     mutationKey: ["unbookmark:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.patch(`/entries/bookmark/${noteid}`);
-     
+
       return response.data;
     },
     onError: (error) => {
@@ -108,11 +107,11 @@ function Overview() {
       });
     },
   });
-  const addbookmark= useMutation({
+  const addbookmark = useMutation({
     mutationKey: ["addbookmark:note"],
     mutationFn: async (noteid: string) => {
       const response = await api.post(`/entries/bookmark/${noteid}`);
-     
+
       return response.data;
     },
     onError: (error) => {
@@ -161,7 +160,7 @@ function Overview() {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           <Avatar
-            alt={userdet.data?.username|| "user"}
+            alt={userdet.data?.username || "user"}
             sx={{ width: 30, height: 30 }}
             src={userdet.data?.profileImg || ""}
           />
@@ -261,9 +260,17 @@ function Overview() {
                         </Button>
                         <div className="flex gap-2 items-center">
                           {entry.isBookmarked ? (
-                            <BsBookmarkStarFill color="grey" size={20} onClick={()=>removebookmark.mutate(entry.id)} />
+                            <BsBookmarkStarFill
+                              color="grey"
+                              size={20}
+                              onClick={() => removebookmark.mutate(entry.id)}
+                            />
                           ) : (
-                            <BsBookmarkStar color="grey" size={20} onClick={()=>addbookmark.mutate(entry.id)} />
+                            <BsBookmarkStar
+                              color="grey"
+                              size={20}
+                              onClick={() => addbookmark.mutate(entry.id)}
+                            />
                           )}{" "}
                           <MdOutlineEditNote
                             size={25}
