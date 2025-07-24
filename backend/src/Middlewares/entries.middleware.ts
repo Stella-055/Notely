@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { userdetails } from "../types/type";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 
 export const validateUser = (
@@ -25,13 +27,22 @@ export const validateUser = (
   );
   next();
 };
-export const validateEntryDetails = (
+export const validateEntryDetails = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const { genre, title, synopsis, content, isPublished } = req.body;
+const userid=req.user.id
+const {id}= req.params
 
+const entry = await prisma.entry.findFirst({
+  where:{id}
+})
+
+if(!(userid==entry?.userId)){
+  return res.status(400).json({ message: "You are not the owner" });
+}
   if (!genre) {
     return res.status(400).json({ message: "Genre is required" });
   }

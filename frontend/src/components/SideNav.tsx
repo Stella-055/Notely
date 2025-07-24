@@ -53,7 +53,7 @@ const SideNav = () => {
             {" "}
             Notes <FaNotesMedical color="white" size={20} />
           </NavLink>
-          <NavLink to="/dashboard" className="text-white flex items-center">
+          <NavLink to="/dashboard/workspace" className="text-white flex items-center">
             {" "}
             Workspace <VscWorkspaceTrusted color="white" size={20} />
           </NavLink>
@@ -91,7 +91,7 @@ const SideNav = () => {
                 <NavLink to="/dashboard/updatepassword"> Password</NavLink>{" "}
               </DropdownMenuItem>
               <DropdownMenuItem>Subscription</DropdownMenuItem>
-              <DropdownMenuItem>Security & privacy</DropdownMenuItem>
+              <DropdownMenuItem><NavLink to="/dashboard/security"> Security & privacy </NavLink></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>{" "}
@@ -102,7 +102,7 @@ const SideNav = () => {
           orientation="horizontal"
           sx={{ width: "10rem", backgroundColor: "white", height: "0.5px" }}
         />
-        <NavLink to="/dashboard" className="text-white flex items-center">
+        <NavLink to="/dashboard/help" className="text-white flex items-center">
           {" "}
           <TbHelpCircleFilled color="white" size={18} />
           Help

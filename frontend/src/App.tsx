@@ -22,6 +22,9 @@ import { Toaster } from "@/components/ui/sonner";
 import Trash from "./pages/Trash";
 import Updatepassword from "./pages/Updatepassword";
 import Bookmarked from "./pages/Bookmarked";
+import Help from "./pages/Help";
+import Security from "./pages/Security";
+import Workspace from "./pages/Workspace";
 function App() {
   return (
     <>
@@ -104,11 +107,38 @@ function App() {
             }
           />
           <Route
+            path="workspace"
+            element={
+              <Protected>
+                {" "}
+                <Workspace />{" "}
+              </Protected>
+            }
+          />
+          <Route
             path="trash"
             element={
               <Protected>
                 {" "}
                 <Trash />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="help"
+            element={
+              <Protected>
+                {" "}
+                <Help/>{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="security"
+            element={
+              <Protected>
+                {" "}
+                <Security/>{" "}
               </Protected>
             }
           />

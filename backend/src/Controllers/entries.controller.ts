@@ -159,3 +159,17 @@ export const unbookmarkEntry = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const getPublishednotes = async (req: Request, res: Response)=>{
+try {
+    const publishedEntries=await prisma.entry.findMany({
+    where:{isPublished:true}
+   })
+   return res
+   .status(200)
+   .json({  entries: publishedEntries });
+} catch (error) {
+  return res.status(500).json({ message: "Internal server error" });
+}
+}

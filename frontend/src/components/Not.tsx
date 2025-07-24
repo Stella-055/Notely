@@ -87,6 +87,8 @@ const Not = () => {
           <FaUnderline /> <ImParagraphCenter /> <ImParagraphLeft />
           <ImParagraphRight />
         </div>
+
+        {data.u}
         <div className="flex gap-2">
           <MdOutlineEditNote
             size={25}

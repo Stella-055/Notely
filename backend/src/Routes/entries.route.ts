@@ -9,6 +9,7 @@ import {
   getBookmarkedEntries,
   getDeletedEntries,
   getEntries,
+  getPublishednotes,
   unbookmarkEntry,
 } from "../Controllers/entries.controller";
 const route = Router();
@@ -20,4 +21,5 @@ route.get("/trash", validateUser, getDeletedEntries);
 route.get("/bookmark", validateUser, getBookmarkedEntries);
 route.post("/bookmark/:id", validateUser, bookmarkEntry);
 route.patch("/bookmark/:id", validateUser, unbookmarkEntry);
+route.get("/published",  getPublishednotes);
 export default route;
