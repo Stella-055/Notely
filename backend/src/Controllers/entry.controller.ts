@@ -6,13 +6,13 @@ const prisma = new PrismaClient();
 
 export const getEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { id: userId } = req.user;
+
   try {
     if (!id) {
       return res.status(400).json({ message: "id is required" });
     }
     const entry = await prisma.entry.findFirst({
-      where: { AND: [{ id: id }, { isDeleted: false }, { userId: userId }] },
+      where: { AND: [{ id: id }, { isDeleted: false }] },
       include: { user: true },
     });
     if (!entry) {
