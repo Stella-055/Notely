@@ -33,16 +33,7 @@ export const validateEntryDetails = async (
   next: NextFunction,
 ) => {
   const { genre, title, synopsis, content, isPublished } = req.body;
-const userid=req.user.id
-const {id}= req.params
 
-const entry = await prisma.entry.findFirst({
-  where:{id}
-})
-
-if(!(userid==entry?.userId)){
-  return res.status(400).json({ message: "You are not the owner" });
-}
   if (!genre) {
     return res.status(400).json({ message: "Genre is required" });
   }

@@ -17,10 +17,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@mui/material";
+import api from "@/Api/axios";
+import { toast } from "sonner";
+import axios from "axios";
+import useUser from "@/stores/userStore";
+import { useNavigate } from "react-router-dom";
 
 const SideNav = () => {
+  const{logoutuser}=useUser()
+  const navigate=useNavigate()
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["update-note"],
+    mutationFn: async () => {
+      const response = await api.post("/auth/logout");
+
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: () => {
+      navigate("/")
+    logoutuser()
+    },
+  });
+
+function handlelogout(){
+mutate()
+}
+
   return (
     <div className="flex flex-col bg-blue-500 h-screen p-4 pt-7 justify-between">
       <div className="flex flex-col justify-between  h-80 ">
@@ -111,6 +146,8 @@ const SideNav = () => {
           variant="contained"
           size="small"
           sx={{ border: 1, borderColor: "white" }}
+          onClick={handlelogout}
+          loading={isPending}
           startIcon={<IoIosLogOut />}
         >
           Logout

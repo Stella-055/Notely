@@ -6,7 +6,11 @@ import { ImParagraphCenter } from "react-icons/im";
 import { ImParagraphLeft } from "react-icons/im";
 import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import api from "@/Api/axios";
@@ -30,6 +34,7 @@ const Not = () => {
   };
   const { id } = useParams();
 
+  const [isopen, setIsOpen] = useState(false);
   const entryid = id;
   const info = !entryid ? "Note will show here" : null;
   const [disableEditting, setDisableEditting] = useState(true);
@@ -42,13 +47,7 @@ const Not = () => {
     },
     enabled: !!entryid,
   });
-  const [notedetails, setNotedetails] = useState<Note>({
-    genre: data ? data.genre : "",
-    title: data ? data.title : "",
-    isPublished: data ? data.isPublished : false,
-    content: data ? data.content : "",
-    synopsis: data ? data.synopsis : "",
-  });
+ 
   const { mutate, isPending } = useMutation({
     mutationKey: ["update-note"],
     mutationFn: async (note: Note) => {
@@ -74,9 +73,41 @@ const Not = () => {
       });
     },
   });
+  const [notedetails, setNotedetails] = useState<Note>({
+    genre: data ? data.genre : "",
+    title: data ? data.title : "",
+    isPublished: data ? data.isPublished : false,
+    content: data ? data.content : "",
+    synopsis: data ? data.synopsis : "",
+  });
   function updatenote() {
+    console.log(notedetails)
     mutate(notedetails);
   }
+  const deleteNote = useMutation({
+      mutationKey: ["delete:note"],
+      mutationFn: async () => {
+        const response = await api.delete(`/entry/${id}`);
+       
+        return response.data;
+      },
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.message, {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Something went wrong", {
+            position: "top-center",
+          });
+        }
+      },
+      onSuccess: () => {
+        toast.success("Deleted note successfully", {
+          position: "top-center",
+        });
+      },
+    });
   return (
     <div className="scroll-auto flex flex-col h-screen w-full p-5">
       <div className="flex justify-between mb-6">
@@ -98,7 +129,34 @@ const Not = () => {
               toast.info("edditting Enabled");
             }}
           />
-          <Chip label="Delete Note" variant="outlined" />
+           <Popover open={isopen} onOpenChange={setIsOpen}>
+                            <PopoverTrigger>
+                            <Chip label="Delete Note" variant="outlined"  />
+                            </PopoverTrigger>
+                            <PopoverContent className="bg-white">
+                              {" "}
+                              <h1>Are you sure you want to delete?</h1>
+                              <p>This action can not be undone</p>
+                              <div className="w-full justify-center flex gap-3">
+                                <Button
+                                  variant="contained"
+                                  onClick={() => setIsOpen(false)}
+                                  sx={{ backgroundColor: "gray" }}
+                                >
+                                  Cancel
+                                </Button>{" "}
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  onClick={()=>deleteNote.mutate()}
+                                  loading={isPending}
+                                >
+                                  Yes
+                                </Button>
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+          
         </div>
       </div>
       {info ? (

@@ -38,7 +38,7 @@ const Notecategory = () => {
     isPinned: boolean;
   };
   return (
-    <div className="flex flex-col h-screen w-80 p-6 gap-2 border-r">
+    <div className="flex flex-col h-screen  w-80 p-6 gap-2 border-r-1">
       <div className="flex justify-between">
         <h1 className="font-semibold ">ALL</h1>
         <DropdownMenu>
@@ -77,7 +77,7 @@ const Notecategory = () => {
           </svg>
           <input
             type="text"
-            placeholder="Search for products"
+            placeholder="Search for a Note"
             className="w-full h-full outline-none text-gray-500 placeholder-gray-500 text-sm"
           />
         </div>

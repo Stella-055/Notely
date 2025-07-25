@@ -26,8 +26,16 @@ export const getEntry = async (req: Request, res: Response) => {
 
 export const deleteEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
-
+const userId = req.user.id
   try {
+
+    const entryOwner= await prisma.entry.findUnique({
+      where:{id}
+    })
+
+    if(!(userId=== entryOwner!.userId)){
+    return res.status(400).json({message:"You are not the owner"})
+    }
     const entry = await prisma.entry.update({
       where: { id: id },
       data: { isDeleted: true, isPinned: false, isBookmarked: false },
@@ -64,8 +72,19 @@ export const restoreEntry = async (req: Request, res: Response) => {
 
 export const updateEntry = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const userid=req.user.id
   const { genre, title, synopsis, content, isPublished } = req.body;
   try {
+    
+
+
+const entryOwner = await prisma.entry.findFirst({
+  where:{id}
+})
+
+if(!(userid==entryOwner?.userId)){
+  return res.status(400).json({ message: "You are not the owner" });
+}
     const entry = await prisma.entry.update({
       where: { id: id },
       data: { genre, title, synopsis, content, isPublished },
