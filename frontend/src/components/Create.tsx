@@ -12,7 +12,7 @@ const Create = () => {
     title: string;
     synopsis: string;
     content: string;
-    publish: boolean;
+    isPublished: boolean;
   };
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ const Create = () => {
     title: "",
     synopsis: "",
     content: "",
-    publish: false,
+    isPublished: false,
   });
 
   const handleNext = () => {
@@ -57,10 +57,40 @@ const Create = () => {
         title: "",
         synopsis: "",
         content: "",
-        publish: false,
+        isPublished: false,
       });
     },
   });
+
+  const getContent= useMutation({
+    mutationKey: ["get-note-content"],
+    mutationFn: async (data: FormDetails) => {
+      const response = await api.post("/entry/generate", data);
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: (data) => {
+     console.log(data)
+      setFormData({
+        ...formData,content:data.content
+      });
+    },
+  });
+
+  function generateContent(){
+  
+    getContent.mutate(formData)
+  }
 
   return (
     <div className="flex flex-col items-center justify-center  bg-white w-1/2 py-12">
@@ -68,7 +98,7 @@ const Create = () => {
         <h1 className="text-2xl font-bold ">Create Your Note</h1>
         <p>Just a few steps and you will be there</p>
       </div>
-      <div className="w-96 p-6">
+      <div className="w-96 p-4">
         <div className="flex items-center mb-8">
           {steps.map((label, index) => (
             <div key={index} className="flex-1 flex flex-col items-center">
@@ -128,24 +158,25 @@ const Create = () => {
             <div className="text-sm space-y-2">
               <textarea
                 placeholder="Enter Content"
-                className="border p-2 w-full rounded resize-y "
+                className="border p-2 w-full rounded resize-y h-32 "
                 value={formData.content}
                 onChange={(e) =>
                   setFormData({ ...formData, content: e.target.value })
                 }
               />
-
+            <div className="flex justify-between items-center">
+              <div>
               <input
                 type="checkbox"
                 name="publish"
                 id="publish"
-                checked={formData.publish}
+                checked={formData.isPublished}
                 onClick={() =>
-                  setFormData({ ...formData, publish: !formData.publish })
+                  setFormData({ ...formData, isPublished: !formData.isPublished })
                 }
                 className="mr-1"
               />
-              <label htmlFor="publish">Publish note</label>
+              <label htmlFor="publish">Publish note</label></div> <Button variant="outlined" loading={getContent.isPending}  onClick={generateContent}size="small">Generate content with Ai</Button></div>
             </div>
           )}
         </div>
@@ -169,7 +200,7 @@ const Create = () => {
             <Button
               variant="contained"
               loading={isPending}
-              onClick={() => mutate(formData)}
+              onClick={() => {mutate(formData);  console.log(formData)}}
             >
               Submit
             </Button>

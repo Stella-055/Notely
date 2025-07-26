@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { PrismaClient } from "@prisma/client";
+import main from "../Gemini";
 
 const prisma = new PrismaClient();
 
@@ -97,3 +98,21 @@ if(!(userid==entryOwner?.userId)){
     return res.status(500).json({ message: "internal server error" });
   }
 };
+
+export const generateContent = async (req: Request, res: Response) => {
+ 
+  try {
+    const {title,synopsis}=req.body
+if(!title){
+  return res.status(400).json({message:"Please provide a title for the note"})
+}
+if(!synopsis){
+  return res.status(400).json({message:"Please provide a synopsis for the note"})
+}
+   const content= await main(`Generate a note content for a topic with this synopsis :${synopsis} and this topic:${title} in markdown format`)
+   res.status(200).json({content})
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "internal server error" });
+  }
+}

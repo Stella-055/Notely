@@ -1,6 +1,7 @@
 import router from "express";
 import {
   deleteEntry,
+  generateContent,
   getEntry,
   restoreEntry,
   updateEntry,
@@ -15,5 +16,5 @@ route.get("/:id", validateUser, getEntry);
 route.patch("/:id", validateUser, validateEntryDetails, updateEntry);
 route.delete("/:id", validateUser, deleteEntry);
 route.patch("/restore/:id", validateUser, restoreEntry);
-
+route.post("/generate", validateUser,generateContent);
 export default route;

@@ -3,6 +3,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import { IoAddCircleSharp } from "react-icons/io5";
 import Card from "@mui/material/Card";
+import { TiThMenu } from "react-icons/ti";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -133,7 +134,11 @@ function Overview() {
   });
   return (
     <div className="w-full ">
-      <div className="flex justify-between bg-white w-full p-4">
+      <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
+      <div className="flex sm:hidden py-4 bg-white ">
+    <TiThMenu color="#3B82F6 
+"  size="30"/>
+    </div>
         <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
@@ -159,11 +164,12 @@ function Overview() {
           </div>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
-          <Avatar
+          {userdet.data.profileImg? <Avatar
             alt={userdet.data?.username || "user"}
             sx={{ width: 30, height: 30 }}
             src={userdet.data?.profileImg || ""}
-          />
+          />:<Avatar sx={{ bgcolor: "#3B82F6" }}>{(userdet.data?.username).slice(0,1)}</Avatar>}
+         
           Hi {userdet.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>

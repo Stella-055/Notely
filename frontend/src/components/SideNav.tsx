@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMutation } from "@tanstack/react-query";
+
 import { Button } from "@mui/material";
 import api from "@/Api/axios";
 import { toast } from "sonner";
@@ -57,7 +58,10 @@ mutate()
 }
 
   return (
-    <div className="flex flex-col bg-blue-500 h-screen p-4 pt-7 justify-between">
+    
+ 
+   
+    <div className=" flex-col bg-blue-500 h-screen p-4 pt-7 justify-between sm:flex hidden">
       <div className="flex flex-col justify-between  h-80 ">
         <a href="/">
           <div className="flex gap-2.5 rounded-2xl">
@@ -153,7 +157,7 @@ mutate()
           Logout
         </Button>
       </div>
-    </div>
+    </div> 
   );
 };
 

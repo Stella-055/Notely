@@ -5,7 +5,7 @@ const Security = () => {
   return (
     <div className="w-full ">
       <Usernav/>
-      <div className="w-full flex flex-col justify-center items-center mt-4 h-96">
+      <div className="w-full flex flex-col justify-center items-center mt-4 ">
       
         
         <div className="flex md:flex-row flex-col border border-gray-500/30 rounded-lg items-start md:items-center justify-between gap-5 text-sm max-w-5xl bg-white p-6">
@@ -35,8 +35,10 @@ const Security = () => {
         
            
         </div>
+        <div className="w-3xl mt-2">
+        <p className="text-gray-600">At Notely, we are committed to safeguarding the confidentiality, integrity, and availability of our systems and data. All employees, contractors, and third-party users are required to adhere to our security protocols to prevent unauthorized access, misuse, or compromise of information. We employ a layered approach to security, incorporating firewalls, encryption, access controls, and continuous monitoring. Regular audits, employee training, and incident response procedures are in place to ensure compliance and swift action in the event of a security breach. This policy is reviewed periodically and updated to address emerging threats and evolving best practices.</p>
+        </div> </div>
         
-        </div>
     </div>
   )
 }

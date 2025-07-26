@@ -1,6 +1,7 @@
 import Calendar02 from "./calendar-02"
 import { useQuery,useMutation } from "@tanstack/react-query";
 import api from "@/Api/axios";
+import {Avatar }from "@mui/material";
 import axios from "axios";
 import { toast } from "sonner";
 import Card from "@mui/material/Card";
@@ -18,6 +19,10 @@ import Stack from '@mui/material/Stack';
 import { useNavigate } from "react-router-dom";
 const Cal = () => {
   const navigate=useNavigate()
+  type User = {
+    username: string;
+    profileImg: string;
+  };
   type Entry = {
     id: string;
     userId: string;
@@ -29,6 +34,7 @@ const Cal = () => {
     createdAt: string;
     isBookmarked: boolean;
     isPinned: boolean;
+    user:User
   };
   const { data,error,isLoading } = useQuery({
     queryKey: ["get-published-entries"],
@@ -38,6 +44,7 @@ const Cal = () => {
       return response.data.entries;
     },
   });
+  console.log(data)
   const addbookmark = useMutation({
     mutationKey: ["addbookmark:note"],
     mutationFn: async (noteid: string) => {
@@ -116,6 +123,14 @@ const Cal = () => {
             {entry.synopsis.slice(0, 200)}...
             <br />
           </Typography>
+          <div className="flex items-center gap-2 text-gray-700">
+                      <Avatar
+                        alt={entry.user?.username || "user"}
+                        sx={{ width: 30, height: 30 }}
+                        src={entry.user?.profileImg || ""}
+                      />
+                      Author: {entry.user?.username || "user"}
+                    </div>
         </CardContent>
         <CardActions className="flex  flex-col justify-center gap-2">
           <Divider

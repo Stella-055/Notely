@@ -164,7 +164,8 @@ export const unbookmarkEntry = async (req: Request, res: Response) => {
 export const getPublishednotes = async (req: Request, res: Response)=>{
 try {
     const publishedEntries=await prisma.entry.findMany({
-    where:{isPublished:true}
+    where:{isPublished:true},
+    include:{user:true}
    })
    return res
    .status(200)
