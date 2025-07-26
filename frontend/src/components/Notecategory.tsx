@@ -2,6 +2,7 @@ import { MdOutlinePlayArrow } from "react-icons/md";
 import { ImMenu4 } from "react-icons/im";
 import { HashLoader } from "react-spinners";
 import { Alert } from "@mui/material";
+import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +26,8 @@ const Notecategory = () => {
       return response.data.entries;
     },
   });
+   const [searchvalue, setSearchvalue] = useState("");
+   const [genrevalue, setgenrevalue] = useState("All");
   type Entry = {
     id: string;
     userId: string;
@@ -37,10 +40,19 @@ const Notecategory = () => {
     isBookmarked: boolean;
     isPinned: boolean;
   };
+  const filteredNotes =
+  searchvalue.trim() !== ""
+    ? data?.filter(
+        (entry: Entry) =>
+          entry.title.toLowerCase().includes(searchvalue.toLowerCase()) ||
+          entry.synopsis.toLowerCase().includes(searchvalue.toLowerCase())||
+          entry.genre.toLowerCase().includes(searchvalue.toLowerCase()), 
+      )
+    : data;
   return (
     <div className="flex flex-col h-screen  w-80 p-6 gap-2 border-r-1">
       <div className="flex justify-between">
-        <h1 className="font-semibold ">ALL</h1>
+        <h1 className="font-semibold ">{genrevalue}</h1>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <FaArrowCircleDown size={20} color="#3B82F6" />
@@ -48,9 +60,10 @@ const Notecategory = () => {
           <DropdownMenuContent>
             <DropdownMenuLabel>Category</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>General</DropdownMenuItem>
-            <DropdownMenuItem>Work</DropdownMenuItem>
-            <DropdownMenuItem>School</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>{setSearchvalue("All");setgenrevalue("All")}}>All</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>{setSearchvalue("general");setgenrevalue("General")}}>General</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>{setSearchvalue("work" );setgenrevalue("Work")}}>Work</DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>{setSearchvalue("school");setgenrevalue("School")}}>School</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>{" "}
       </div>
@@ -78,6 +91,7 @@ const Notecategory = () => {
           <input
             type="text"
             placeholder="Search for a Note"
+            onChange={(e)=>setSearchvalue(e.target.value)}
             className="w-full h-full outline-none text-gray-500 placeholder-gray-500 text-sm"
           />
         </div>
@@ -105,8 +119,8 @@ const Notecategory = () => {
 "
             />
           </div>
-        ) : (
-          data.slice(0, 5).map((entry: Entry, index: number) => {
+        ) : (filteredNotes &&filteredNotes.length !== 0 ?
+          filteredNotes.slice(0, 5).map((entry: Entry, index: number) => {
             return (
               <div
                 key={index}
@@ -127,7 +141,9 @@ const Notecategory = () => {
                 </p>
               </div>
             );
-          })
+          }): <Alert severity="info" variant="outlined">
+          Your notes will show here
+        </Alert>
         )}
       </div>
     </div>

@@ -14,7 +14,9 @@ import { Button } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios from "axios";
+import { useState } from "react";
 const Bookmarked = () => {
+   const [searchvalue, setSearchvalue] = useState("");
   type User = {
     username: string;
     profileImg: string;
@@ -68,6 +70,15 @@ const Bookmarked = () => {
       });
     },
   });
+  const filteredNotes =
+  searchvalue.trim() !== ""
+    ? data?.filter(
+        (entry: Entry) =>
+          entry.title.toLowerCase().includes(searchvalue.toLowerCase()) ||
+          entry.synopsis.toLowerCase().includes(searchvalue.toLowerCase())||
+          entry.genre.toLowerCase().includes(searchvalue.toLowerCase())
+      )
+    : data;
   return (
     <div className="flex flex-col  w-full">
       <div className="flex justify-between bg-white w-full p-4">
@@ -84,6 +95,7 @@ const Bookmarked = () => {
             </svg>
             <input
               type="text"
+              onChange={(e)=>setSearchvalue(e.target.value)}
               placeholder="Find a Note"
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
@@ -96,11 +108,11 @@ const Bookmarked = () => {
           </div>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
-          <Avatar
-            alt={userdet.data?.username || "user"}
-            sx={{ width: 30, height: 30 }}
-            src={userdet.data?.profileImg || ""}
-          />
+           {userdet.data?.profileImg ?<Avatar
+                      alt={userdet.data?.username || "user"}
+                      sx={{ width: 30, height: 30 }}
+                      src={userdet.data?.profileImg || ""}
+                    />:<Avatar sx={{ bgcolor: "gray" }}>{(userdet.data?.username).slice(0,1)||"User".slice(0,1)}</Avatar>}
           Hi {userdet.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
@@ -126,8 +138,8 @@ const Bookmarked = () => {
         </div>
       ) : (
         <div className="p-4 flex gap-3 flex-wrap">
-          {data.length !== 0 ? (
-            data.map((entry: Entry, index: number) => {
+          {filteredNotes &&filteredNotes.length !== 0 ?  (
+            filteredNotes.map((entry: Entry, index: number) => {
               return (
                 <Card key={index} sx={{ width: "18rem" }}>
                   <CardContent>

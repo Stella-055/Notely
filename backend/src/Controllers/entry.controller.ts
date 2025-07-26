@@ -110,7 +110,30 @@ if(!synopsis){
   return res.status(400).json({message:"Please provide a synopsis for the note"})
 }
    const content= await main(`Generate a note content for a topic with this synopsis :${synopsis} and this topic:${title} in markdown format`)
-   res.status(200).json({content})
+ return  res.status(200).json({content})
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "internal server error" });
+  }
+}
+
+export const summarizeContent = async (req: Request, res: Response) => {
+ 
+  try {
+    const {content}=req.body
+    const{id}=req.user
+if(!content){
+  return res.status(400).json({message:"content is required"})
+}
+const user =await prisma.user.findUnique({
+  where:{id}
+})
+if(!user|| user.package=="Free Tier"){
+  return res.status(400).json({message:"This feature is not available in your package"})
+}
+
+   const newContent= await main(`Summarize this :${content} and return it in markdown format`)
+  return res.status(200).json({newContent})
   } catch (error) {
     console.log(error)
     return res.status(500).json({ message: "internal server error" });

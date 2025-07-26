@@ -94,7 +94,7 @@ mutate()
           </NavLink>
           <NavLink to="/dashboard/workspace" className="text-white flex items-center">
             {" "}
-            Workspace <VscWorkspaceTrusted color="white" size={20} />
+            Community <VscWorkspaceTrusted color="white" size={20} />
           </NavLink>
 
           <NavLink

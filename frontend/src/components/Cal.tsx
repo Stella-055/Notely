@@ -1,4 +1,4 @@
-import Calendar02 from "./calendar-02"
+
 import { useQuery,useMutation } from "@tanstack/react-query";
 import api from "@/Api/axios";
 import {Avatar }from "@mui/material";
@@ -40,11 +40,11 @@ const Cal = () => {
     queryKey: ["get-published-entries"],
     queryFn: async () => {
       const response = await api.get("/entries/published");
-      console.log(response.data.entries)
+     
       return response.data.entries;
     },
   });
-  console.log(data)
+
   const addbookmark = useMutation({
     mutationKey: ["addbookmark:note"],
     mutationFn: async (noteid: string) => {
@@ -70,11 +70,11 @@ const Cal = () => {
     },
   });
   return (
-    <div className="flex w-full flex-wrap justify-around">
+    <div className="flex w-full flex-wrap justify-around mt-4">
       <div>
-        <h1 className="text-2xl font-bold mb-2" >Published Notes</h1>
+ 
         <div>
-          <div>
+          <div className="flex flex-wrap gap-2 justify-center items-center">
 {error ? (
           <div className="w-full flex justify-center items-center ">
             <Alert
@@ -174,7 +174,7 @@ const Cal = () => {
       
     </Stack>
       </div>
-      <Calendar02/>
+   
     </div>
   )
 }

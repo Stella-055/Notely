@@ -6,6 +6,7 @@ import { ImParagraphCenter } from "react-icons/im";
 import { ImParagraphLeft } from "react-icons/im";
 import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
+import ReactMarkdown from "react-markdown";
 import {
   Popover,
   PopoverContent,
@@ -24,6 +25,14 @@ import { MdPublishedWithChanges } from "react-icons/md";
 import { MdUnpublished } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 const Not = () => {
   type Note = {
     genre: string;
@@ -73,13 +82,7 @@ const Not = () => {
       });
     },
   });
-  const [notedetails, setNotedetails] = useState<Note>({
-    genre: data ? data.genre : "",
-    title: data ? data.title : "",
-    isPublished: data ? data.isPublished : false,
-    content: data ? data.content : "",
-    synopsis: data ? data.synopsis : "",
-  });
+ 
   function updatenote() {
     console.log(notedetails)
     mutate(notedetails);
@@ -108,10 +111,30 @@ const Not = () => {
         });
       },
     });
+    const [notedetails, setNotedetails] = useState<Note>({
+      genre: data ? data.genre : "",
+      title: data ? data.title : "",
+      isPublished: data ? data.isPublished : false,
+      content: data ? data.content : "",
+      synopsis: data ? data.synopsis : "",
+    });
   return (
     <div className="scroll-auto flex flex-col h-screen w-full p-5">
-      <div className="flex justify-between mb-6">
-        <Chip label={data ? data.genre : "Genre"} />
+      <div className="flex justify-between mb-6 items-center">
+       
+        <DropdownMenu>
+                  <DropdownMenuTrigger>
+                  <Chip label={notedetails.genre ||"Genre"} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Category</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"General"})}}>General</DropdownMenuItem>
+
+                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"Work"})}}>Work</DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"School"})}}>School</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>{" "}
 
         <div className="flex gap-2">
           <FaBold /> <LiaItalicSolid />
@@ -119,7 +142,7 @@ const Not = () => {
           <ImParagraphRight />
         </div>
 
-       
+       {id &&
         <div className="flex gap-2">
           <MdOutlineEditNote
             size={25}
@@ -157,7 +180,7 @@ const Not = () => {
                             </PopoverContent>
                           </Popover>
           
-        </div>
+        </div>}
       </div>
       {info ? (
         <div className="w-full flex justify-center items-center h-96">
@@ -243,17 +266,29 @@ const Not = () => {
           <label htmlFor="content" className="text-gray-500">
             Content:
           </label>
-          <textarea
-            name=""
-            id="content"
-            className="h-64 text-gray-500 p-2"
-            disabled={disableEditting}
-            onChange={(e) =>
-              setNotedetails({ ...notedetails, content: e.target.value })
-            }
-          >
-            {data.content}
-          </textarea>
+          {disableEditting ? (
+  <div className="h-64 p-2 overflow-y-auto border rounded text-gray-700">
+    <span>
+    <ReactMarkdown components={{
+  h1: ({ ...props }) => <h1 className="text-3xl font-bold mb-4" {...props} />,
+  h2: ({ ...props }) => <h2 className="text-2xl font-semibold mt-6 mb-2" {...props} />,
+  p: ({ ...props }) => <p className="text-base text-gray-700 mb-4" {...props} />,
+  ul: ({ ...props }) => <ul className="list-disc pl-6 mb-4" {...props} />,
+  li: ({ ...props }) => <li className="mb-1" {...props} />,
+  a: ({ ...props }) => <a className="text-blue-500 underline" target="_blank" {...props} />,
+  code: ({ ...props }) => <code className="bg-gray-100 px-1 rounded" {...props} />,
+}}>{notedetails.content}</ReactMarkdown> </span>
+  </div>
+) : (
+  <textarea
+    id="content"
+    className="h-64 text-gray-500 p-2"
+    value={notedetails.content}
+    onChange={(e) =>
+      setNotedetails({ ...notedetails, content: e.target.value })
+    }
+  />
+)}
           {!disableEditting && (
             <div className="gap-2 mt-2 w-full flex justify-center ">
               {" "}
@@ -264,7 +299,7 @@ const Not = () => {
               >
                 Update
               </Button>{" "}
-              <Button variant="outlined">Generate Content</Button>
+              <Button variant="outlined">Summarize Content</Button>
             </div>
           )}
         </div>
