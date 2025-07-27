@@ -70,7 +70,7 @@ const Register = () => {
         <button
           type="button"
           onClick={() =>
-            (window.location.href = "http://localhost:3000/auth/google")
+            (window.location.href = "https://notely-pzlm.onrender.com/auth/google")
           }
           className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
         >
