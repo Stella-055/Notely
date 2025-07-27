@@ -120,10 +120,10 @@ const Cal = () => {
           </Typography>
 
           <Typography variant="body2">
-            {entry.synopsis.slice(0, 200)}...
+            {entry.synopsis.slice(0, 30)}...
             <br />
           </Typography>
-          <div className="flex items-center gap-2 text-gray-700">
+          <div className="flex items-center gap-2 text-gray-700 mt-1">
                       <Avatar
                         alt={entry.user?.username || "user"}
                         sx={{ width: 30, height: 30 }}

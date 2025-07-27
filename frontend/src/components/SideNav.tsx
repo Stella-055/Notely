@@ -129,7 +129,7 @@ mutate()
                 {" "}
                 <NavLink to="/dashboard/updatepassword"> Password</NavLink>{" "}
               </DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              <DropdownMenuItem > <NavLink to="/dashboard/subscription"> Subscription </NavLink></DropdownMenuItem>
               <DropdownMenuItem><NavLink to="/dashboard/security"> Security & privacy </NavLink></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

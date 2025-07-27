@@ -5,6 +5,7 @@ import entriesRoute from "./Routes/entries.route";
 import entryRoute from "./Routes/entry.route";
 import userRoute from "./Routes/user.route";
 import googleAuth from "./Routes/googleauth.route"
+import subscriptionRoute from "./Routes/subsription.route"
 import cors from "cors";
 import passport from "passport"
 import "./passport";
@@ -15,7 +16,7 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   }),
 );
@@ -29,6 +30,7 @@ app.use("/api/entries", entriesRoute);
 app.use("/api/entry", entryRoute);
 app.use("/api/user", userRoute);
 app.use("/auth/google", googleAuth);
+app.use("/api/subscription", subscriptionRoute);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

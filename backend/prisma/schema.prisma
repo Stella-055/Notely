@@ -26,6 +26,8 @@ model User {
   profileImg String? @map("profile_img")
   bio String? @map("bio")
   package String?   @default("Free Tier") @map("user_package")
+  stripeCustomerId  String?  @unique @map("stripe_id")
+  subscriptionEnd   DateTime? @map("subscription_end")
   refreshToken String? @map("refresh_token")
   isVerified Boolean @default(false) @map("is_verified")
    otp      Int?   

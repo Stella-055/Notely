@@ -8,12 +8,12 @@ const Workspace = () => {
     <div className="w-full h-screen">
       <Usernav/>
     <div className="flex flex-col items-center justify-center w-full">
-        <h1 className="text-4xl md:text-[40px] mt-16 text-gray-500 p-2 text-center">
+        <h1 className="text-4xl md:text-[40px] mt-16 text-gray-800 p-2 text-center">
             What do you want to Read About?
         </h1>
         <p className="text-base mt-6">Find something amazing with one simple message.</p>
-        <div className="max-w-xl w-full bg-gray-900 rounded-xl overflow-hidden ">
-            <textarea className="w-full p-3 pb-0 resize-none outline-none bg-transparent text-white"
+        <div className="max-w-xl w-full bg-white rounded-xl overflow-hidden  border shadow">
+            <textarea className="w-full p-3 pb-0 resize-none outline-none bg-transparent text-gray-800"
                 placeholder="Type here your search" rows={1}></textarea>
             <div className="flex items-center justify-between pb-3 px-3">
                 <button className="flex items-center justify-center bg-gray-500 p-1 rounded-full size-6"

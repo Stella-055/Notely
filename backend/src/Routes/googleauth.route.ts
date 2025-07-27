@@ -10,7 +10,7 @@ route.get("/",
   );
 route.get(
     "/callback",
-    passport.authenticate("google", {scope: ["profile", "email"], session: false, failureRedirect: "http://localhost:5173/signin" }),
+    passport.authenticate("google", {scope: ["profile", "email"], session: false, failureRedirect: `${process.env.FRONTEND_URL}/signin` }),
   async  (req:Request, res:Response) => {
       const user = req.user;
       try {
@@ -57,9 +57,9 @@ route.get(
         secure: true,
       })
       
-   .redirect(`http://localhost:5173/oauth-success`);
+   .redirect(`${process.env.FRONTEND_URL}/oauth-success`);
     } catch (error) {
-         return res.redirect("http://localhost:5173/signin"); 
+         return res.redirect(`${process.env.FRONTEND_URL}/signin`); 
     }
     }
   );

@@ -26,6 +26,7 @@ import Help from "./pages/Help";
 import Security from "./pages/Security";
 import Workspace from "./pages/Workspace";
 import OAuthSuccess from "./pages/Ouath-success";
+import Subscription from "./pages/Subscription";
 function App() {
   return (
     <>
@@ -150,6 +151,15 @@ function App() {
               <Protected>
                 {" "}
                 <Bookmarked />{" "}
+              </Protected>
+            }
+          />
+          <Route
+            path="subscription"
+            element={
+              <Protected>
+                {" "}
+                <Subscription />{" "}
               </Protected>
             }
           />

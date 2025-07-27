@@ -109,11 +109,11 @@ const Bookmarked = () => {
         </div>
         <div className="flex items-center gap-2 text-gray-700">
            {userdet.data?.profileImg ?<Avatar
-                      alt={userdet.data?.username || "user"}
+                      alt={userdet?.data?.username || "user"}
                       sx={{ width: 30, height: 30 }}
-                      src={userdet.data?.profileImg || ""}
-                    />:<Avatar sx={{ bgcolor: "gray" }}>{(userdet.data?.username).slice(0,1)||"User".slice(0,1)}</Avatar>}
-          Hi {userdet.data?.username || "user"}{" "}
+                      src={userdet?.data?.profileImg || ""}
+                    />:<Avatar sx={{ bgcolor: "gray" }}>{(userdet?.data?.username || "User").slice(0, 1)}</Avatar>}
+          Hi {userdet?.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
       </div>
@@ -180,21 +180,22 @@ const Bookmarked = () => {
                         height: "0.5px",
                       }}
                     />
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-3 flex-wrap text-gray-700">
                       <Avatar
                         alt={entry.user?.username || "user"}
                         sx={{ width: 30, height: 30 }}
                         src={entry.user?.profileImg || ""}
                       />
                       Author: {entry.user?.username || "user"}{" "}
-                    </div>
+                  
                     <Button
                       size="small"
+                      variant="outlined"
                       onClick={() => mutate(entry.id)}
                       loading={isPending}
                     >
                       unfavorite
-                    </Button>
+                    </Button>  </div>
                   </CardActions>
                 </Card>
               );
