@@ -19,7 +19,7 @@ import Switch from "@mui/material/Switch";
 import { HashLoader } from "react-spinners";
 import { Button } from "@mui/material";
 import { Alert } from "@mui/material";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { toast } from "sonner";
 import { MdPublishedWithChanges } from "react-icons/md";
 import { MdUnpublished } from "react-icons/md";
@@ -118,6 +118,18 @@ const Not = () => {
     content: data ? data.content : "",
     synopsis: data ? data.synopsis : "",
   });
+  useEffect(() => {
+    if (data) {
+      setNotedetails({
+        genre: data.genre || "",
+        title: data.title || "",
+        isPublished: data.isPublished || false,
+        content: data.content || "",
+        synopsis: data.synopsis || "",
+      });
+    }
+  }, [data]);
+  
   return (
     <div className="scroll-auto flex flex-col h-screen w-full p-5">
       <div className="flex justify-between mb-6 items-center">
@@ -262,7 +274,7 @@ const Not = () => {
             onChange={(e) =>
               setNotedetails({ ...notedetails, title: e.target.value })
             }
-            value={data.title}
+            value={notedetails.title}
             className="mb-5 text-3xl font-semibold capitalize"
           />
           <label htmlFor="synopsis" className="text-gray-500">
@@ -276,7 +288,7 @@ const Not = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           >
-            {data.synopsis}
+            {notedetails.synopsis}
           </textarea>
           <label htmlFor="content" className="text-gray-500">
             Content:
