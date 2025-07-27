@@ -294,7 +294,7 @@ const Not = () => {
             Content:
           </label>
           {disableEditting ? (
-            <div className="h-64 p-2 overflow-y-auto border rounded text-gray-700">
+            <div className="h-64 w-full p-2 overflow-y-auto border rounded text-gray-700">
               <span>
                 <ReactMarkdown
                   components={{
