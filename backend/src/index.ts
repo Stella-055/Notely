@@ -16,7 +16,7 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: 'https://notesli.netlify.app',
     credentials: true,
   }),
 );
