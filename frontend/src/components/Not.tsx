@@ -131,7 +131,7 @@ const Not = () => {
   }, [data]);
   
   return (
-    <div className=" flex flex-col h-screen w-[70%] p-5">
+    <div className=" flex flex-col h-screen w-[60%] p-5">
       <div className="flex justify-between mb-6 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -294,7 +294,7 @@ const Not = () => {
             Content:
           </label>
           {disableEditting ? (
-            <div className="h-64  p-2 overflow-y-auto  overflow-x-hidden w-[70%] border rounded text-gray-700">
+            <div className="h-64  p-2 overflow-y-auto  flex flex-wrap  border rounded text-gray-700">
               <span>
                 <ReactMarkdown
                   components={{
