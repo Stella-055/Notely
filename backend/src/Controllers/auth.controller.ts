@@ -58,14 +58,14 @@ export const signinUser = async (req: Request, res: Response) => {
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
-
+        sameSite: "none",
         maxAge: 1000 * 60 * 15,
         path: "/",
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
-
+        sameSite: "none",
         maxAge: 1000 * 60 * 60 * 24 * 7,
         path: "/",
       })
@@ -122,14 +122,14 @@ export const refreshuserToken = async (req: Request, res: Response) => {
           .cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 1000 * 60 * 15,
             path: "/",
           })
           .cookie("refreshToken", newrefreshToken, {
             httpOnly: true,
             secure: true,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 1000 * 60 * 60 * 24 * 7,
             path: "/",
           })

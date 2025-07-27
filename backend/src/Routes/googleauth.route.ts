@@ -44,14 +44,14 @@ route.get(
         .cookie("accessToken", accessToken, {
           httpOnly: true,
           secure: true,
-
+          sameSite: "none",
           maxAge: 1000 * 60 * 15,
           path: "/",
         })
         .cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
-
+          sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24 * 7,
           path: "/",
         })
