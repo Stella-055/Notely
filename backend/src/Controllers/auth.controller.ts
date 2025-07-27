@@ -1,4 +1,4 @@
-import {  Request, Response } from "express";
+import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import zxcvbn from "zxcvbn";
@@ -229,13 +229,13 @@ export const update_Password = async (req: Request, res: Response) => {
 
 export const logoutUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.user
-   
-        await prisma.user.update({
-          where: { id:id },
-          data: { refreshToken: null },
-        });
-    
+    const { id } = req.user;
+
+    await prisma.user.update({
+      where: { id: id },
+      data: { refreshToken: null },
+    });
+
     return res
       .clearCookie("accessToken")
       .clearCookie("refreshToken")

@@ -9,7 +9,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const navigate = useNavigate();
- 
+
   type userdetails = {
     firstname: string;
     lastname: string;
@@ -69,8 +69,9 @@ const Register = () => {
 
         <button
           type="button"
-          onClick={() => window.location.href = "http://localhost:3000/auth/google"}
-        
+          onClick={() =>
+            (window.location.href = "http://localhost:3000/auth/google")
+          }
           className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
         >
           <img

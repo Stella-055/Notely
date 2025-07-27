@@ -4,10 +4,10 @@ import authRoute from "./Routes/auth.route";
 import entriesRoute from "./Routes/entries.route";
 import entryRoute from "./Routes/entry.route";
 import userRoute from "./Routes/user.route";
-import googleAuth from "./Routes/googleauth.route"
-import subscriptionRoute from "./Routes/subsription.route"
+import googleAuth from "./Routes/googleauth.route";
+import subscriptionRoute from "./Routes/subsription.route";
 import cors from "cors";
-import passport from "passport"
+import passport from "passport";
 import "./passport";
 
 const app: Express = express();

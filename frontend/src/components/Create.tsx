@@ -62,7 +62,7 @@ const Create = () => {
     },
   });
 
-  const getContent= useMutation({
+  const getContent = useMutation({
     mutationKey: ["get-note-content"],
     mutationFn: async (data: FormDetails) => {
       const response = await api.post("/entry/generate", data);
@@ -80,16 +80,16 @@ const Create = () => {
       }
     },
     onSuccess: (data) => {
-     console.log(data)
+      console.log(data);
       setFormData({
-        ...formData,content:data.content
+        ...formData,
+        content: data.content,
       });
     },
   });
 
-  function generateContent(){
-  
-    getContent.mutate(formData)
+  function generateContent() {
+    getContent.mutate(formData);
   }
 
   return (
@@ -164,19 +164,32 @@ const Create = () => {
                   setFormData({ ...formData, content: e.target.value })
                 }
               />
-            <div className="flex justify-between items-center">
-              <div>
-              <input
-                type="checkbox"
-                name="publish"
-                id="publish"
-                checked={formData.isPublished}
-                onClick={() =>
-                  setFormData({ ...formData, isPublished: !formData.isPublished })
-                }
-                className="mr-1"
-              />
-              <label htmlFor="publish">Publish note</label></div> <Button variant="outlined" loading={getContent.isPending}  onClick={generateContent}size="small">Generate content with Ai</Button></div>
+              <div className="flex justify-between items-center">
+                <div>
+                  <input
+                    type="checkbox"
+                    name="publish"
+                    id="publish"
+                    checked={formData.isPublished}
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        isPublished: !formData.isPublished,
+                      })
+                    }
+                    className="mr-1"
+                  />
+                  <label htmlFor="publish">Publish note</label>
+                </div>{" "}
+                <Button
+                  variant="outlined"
+                  loading={getContent.isPending}
+                  onClick={generateContent}
+                  size="small"
+                >
+                  Generate content with Ai
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -200,7 +213,10 @@ const Create = () => {
             <Button
               variant="contained"
               loading={isPending}
-              onClick={() => {mutate(formData);  console.log(formData)}}
+              onClick={() => {
+                mutate(formData);
+                console.log(formData);
+              }}
             >
               Submit
             </Button>

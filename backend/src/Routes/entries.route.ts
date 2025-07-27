@@ -21,5 +21,5 @@ route.get("/trash", validateUser, getDeletedEntries);
 route.get("/bookmark", validateUser, getBookmarkedEntries);
 route.post("/bookmark/:id", validateUser, bookmarkEntry);
 route.patch("/bookmark/:id", validateUser, unbookmarkEntry);
-route.get("/published",  getPublishednotes);
+route.get("/published", getPublishednotes);
 export default route;

@@ -134,21 +134,24 @@ function Overview() {
     },
   });
   const filteredNotes =
-  searchvalue.trim() !== ""
-    ? data?.filter(
-        (entry: Entry) =>
-          entry.title.toLowerCase().includes(searchvalue.toLowerCase()) ||
-          entry.synopsis.toLowerCase().includes(searchvalue.toLowerCase())||
-          entry.genre.toLowerCase().includes(searchvalue.toLowerCase())
-      )
-    : data;
+    searchvalue.trim() !== ""
+      ? data?.filter(
+          (entry: Entry) =>
+            entry.title.toLowerCase().includes(searchvalue.toLowerCase()) ||
+            entry.synopsis.toLowerCase().includes(searchvalue.toLowerCase()) ||
+            entry.genre.toLowerCase().includes(searchvalue.toLowerCase()),
+        )
+      : data;
   return (
     <div className="w-full ">
       <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
-      <div className="flex sm:hidden py-4 bg-white ">
-    <TiThMenu color="#3B82F6 
-"  size="30"/>
-    </div>
+        <div className="flex sm:hidden py-4 bg-white ">
+          <TiThMenu
+            color="#3B82F6 
+"
+            size="30"
+          />
+        </div>
         <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
@@ -163,19 +166,24 @@ function Overview() {
             <input
               type="text"
               placeholder="Find a Note"
-              onChange={(e)=>setSearchvalue(e.target.value)}
+              onChange={(e) => setSearchvalue(e.target.value)}
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
-            
           </div>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
-          {userdet?.data?.profileImg ?<Avatar
-            alt={userdet?.data?.username || "user"}
-            sx={{ width: 30, height: 30 }}
-            src={userdet?.data?.profileImg || ""}
-          />:<Avatar sx={{ bgcolor: "gray" }}> {(userdet?.data?.username || "User").slice(0, 1)}</Avatar>}
-         
+          {userdet?.data?.profileImg ? (
+            <Avatar
+              alt={userdet?.data?.username || "user"}
+              sx={{ width: 30, height: 30 }}
+              src={userdet?.data?.profileImg || ""}
+            />
+          ) : (
+            <Avatar sx={{ bgcolor: "gray" }}>
+              {" "}
+              {(userdet?.data?.username || "User").slice(0, 1)}
+            </Avatar>
+          )}
           Hi {userdet?.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
         </div>
@@ -183,10 +191,26 @@ function Overview() {
 
       <div className="flex justify-between m-2">
         <Stack direction="row" spacing={1}>
-          <Chip label="All" onClick={()=>setSearchvalue("")} variant={searchvalue==""?"filled":"outlined"}/>
-          <Chip label="General" variant={searchvalue=="general"?"filled":"outlined"} onClick={()=>setSearchvalue("general")} />
-          <Chip label="work" variant={searchvalue=="work"?"filled":"outlined"} onClick={()=>setSearchvalue("work")} />
-          <Chip label="school" variant={searchvalue=="school"?"filled":"outlined"} onClick={()=>setSearchvalue("school")}/>
+          <Chip
+            label="All"
+            onClick={() => setSearchvalue("")}
+            variant={searchvalue == "" ? "filled" : "outlined"}
+          />
+          <Chip
+            label="General"
+            variant={searchvalue == "general" ? "filled" : "outlined"}
+            onClick={() => setSearchvalue("general")}
+          />
+          <Chip
+            label="work"
+            variant={searchvalue == "work" ? "filled" : "outlined"}
+            onClick={() => setSearchvalue("work")}
+          />
+          <Chip
+            label="school"
+            variant={searchvalue == "school" ? "filled" : "outlined"}
+            onClick={() => setSearchvalue("school")}
+          />
         </Stack>
 
         <a href="/dashboard/newnote">
@@ -217,10 +241,10 @@ function Overview() {
           </div>
         ) : (
           <div className="flex gap-2 flex-wrap px-2 h-[525px] overflow-y-auto">
-            {filteredNotes &&filteredNotes.length !== 0 ? (
+            {filteredNotes && filteredNotes.length !== 0 ? (
               filteredNotes.map((entry: Entry, index: number) => {
                 return (
-                  <Card key={index} sx={{ width: "18rem",height:"12.5rem" }}>
+                  <Card key={index} sx={{ width: "18rem", height: "12.5rem" }}>
                     <CardContent>
                       {entry.isPinned ? <MdPushPin /> : <TiPinOutline />}
 
@@ -296,11 +320,23 @@ function Overview() {
                               <RiChatDeleteLine size={25} color="#3B82F6" />
                             </PopoverTrigger>
                             <PopoverContent className="bg-white flex flex-col justify-center">
-                            <div className="flex items-center justify-center ">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.875 5.75h1.917m0 0h15.333m-15.333 0v13.417a1.917 1.917 0 0 0 1.916 1.916h9.584a1.917 1.917 0 0 0 1.916-1.916V5.75m-10.541 0V3.833a1.917 1.917 0 0 1 1.916-1.916h3.834a1.917 1.917 0 0 1 1.916 1.916V5.75m-5.75 4.792v5.75m3.834-5.75v5.75" stroke="#DC2626" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </div>
+                              <div className="flex items-center justify-center ">
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M2.875 5.75h1.917m0 0h15.333m-15.333 0v13.417a1.917 1.917 0 0 0 1.916 1.916h9.584a1.917 1.917 0 0 0 1.916-1.916V5.75m-10.541 0V3.833a1.917 1.917 0 0 1 1.916-1.916h3.834a1.917 1.917 0 0 1 1.916 1.916V5.75m-5.75 4.792v5.75m3.834-5.75v5.75"
+                                    stroke="#DC2626"
+                                    strokeWidth="1.8"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </div>
                               <h1>Are you sure you want to delete?</h1>
                               <p>This action can not be undone</p>
                               <div className="w-full justify-center flex gap-3">

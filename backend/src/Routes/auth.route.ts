@@ -38,7 +38,7 @@ route.post("/refresh", refreshuserToken);
 route.post("/forgotpassword", forgotpasswordEmail, sendOtp);
 route.post("/verifyotp", verifyOtp);
 route.post("/update-password", update_Password);
-route.post("/logout",validateUser, logoutUser);
+route.post("/logout", validateUser, logoutUser);
 route.post(
   "/password",
   validateUser,

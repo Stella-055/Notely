@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 const Price = () => {
-  const[price ,setPrice]=useState({
-    free:0,
-    enterprise:79,
-   pro:29,
-   period:"Month"
-  })
+  const [price, setPrice] = useState({
+    free: 0,
+    enterprise: 79,
+    pro: 29,
+    period: "Month",
+  });
 
   return (
     <div className="flex flex-col justify-center items-center mt-12">
@@ -17,11 +17,9 @@ const Price = () => {
             name="options"
             id="option1"
             className=" peer hidden"
-           
-           onChange={()=> setPrice({free:0,
-            enterprise:79,
-           pro:29,
-           period:"Month"})}
+            onChange={() =>
+              setPrice({ free: 0, enterprise: 79, pro: 29, period: "Month" })
+            }
           />
           <label
             htmlFor="option1"
@@ -36,11 +34,9 @@ const Price = () => {
             name="options"
             id="option2"
             className=" peer hidden"
-            onChange={()=> setPrice({free:0,
-              enterprise:948,
-             pro:340,
-             period:"Year"})}
-            
+            onChange={() =>
+              setPrice({ free: 0, enterprise: 948, pro: 340, period: "Year" })
+            }
           />
           <label
             htmlFor="option2"
@@ -54,7 +50,10 @@ const Price = () => {
         <div className="w-80 bg-white text-center text-gray-800/80 border border-gray-200 p-6 pb-16 rounded-lg">
           <p className="font-semibold">Free</p>
           <h1 className="text-3xl font-semibold">
-            ${price.free}<span className="text-gray-500 text-sm font-normal">/{price.period}</span>
+            ${price.free}
+            <span className="text-gray-500 text-sm font-normal">
+              /{price.period}
+            </span>
           </h1>
           <ul className="list-none text-gray-500 text-sm mt-6 space-y-1">
             <li className="flex items-center gap-2">
@@ -85,7 +84,7 @@ const Price = () => {
                   fill="#6366F1"
                 />
               </svg>
-              <p>Ai  content Generation</p>
+              <p>Ai content Generation</p>
             </li>
             <li className="flex items-center gap-2">
               <svg
@@ -104,12 +103,10 @@ const Price = () => {
             </li>
           </ul>
           <Button
-         
             href="/dashboard/subscription"
             variant="contained"
             fullWidth
-            sx={{mt:7}}
-           
+            sx={{ mt: 7 }}
           >
             Get Started
           </Button>
@@ -121,7 +118,8 @@ const Price = () => {
           </p>
           <p className="font-semibold pt-2">Pro</p>
           <h1 className="text-3xl font-semibold">
-            ${price.pro}<span className="text-sm font-normal">/{price.period}</span>
+            ${price.pro}
+            <span className="text-sm font-normal">/{price.period}</span>
           </h1>
           <ul className="list-none text-white text-sm mt-6 space-y-1">
             <li className="flex items-center gap-2">
@@ -186,10 +184,10 @@ const Price = () => {
             </li>
           </ul>
           <Button
-                href="/dashboard/subscription"
-                variant="contained"
-                sx={{bgcolor:"white",mt:7, color:"#3B82F6"}}
-           fullWidth
+            href="/dashboard/subscription"
+            variant="contained"
+            sx={{ bgcolor: "white", mt: 7, color: "#3B82F6" }}
+            fullWidth
           >
             Get Started
           </Button>
@@ -199,7 +197,9 @@ const Price = () => {
           <p className="font-semibold">Enterprise</p>
           <h1 className="text-3xl font-semibold">
             ${price.enterprise}
-            <span className="text-gray-500 text-sm font-normal">/{price.period}</span>
+            <span className="text-gray-500 text-sm font-normal">
+              /{price.period}
+            </span>
           </h1>
           <ul className="list-none text-gray-500 text-sm mt-6 space-y-1">
             <li className="flex items-center gap-2">
@@ -294,16 +294,14 @@ const Price = () => {
             </li>
           </ul>
           <Button
-           href="/dashboard/subscription"
-           variant="contained"
-           fullWidth
-           sx={{mt:7}}
-            
+            href="/dashboard/subscription"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 7 }}
           >
             Get Started
           </Button>
         </div>
-       
       </div>
     </div>
   );

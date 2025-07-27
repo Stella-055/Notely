@@ -56,7 +56,7 @@ const Not = () => {
     },
     enabled: !!entryid,
   });
- 
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["update-note"],
     mutationFn: async (note: Note) => {
@@ -82,105 +82,120 @@ const Not = () => {
       });
     },
   });
- 
+
   function updatenote() {
-    console.log(notedetails)
+    console.log(notedetails);
     mutate(notedetails);
   }
   const deleteNote = useMutation({
-      mutationKey: ["delete:note"],
-      mutationFn: async () => {
-        const response = await api.delete(`/entry/${id}`);
-       
-        return response.data;
-      },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data.message, {
-            position: "top-center",
-          });
-        } else {
-          toast.error("Something went wrong", {
-            position: "top-center",
-          });
-        }
-      },
-      onSuccess: () => {
-        toast.success("Deleted note successfully", {
+    mutationKey: ["delete:note"],
+    mutationFn: async () => {
+      const response = await api.delete(`/entry/${id}`);
+
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
           position: "top-center",
         });
-      },
-    });
-    const [notedetails, setNotedetails] = useState<Note>({
-      genre: data ? data.genre : "",
-      title: data ? data.title : "",
-      isPublished: data ? data.isPublished : false,
-      content: data ? data.content : "",
-      synopsis: data ? data.synopsis : "",
-    });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: () => {
+      toast.success("Deleted note successfully", {
+        position: "top-center",
+      });
+    },
+  });
+  const [notedetails, setNotedetails] = useState<Note>({
+    genre: data ? data.genre : "",
+    title: data ? data.title : "",
+    isPublished: data ? data.isPublished : false,
+    content: data ? data.content : "",
+    synopsis: data ? data.synopsis : "",
+  });
   return (
     <div className="scroll-auto flex flex-col h-screen w-full p-5">
       <div className="flex justify-between mb-6 items-center">
-       
         <DropdownMenu>
-                  <DropdownMenuTrigger>
-                  <Chip label={notedetails.genre ||"Genre"} />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Category</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"General"})}}>General</DropdownMenuItem>
+          <DropdownMenuTrigger>
+            <Chip label={notedetails.genre || "Genre"} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Category</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setNotedetails({ ...notedetails, genre: "General" });
+              }}
+            >
+              General
+            </DropdownMenuItem>
 
-                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"Work"})}}>Work</DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>{setNotedetails({...notedetails,genre:"School"})}}>School</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>{" "}
-
+            <DropdownMenuItem
+              onClick={() => {
+                setNotedetails({ ...notedetails, genre: "Work" });
+              }}
+            >
+              Work
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setNotedetails({ ...notedetails, genre: "School" });
+              }}
+            >
+              School
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>{" "}
         <div className="flex gap-2">
           <FaBold /> <LiaItalicSolid />
           <FaUnderline /> <ImParagraphCenter /> <ImParagraphLeft />
           <ImParagraphRight />
         </div>
-
-       {id &&
-        <div className="flex gap-2">
-          <MdOutlineEditNote
-            size={25}
-            color="#3B82F6"
-            onClick={() => {
-              setDisableEditting(false);
-              toast.info("edditting Enabled");
-            }}
-          />
-           <Popover open={isopen} onOpenChange={setIsOpen}>
-                            <PopoverTrigger>
-                            <Chip label="Delete Note" variant="outlined"  />
-                            </PopoverTrigger>
-                            <PopoverContent className="bg-white">
-                              {" "}
-                              <h1>Are you sure you want to delete?</h1>
-                              <p>This action can not be undone</p>
-                              <div className="w-full justify-center flex gap-3">
-                                <Button
-                                  variant="contained"
-                                  onClick={() => setIsOpen(false)}
-                                  sx={{ backgroundColor: "gray" }}
-                                >
-                                  Cancel
-                                </Button>{" "}
-                                <Button
-                                  variant="contained"
-                                  color="error"
-                                  onClick={()=>deleteNote.mutate()}
-                                  loading={isPending}
-                                >
-                                  Yes
-                                </Button>
-                              </div>
-                            </PopoverContent>
-                          </Popover>
-          
-        </div>}
+        {id && (
+          <div className="flex gap-2">
+            <MdOutlineEditNote
+              size={25}
+              color="#3B82F6"
+              onClick={() => {
+                setDisableEditting(false);
+                toast.info("edditting Enabled");
+              }}
+            />
+            <Popover open={isopen} onOpenChange={setIsOpen}>
+              <PopoverTrigger>
+                <Chip label="Delete Note" variant="outlined" />
+              </PopoverTrigger>
+              <PopoverContent className="bg-white">
+                {" "}
+                <h1>Are you sure you want to delete?</h1>
+                <p>This action can not be undone</p>
+                <div className="w-full justify-center flex gap-3">
+                  <Button
+                    variant="contained"
+                    onClick={() => setIsOpen(false)}
+                    sx={{ backgroundColor: "gray" }}
+                  >
+                    Cancel
+                  </Button>{" "}
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => deleteNote.mutate()}
+                    loading={isPending}
+                  >
+                    Yes
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+        )}
       </div>
       {info ? (
         <div className="w-full flex justify-center items-center h-96">
@@ -267,28 +282,52 @@ const Not = () => {
             Content:
           </label>
           {disableEditting ? (
-  <div className="h-64 p-2 overflow-y-auto border rounded text-gray-700">
-    <span>
-    <ReactMarkdown components={{
-  h1: ({ ...props }) => <h1 className="text-3xl font-bold mb-4" {...props} />,
-  h2: ({ ...props }) => <h2 className="text-2xl font-semibold mt-6 mb-2" {...props} />,
-  p: ({ ...props }) => <p className="text-base text-gray-700 mb-4" {...props} />,
-  ul: ({ ...props }) => <ul className="list-disc pl-6 mb-4" {...props} />,
-  li: ({ ...props }) => <li className="mb-1" {...props} />,
-  a: ({ ...props }) => <a className="text-blue-500 underline" target="_blank" {...props} />,
-  code: ({ ...props }) => <code className="bg-gray-100 px-1 rounded" {...props} />,
-}}>{notedetails.content}</ReactMarkdown> </span>
-  </div>
-) : (
-  <textarea
-    id="content"
-    className="h-64 text-gray-500 p-2"
-    value={notedetails.content}
-    onChange={(e) =>
-      setNotedetails({ ...notedetails, content: e.target.value })
-    }
-  />
-)}
+            <div className="h-64 p-2 overflow-y-auto border rounded text-gray-700">
+              <span>
+                <ReactMarkdown
+                  components={{
+                    h1: ({ ...props }) => (
+                      <h1 className="text-3xl font-bold mb-4" {...props} />
+                    ),
+                    h2: ({ ...props }) => (
+                      <h2
+                        className="text-2xl font-semibold mt-6 mb-2"
+                        {...props}
+                      />
+                    ),
+                    p: ({ ...props }) => (
+                      <p className="text-base text-gray-700 mb-4" {...props} />
+                    ),
+                    ul: ({ ...props }) => (
+                      <ul className="list-disc pl-6 mb-4" {...props} />
+                    ),
+                    li: ({ ...props }) => <li className="mb-1" {...props} />,
+                    a: ({ ...props }) => (
+                      <a
+                        className="text-blue-500 underline"
+                        target="_blank"
+                        {...props}
+                      />
+                    ),
+                    code: ({ ...props }) => (
+                      <code className="bg-gray-100 px-1 rounded" {...props} />
+                    ),
+                  }}
+                >
+                  {notedetails.content}
+                </ReactMarkdown>{" "}
+              </span>
+            </div>
+          ) : (
+            <textarea
+              id="content"
+              className="h-64 text-gray-500 p-2"
+              value={notedetails.content}
+              onChange={(e) =>
+                setNotedetails({ ...notedetails, content: e.target.value })
+              }
+            />
+          )}
           {!disableEditting && (
             <div className="gap-2 mt-2 w-full flex justify-center ">
               {" "}

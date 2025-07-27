@@ -27,8 +27,8 @@ import useUser from "@/stores/userStore";
 import { useNavigate } from "react-router-dom";
 
 const SideNav = () => {
-  const{logoutuser}=useUser()
-  const navigate=useNavigate()
+  const { logoutuser } = useUser();
+  const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationKey: ["update-note"],
     mutationFn: async () => {
@@ -48,19 +48,16 @@ const SideNav = () => {
       }
     },
     onSuccess: () => {
-      navigate("/")
-    logoutuser()
+      navigate("/");
+      logoutuser();
     },
   });
 
-function handlelogout(){
-mutate()
-}
+  function handlelogout() {
+    mutate();
+  }
 
   return (
-    
- 
-   
     <div className=" flex-col bg-blue-500 h-screen p-4 pt-7 justify-between sm:flex hidden">
       <div className="flex flex-col justify-between  h-80 ">
         <a href="/">
@@ -92,7 +89,10 @@ mutate()
             {" "}
             Notes <FaNotesMedical color="white" size={20} />
           </NavLink>
-          <NavLink to="/dashboard/workspace" className="text-white flex items-center">
+          <NavLink
+            to="/dashboard/workspace"
+            className="text-white flex items-center"
+          >
             {" "}
             Community <VscWorkspaceTrusted color="white" size={20} />
           </NavLink>
@@ -129,8 +129,13 @@ mutate()
                 {" "}
                 <NavLink to="/dashboard/updatepassword"> Password</NavLink>{" "}
               </DropdownMenuItem>
-              <DropdownMenuItem > <NavLink to="/dashboard/subscription"> Subscription </NavLink></DropdownMenuItem>
-              <DropdownMenuItem><NavLink to="/dashboard/security"> Security & privacy </NavLink></DropdownMenuItem>
+              <DropdownMenuItem>
+                {" "}
+                <NavLink to="/dashboard/subscription"> Subscription </NavLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <NavLink to="/dashboard/security"> Security & privacy </NavLink>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>{" "}
@@ -157,7 +162,7 @@ mutate()
           Logout
         </Button>
       </div>
-    </div> 
+    </div>
   );
 };
 

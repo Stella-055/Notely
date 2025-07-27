@@ -37,7 +37,7 @@ function App() {
           <Route path="enterprise" element={<Enterprise />} />
           <Route path="whynotely" element={<Whyus />} />
           <Route path="plans" element={<Plans />} />
-          <Route  path="oauth-success" element={<OAuthSuccess/>}/>
+          <Route path="oauth-success" element={<OAuthSuccess />} />
           <Route path="register" element={<Register />} />
           <Route path="signin" element={<Signin />} />
           <Route path="forgotpassword" element={<Forgotpassowrd />} />
@@ -132,7 +132,7 @@ function App() {
             element={
               <Protected>
                 {" "}
-                <Help/>{" "}
+                <Help />{" "}
               </Protected>
             }
           />
@@ -141,7 +141,7 @@ function App() {
             element={
               <Protected>
                 {" "}
-                <Security/>{" "}
+                <Security />{" "}
               </Protected>
             }
           />

@@ -38,11 +38,17 @@ const Usernav = () => {
         </div>
       </div>
       <div className="flex items-center gap-2 text-gray-700">
-       {data?.profileImg ?<Avatar
-                             alt={data?.username || "user"}
-                             sx={{ width: 30, height: 30 }}
-                             src={data?.profileImg || ""}
-                           />:<Avatar sx={{ bgcolor: "gray" }}>{data?(data?.username).slice(0,1):"User".slice(0,1)}</Avatar>}
+        {data?.profileImg ? (
+          <Avatar
+            alt={data?.username || "user"}
+            sx={{ width: 30, height: 30 }}
+            src={data?.profileImg || ""}
+          />
+        ) : (
+          <Avatar sx={{ bgcolor: "gray" }}>
+            {data ? (data?.username).slice(0, 1) : "User".slice(0, 1)}
+          </Avatar>
+        )}
         Hi {data?.username || "user"}
         <IoNotificationsCircleOutline size={20} />{" "}
       </div>
