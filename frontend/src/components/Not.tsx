@@ -8,6 +8,7 @@ import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import he from "he";
 import {
   Popover,
   PopoverContent,
@@ -160,7 +161,7 @@ const Not = () => {
               onClick={() => {
                 setNotedetails({ ...notedetails, genre: "School" });
               }}
-            >
+            >import remarkGfm from "remark-gfm";
               School
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -328,7 +329,8 @@ const Not = () => {
                     ),
                   }}
                 >
-                  {notedetails.content}
+                    {he.decode(notedetails.content)}
+             
                 </ReactMarkdown>{" "}
               
             </div>
@@ -336,7 +338,7 @@ const Not = () => {
             <textarea
               id="content"
               className="h-64 text-gray-500 p-2"
-              value={notedetails.content}
+              value={ notedetails.content}
               onChange={(e) =>
                 setNotedetails({ ...notedetails, content: e.target.value })
               }
