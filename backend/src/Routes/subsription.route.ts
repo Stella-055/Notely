@@ -31,14 +31,17 @@ router.post("/create-checkout-session", validateUser, async (req, res) => {
       });
     }
 
-    type packages = {
-      pro: string;
-      enterprise: string;
-    };
-    const priceMap: packages = {
+    type PackageType = "pro" | "enterprise";
+
+    const priceMap: Record<PackageType, string> = {
       pro: process.env.STRIPE_PRO_PRICE_ID!,
       enterprise: process.env.STRIPE_ENTERPRISE_PRICE_ID!,
     };
+    
+  
+    if (!packageType || !priceMap[packageType as PackageType]) {
+      return res.status(400).json({ error: "Invalid package type" });
+    }
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -46,7 +49,7 @@ router.post("/create-checkout-session", validateUser, async (req, res) => {
       mode: "subscription",
       line_items: [
         {
-          price: priceMap[(packageType as "pro") || "enterprise"],
+          price: priceMap[packageType as PackageType], 
           quantity: 1,
         },
       ],
