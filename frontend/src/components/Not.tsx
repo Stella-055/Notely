@@ -133,7 +133,7 @@ const Not = () => {
   }, [data]);
   
   return (
-    <div className=" flex flex-col h-screen w-[60%] p-5">
+    <div className=" flex flex-col h-screen  p-5">
       <div className="flex justify-between mb-6 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger>
