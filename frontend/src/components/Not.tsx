@@ -284,7 +284,7 @@ const Not = () => {
           </label>
           <textarea
             disabled={disableEditting}
-            className="text-gray-500 mb-5 p-2 h-20 capitalize"
+            className="text-gray-500 mb-2 p-2 h-20 capitalize"
             value={notedetails.synopsis}
             id="synopsis"
             onChange={(e) =>
@@ -296,7 +296,7 @@ const Not = () => {
             Content:
           </label>
           {disableEditting ? (
-            <div className="h-64  p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
+            <div className="h-72  p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
            
                 <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
