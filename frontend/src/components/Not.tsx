@@ -133,7 +133,7 @@ const Not = () => {
   }, [data]);
   
   return (
-    <div className=" flex flex-col h-screen  p-5">
+    <div className=" flex flex-col h-screen w-full p-5 overflow-x-hidden">
       <div className="flex justify-between mb-6 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -161,7 +161,7 @@ const Not = () => {
               onClick={() => {
                 setNotedetails({ ...notedetails, genre: "School" });
               }}
-            >import remarkGfm from "remark-gfm";
+            >
               School
             </DropdownMenuItem>
           </DropdownMenuContent>
