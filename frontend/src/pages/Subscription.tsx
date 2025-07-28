@@ -13,7 +13,7 @@ const navigate=useNavigate()
   const { mutate, isPending } = useMutation({
     mutationKey: ["subscription"],
     mutationFn: async (pack:packagetype) => {
-      const response = await api.post(`/subscription/create-checkout-session`, pack);
+      const response = await api.post("/subscription/create-checkout-session", pack);
 
       return response.data;
     },
@@ -221,7 +221,7 @@ const navigate=useNavigate()
                 variant="contained"
                 fullWidth
                 loading={isPending}
-              onClick={()=>mutate({packageType:"PRO"})}
+              onClick={()=>mutate({packageType:"pro"})}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
