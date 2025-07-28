@@ -1,6 +1,38 @@
 import Usernav from "@/components/Usernav";
 import { Button } from "@mui/material";
+import axios from "axios";
+import api from "@/Api/axios";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const Subscription = () => {
+type packagetype={
+  packageType:string
+}
+const navigate=useNavigate()
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["subscription"],
+    mutationFn: async (pack:packagetype) => {
+      const response = await api.patch(`/subscription/create-checkout-session`, pack);
+
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: (data) => {
+      navigate(data.url)
+    },
+  });
+
   return (
     <div className="w-full">
       <Usernav />
@@ -188,7 +220,8 @@ const Subscription = () => {
               <Button
                 variant="contained"
                 fullWidth
-                href="/dashboard/billing"
+                loading={isPending}
+              onClick={()=>mutate({packageType:"PRO"})}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
