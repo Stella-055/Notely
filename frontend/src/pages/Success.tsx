@@ -14,7 +14,7 @@ const Success = () => {
     };
 
   return (
-    <div className="w-full flex flax-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center">
         <Usernav/>
 
     <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer max-w-80 h-64 mt-4 bg-white"

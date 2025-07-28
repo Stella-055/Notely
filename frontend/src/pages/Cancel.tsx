@@ -15,7 +15,7 @@ const Cancel = () => {
     };
 
   return (
-     <div className="w-full flex flax-col justify-center items-center">
+     <div className="w-full flex flex-col justify-center items-center">
             <Usernav/>
     <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out h-64 mt-4 cursor-pointer max-w-80 bg-white"
     onMouseMove={handleMove}
