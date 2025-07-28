@@ -57,6 +57,8 @@ route.get(
         })
         .cookie("username", user.username, {
           maxAge: 1000 * 60 * 15,
+           httpOnly: true,
+             sameSite: "none",
           path: "/",
           secure: true,
         })
