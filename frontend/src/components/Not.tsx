@@ -283,13 +283,13 @@ const Not = () => {
           <textarea
             disabled={disableEditting}
             className="text-gray-500 mb-5 p-2 h-20 capitalize"
+            value={notedetails.synopsis}
             id="synopsis"
             onChange={(e) =>
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
-          >
-            {notedetails.synopsis}
-          </textarea>
+          />
+         
           <label htmlFor="content" className="text-gray-500">
             Content:
           </label>
