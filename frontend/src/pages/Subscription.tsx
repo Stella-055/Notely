@@ -4,12 +4,12 @@ import axios from "axios";
 import api from "@/Api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+
 const Subscription = () => {
 type packagetype={
   packageType:string
 }
-const navigate=useNavigate()
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["subscription"],
     mutationFn: async (pack:packagetype) => {
@@ -29,7 +29,7 @@ const navigate=useNavigate()
       }
     },
     onSuccess: (data) => {
-      navigate(data.url)
+      window.location.href = data.url;
     },
   });
 
