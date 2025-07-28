@@ -1,3 +1,4 @@
+import Usernav from "@/components/Usernav";
 import { useState } from "react";
 
 const Cancel = () => {
@@ -14,7 +15,9 @@ const Cancel = () => {
     };
 
   return (
-    <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer max-w-80 bg-white"
+     <div className="w-full flex flax-col justify-center items-center">
+            <Usernav/>
+    <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out h-64 mt-4 cursor-pointer max-w-80 bg-white"
     onMouseMove={handleMove}
     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     style={{ transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
@@ -28,7 +31,7 @@ const Cancel = () => {
     <p className="text-sm px-4 pb-6 text-gray-600 w-5/6">
         Move your cursor over this card to experience a smooth 3D tilt animation, bringing depth and interactivity to your UI.
     </p>
-</div>
+</div> </div>
   )
 }
 
