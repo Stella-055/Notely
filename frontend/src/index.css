@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 body {
   background-color: whitesmoke;
+  overflow-x: hidden;
+  width: 100vw;
 }
 
 @theme inline {
