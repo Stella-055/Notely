@@ -22,7 +22,7 @@ const Cancel = () => {
     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     style={{ transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
 >
-    <img src="/cancel.gif"
+    <img src="/cancel.jpg"
         alt="Cancelled" className="w-full h-44 object-cover"
     />
     <h3 className="mt-3 px-4 pt-3 mb-1 text-lg font-semibold text-gray-800  border-t">
