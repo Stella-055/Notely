@@ -295,7 +295,7 @@ const Not = () => {
           </label>
           {disableEditting ? (
             <div className="h-64  p-2 overflow-y-auto  flex flex-wrap  border rounded text-gray-700">
-              <span>
+              
                 <ReactMarkdown
                   components={{
                     h1: ({ ...props }) => (
@@ -328,7 +328,7 @@ const Not = () => {
                 >
                   {notedetails.content}
                 </ReactMarkdown>{" "}
-              </span>
+              
             </div>
           ) : (
             <textarea
