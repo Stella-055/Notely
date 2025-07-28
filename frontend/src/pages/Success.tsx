@@ -14,10 +14,10 @@ const Success = () => {
     };
 
   return (
-    <div className="w-full flex flex-col justify-center">
+    <div className="w-full flex flex-col items-center">
         <Usernav/>
 
-    <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer max-w-80 h-64 mt-4 bg-white"
+    <div className="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer max-w-80 h-fit mt-4 bg-white"
     onMouseMove={handleMove}
     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     style={{ transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
