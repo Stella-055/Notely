@@ -22,14 +22,14 @@ const Success = () => {
     onMouseLeave={() => setTilt({ x: 0, y: 0 })}
     style={{ transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
 >
-    <img src="/success.jpg"
+    <img src="/success.gif"
         alt="Cancelled" className="w-full h-52 object-cover"
     />
     <h3 className="mt-3 px-4 pt-3 mb-1 text-lg font-semibold text-gray-800">
-        Interactive City Card
+       Your transaction went through
     </h3>
     <p className="text-sm px-4 pb-6 text-gray-600 w-5/6">
-        Move your cursor over this card to experience a smooth 3D tilt animation, bringing depth and interactivity to your UI.
+        Congratulations your transaction was successfull and your package has been updated
     </p>
 </div></div>
   )
