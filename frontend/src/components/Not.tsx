@@ -7,6 +7,7 @@ import { ImParagraphLeft } from "react-icons/im";
 import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Popover,
   PopoverContent,
@@ -297,6 +298,7 @@ const Not = () => {
             <div className="h-64  p-2 overflow-y-auto  flex flex-wrap  border rounded text-gray-700">
               
                 <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
                   components={{
                     h1: ({ ...props }) => (
                       <h1 className="text-3xl font-bold mb-4" {...props} />
