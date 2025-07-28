@@ -13,7 +13,7 @@ const navigate=useNavigate()
   const { mutate, isPending } = useMutation({
     mutationKey: ["subscription"],
     mutationFn: async (pack:packagetype) => {
-      const response = await api.patch(`/subscription/create-checkout-session`, pack);
+      const response = await api.post(`/subscription/create-checkout-session`, pack);
 
       return response.data;
     },
