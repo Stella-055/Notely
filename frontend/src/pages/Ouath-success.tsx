@@ -2,27 +2,30 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "@/stores/userStore";
 import { HashLoader } from "react-spinners";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/Api/axios";
 const OAuthSuccess = () => {
   const navigate = useNavigate();
   const { setUserName } = useUser();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get-me"],
+    queryFn: async () => {
+      const response = await api.get("/auth/me");
+
+      return response.data;
+    },
+  });
   useEffect(() => {
-    const getCookie = (name: string) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift();
-    };
-
-    const username = getCookie("username");
-    console.log("Username from cookie:", username);
-
-    if (username) {
-      setUserName({ username });
-      navigate("/dashboard");
-    } else {
-      console.log("No username in cookie");
-      navigate("/signin");
+    if (!isLoading) {
+      if (data) {
+        setUserName({ username: data.username });
+        navigate("/dashboard");
+      } else if (error) {
+        navigate("/signin");
+      }
     }
-  }, []);
+  }, [data, error, isLoading]);
 
   return (
     <div className="h-screen flex flex-col justify-center w-full items-center">

@@ -9,6 +9,7 @@ import {
   updatePasswordValidation,
 } from "../Middlewares/auth.middleware";
 import {
+  getUser,
   logoutUser,
   refreshuserToken,
   registerUser,
@@ -45,4 +46,5 @@ route.post(
   updatePasswordValidation,
   updateUserPassword,
 );
+route.get("/me",validateUser,getUser)
 export default route;
