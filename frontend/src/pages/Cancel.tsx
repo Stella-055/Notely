@@ -25,7 +25,7 @@ const Cancel = () => {
     <img src="/cancel.gif"
         alt="Cancelled" className="w-full h-44 object-cover"
     />
-    <h3 className="mt-3 px-4 pt-3 mb-1 text-lg font-semibold text-gray-800">
+    <h3 className="mt-3 px-4 pt-3 mb-1 text-lg font-semibold text-gray-800  border-t">
       Your Transaction has been Cancelled
     </h3>
     <p className="text-sm px-4 pb-6 text-gray-600 w-5/6">
