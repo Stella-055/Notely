@@ -217,11 +217,11 @@ const handleReadNote = async () => {
     if (vapiRef.current) {
     
       await vapiRef.current.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
-      const sendResult = await vapiRef.current.send({
+     vapiRef.current.send({
         type: "say",
         message: notedetails.content
       });
-      console.log("Message sent:", sendResult);
+     
        
      }
   } catch (error) {

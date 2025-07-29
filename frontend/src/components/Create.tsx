@@ -170,8 +170,8 @@ const Create = () => {
                     type="checkbox"
                     name="publish"
                     id="publish"
-                    checked={formData.isPublished}
-                    onClick={() =>
+                   
+                    onChange={() =>
                       setFormData({
                         ...formData,
                         isPublished: !formData.isPublished,

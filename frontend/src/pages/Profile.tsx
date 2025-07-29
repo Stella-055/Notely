@@ -228,7 +228,7 @@ const Profile = () => {
                     <input
                       id="fileInput"
                       type="file"
-                      className="hidden"
+                    
                       accept="image/*"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const file = e.target.files?.[0];

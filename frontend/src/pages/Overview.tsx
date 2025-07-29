@@ -37,7 +37,7 @@ import { toast } from "sonner";
 function Overview() {
   const navigate = useNavigate();
 
-  const [isopen, setIsOpen] = useState(false);
+
 
   const [searchvalue, setSearchvalue] = useState("");
   const { data, isLoading, error } = useQuery({
@@ -323,7 +323,7 @@ function Overview() {
                               navigate(`/dashboard/notes/${entry.id}`)
                             }
                           />
-                          <Popover open={isopen} onOpenChange={setIsOpen}  >
+                          <Popover  >
                             <PopoverTrigger>
                               <RiChatDeleteLine size={25} color="#3B82F6" />
                             </PopoverTrigger>
@@ -350,7 +350,7 @@ function Overview() {
                               <div className="w-full justify-center flex gap-3">
                                 <Button
                                   variant="contained"
-                                  onClick={() => setIsOpen(false)}
+                                 
                                   sx={{ backgroundColor: "gray" }}
                                 >
                                   Cancel
