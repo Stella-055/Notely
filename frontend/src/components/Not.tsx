@@ -27,6 +27,9 @@ import { MdPublishedWithChanges } from "react-icons/md";
 import { MdUnpublished } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import Vapi from '@vapi-ai/web';
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,6 +39,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 const Not = () => {
+  
   type Note = {
     genre: string;
     title: string;
@@ -131,7 +135,53 @@ const Not = () => {
       });
     }
   }, [data]);
-  
+  const vapi = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!); 
+  const [isConnected, setIsConnected] = useState(false);
+const [isSpeaking, setIsSpeaking] = useState(false);
+
+
+useEffect(() => {
+  vapi.on('call-start', () => {
+    console.log('Call started');
+    setIsConnected(true);
+  });
+
+  vapi.on('call-end', () => {
+    console.log('Call ended');
+    setIsConnected(false);
+    setIsSpeaking(false);
+  });
+
+  vapi.on('speech-start', () => {
+    setIsSpeaking(true);
+  });
+
+  vapi.on('speech-end', () => {
+    setIsSpeaking(false);
+  });
+
+  vapi.on('error', (error) => {
+    console.error('Vapi error:', error);
+  });
+
+  return () => {
+    vapi.stop();
+  };
+}, []);
+
+const handleReadNote = () => {
+  vapi.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
+  vapi.send({
+    type: "say",
+    message: "Read this note: " + notedetails.content,
+  });
+};
+
+const handleStopReading = () => {
+  vapi.stop();
+};
+
+
   return (
     <div className=" flex flex-col h-screen w-full p-5 overflow-x-hidden">
       <div className="flex justify-between mb-6 items-center">
@@ -291,10 +341,35 @@ const Not = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           />
-         
+         <div className="flex gap-2">
           <label htmlFor="content" className="text-gray-500">
             Content:
-          </label>
+          </label>  
+
+          {!isConnected ? (
+    <Chip label="🔊 Read Note" variant="filled" onClick={handleReadNote} />
+  ) : (
+    <div className="flex items-center gap-3">
+      <span style={{ fontWeight: 'bold', color: '#333' }}>
+        {isSpeaking ? 'Assistant Speaking...' : 'Listening...'}
+      </span>
+      <button
+        onClick={handleStopReading}
+        style={{
+          background: '#ff4444',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '6px',
+          padding: '6px 12px',
+          fontSize: '12px',
+          cursor: 'pointer',
+        }}
+      >
+        ⏹ Stop
+      </button>
+    </div>
+  )}
+           </div>
           {disableEditting ? (
             <div className="h-72   p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
            
