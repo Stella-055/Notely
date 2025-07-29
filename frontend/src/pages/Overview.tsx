@@ -189,12 +189,12 @@ function Overview() {
           ) : (
             <Avatar sx={{ bgcolor: "gray" }}>
               {" "}
-              {(userdet?.data?.username || "User").slice(0, 1)}
+              {(userdet?.data?.username || "User").slice(0, 2)}
             </Avatar>
           )}
           Hi {userdet?.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
-9        </div>
+      </div>
       </div>
 
       <div className="flex justify-between m-2">
@@ -324,11 +324,9 @@ function Overview() {
                             }
                           />
                           <Popover open={isopen} onOpenChange={setIsOpen}  >
-                          <PopoverTrigger asChild>
-        <button type="button">
-          <RiChatDeleteLine size={25} color="#3B82F6" />
-        </button>
-      </PopoverTrigger>
+                            <PopoverTrigger>
+                              <RiChatDeleteLine size={25} color="#3B82F6" />
+                            </PopoverTrigger>
                             <PopoverContent className="bg-white flex flex-col justify-center">
                               <div className="flex items-center justify-center ">
                                 <svg
