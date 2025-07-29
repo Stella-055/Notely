@@ -180,8 +180,10 @@ function Overview() {
             />
           </div>
           <Drawer open={open} onClose={toggleDrawer(false)}>
-
-                  <DrawerSidenav/>
+                <div className="flex ">
+                <DrawerSidenav/>
+                </div>
+                 
                 </Drawer>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
