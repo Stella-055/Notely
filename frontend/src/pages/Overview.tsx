@@ -31,7 +31,8 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { toast } from "sonner";
-import Usernav from "@/components/Usernav";
+
+import SideNav from "@/components/SideNav";
 function Overview() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -178,7 +179,7 @@ function Overview() {
             />
           </div>
           <Drawer open={open} onClose={toggleDrawer(false)}>
-                  <Usernav/>
+                  <SideNav/>
                 </Drawer>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
