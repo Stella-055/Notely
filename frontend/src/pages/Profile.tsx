@@ -224,6 +224,7 @@ const Profile = () => {
                     </button>
                     <Button
                       type="button"
+                      variant="contained"
                       loading={loading}
                       onClick={updateProfile}
                       className="px-6 py-2 bg-blue-500 hover:bg-indigo-600 active:scale-95 transition-all text-white rounded"
