@@ -7,7 +7,7 @@ import { TiThMenu } from "react-icons/ti";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Drawer from "@mui/material/Drawer";
+
 import { Button } from "@mui/material";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import { Avatar } from "@mui/material";
@@ -31,16 +31,14 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { toast } from "sonner";
-import DrawerSidenav from "@/components/Drawer";
+
 
 
 function Overview() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
+  const [isopen, setIsOpen] = useState(false);
+
   const [searchvalue, setSearchvalue] = useState("");
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
@@ -81,7 +79,7 @@ function Overview() {
       });
     },
   });
-  const [isopen, setIsOpen] = useState(false);
+
   type Entry = {
     id: string;
     userId: string;
@@ -157,7 +155,7 @@ function Overview() {
         <div className="flex sm:hidden py-4 bg-white ">
           <TiThMenu
             color="#3B82F6 "
-            onClick={toggleDrawer(true)}
+           
             size="30"
           />
         </div>
@@ -179,12 +177,7 @@ function Overview() {
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
           </div>
-          <Drawer open={open} onClose={toggleDrawer(false)}>
-                <div className="flex ">
-                <DrawerSidenav/>
-                </div>
-                 
-                </Drawer>
+     
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           {userdet?.data?.profileImg ? (
@@ -201,7 +194,7 @@ function Overview() {
           )}
           Hi {userdet?.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
-        </div>
+9        </div>
       </div>
 
       <div className="flex justify-between m-2">

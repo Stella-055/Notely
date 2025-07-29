@@ -28,7 +28,7 @@ import { MdUnpublished } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Vapi from '@vapi-ai/web';
-
+import { useRef } from "react";
 
 import {
   DropdownMenu,
@@ -135,68 +135,105 @@ const Not = () => {
       });
     }
   }, [data]);
-  const vapi = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!); 
+
   const [isConnected, setIsConnected] = useState(false);
 const [isSpeaking, setIsSpeaking] = useState(false);
-
+const vapiRef = useRef<Vapi | null>(null);
 useEffect(() => {
-  const vapiInstance = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!);
- 
+  
+  if (!vapiRef.current) {
+    vapiRef.current = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!);
+    
+    const vapi = vapiRef.current;
 
-  vapiInstance.on("call-start", () => {
-    console.log("Call started");
-    setIsConnected(true);
-
-   
-    vapiInstance.send({
-      type: "say",
-      message: notedetails.content,
+    vapi.on("call-start", () => {
+      console.log("Call started");
+      setIsConnected(true);
     });
-  });
 
-  vapiInstance.on("call-end", () => {
-    console.log("Call ended");
-    setIsConnected(false);
-    setIsSpeaking(false);
-  });
+    vapi.on("call-end", () => {
+      console.log("Call ended");
+      setIsConnected(false);
+      setIsSpeaking(false);
+    });
 
-  vapiInstance.on("speech-start", () => {
-    setIsSpeaking(true);
-  });
+    vapi.on("speech-start", () => {
+      setIsSpeaking(true);
+    });
 
-  vapiInstance.on("speech-end", () => {
-    setIsSpeaking(false);
-  });
+    vapi.on("speech-end", () => {
+      setIsSpeaking(false);
+    });
 
-  vapiInstance.on("error", (error) => {
-    console.error("Vapi error:", error);
-  });
+    vapi.on("error", (error) => {
+      console.error("Vapi error:", error);
+      setIsConnected(false);
+      setIsSpeaking(false);
+    });
+
+    vapi.on("message", (message) => {
+      if (message.role === "assistant" && message.type === "conversation-update") {
+        console.log("Assistant says:", message.content);
+      }
+    });
+  }
 
   return () => {
-    vapiInstance?.stop();
+    if (vapiRef.current) {
+      vapiRef.current.stop();
+    }
   };
 }, []);
+
 
 
 
 const ensureMicAccess = async () => {
   try {
     await navigator.mediaDevices.getUserMedia({ audio: true });
+    return true;
   } catch (err) {
-    alert("Microphone access is required to use voice assistant.");
+    toast.error("Microphone access is required to use voice assistant.");
+    return false;
   }
 };
 
 
-const handleReadNote  = async () => {
-  await ensureMicAccess();
-  if (vapi) {
-    vapi.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
+const handleReadNote = async () => {
+  if (!notedetails.content) {
+    toast.error("Note content is empty. Please add content to the note.");
+    return;
+  }
+
+  if (!import.meta.env.VITE_VAPI_ASSISTANT_ID) {
+    toast.error("Assistant ID is not configured.");
+    return;
+  }
+
+  const hasMicAccess = await ensureMicAccess();
+  if (!hasMicAccess) return;
+
+  try {
+    if (vapiRef.current) {
+     
+
+      await vapiRef.current.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
+       vapiRef.current.send({
+        type: "say",
+         message: notedetails.content
+       });
+     
+     
+    }
+  } catch (error) {
+    console.error("Error starting voice assistant:", error);
+    toast.error("Failed to start the voice assistant.");
   }
 };
-
 const handleStopReading = () => {
-  vapi.stop();
+  if (vapiRef.current) {
+    vapiRef.current.stop();
+  }
 };
 
 
