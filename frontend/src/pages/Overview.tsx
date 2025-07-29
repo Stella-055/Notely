@@ -7,6 +7,7 @@ import { TiThMenu } from "react-icons/ti";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Drawer from "@mui/material/Drawer";
 import { Button } from "@mui/material";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import { Avatar } from "@mui/material";
@@ -30,8 +31,14 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { toast } from "sonner";
+import Usernav from "@/components/Usernav";
 function Overview() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
   const [searchvalue, setSearchvalue] = useState("");
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
@@ -147,8 +154,8 @@ function Overview() {
       <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
         <div className="flex sm:hidden py-4 bg-white ">
           <TiThMenu
-            color="#3B82F6 
-"
+            color="#3B82F6 "
+            onClick={toggleDrawer(true)}
             size="30"
           />
         </div>
@@ -170,6 +177,9 @@ function Overview() {
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
           </div>
+          <Drawer open={open} onClose={toggleDrawer(false)}>
+                  <Usernav/>
+                </Drawer>
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           {userdet?.data?.profileImg ? (
