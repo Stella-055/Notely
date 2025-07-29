@@ -139,42 +139,49 @@ const Not = () => {
   const [isConnected, setIsConnected] = useState(false);
 const [isSpeaking, setIsSpeaking] = useState(false);
 
-
 useEffect(() => {
-  vapi.on('call-start', () => {
-    console.log('Call started');
+  const vapiInstance = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!);
+ 
+
+  vapiInstance.on("call-start", () => {
+    console.log("Call started");
     setIsConnected(true);
+
+   
+    vapiInstance.send({
+      type: "say",
+      message: notedetails.content,
+    });
   });
 
-  vapi.on('call-end', () => {
-    console.log('Call ended');
+  vapiInstance.on("call-end", () => {
+    console.log("Call ended");
     setIsConnected(false);
     setIsSpeaking(false);
   });
 
-  vapi.on('speech-start', () => {
+  vapiInstance.on("speech-start", () => {
     setIsSpeaking(true);
   });
 
-  vapi.on('speech-end', () => {
+  vapiInstance.on("speech-end", () => {
     setIsSpeaking(false);
   });
 
-  vapi.on('error', (error) => {
-    console.error('Vapi error:', error);
+  vapiInstance.on("error", (error) => {
+    console.error("Vapi error:", error);
   });
 
   return () => {
-    vapi.stop();
+    vapiInstance?.stop();
   };
 }, []);
 
+
+
 const handleReadNote = () => {
   vapi.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
-  vapi.send({
-    type: "say",
-    message: "Read this note: " + notedetails.content,
-  });
+  
 };
 
 const handleStopReading = () => {
