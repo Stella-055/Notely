@@ -138,6 +138,7 @@ const Not = () => {
 
   const [isConnected, setIsConnected] = useState(false);
 const [isSpeaking, setIsSpeaking] = useState(false);
+const[loading,setLoading]=useState(false)
 const vapiRef = useRef<Vapi | null>(null);
 useEffect(() => {
   
@@ -173,7 +174,7 @@ useEffect(() => {
 
     vapi.on("message", (message) => {
       if (message.role === "assistant" && message.type === "conversation-update") {
-        console.log("Assistant says:", message.content);
+      
       }
     });
   }
@@ -200,6 +201,7 @@ const ensureMicAccess = async () => {
 
 
 const handleReadNote = async () => {
+  setLoading(true)
   if (!notedetails.content) {
     toast.error("Note content is empty. Please add content to the note.");
     return;
@@ -229,11 +231,11 @@ const handleReadNote = async () => {
         },
       });
       
-     
+     setLoading(false)
        
      }
   } catch (error) {
-    console.error("Error starting voice assistant:", error);
+   setLoading(false)
     toast.error("Failed to start the voice assistant.");
   }
 };
@@ -403,13 +405,14 @@ const handleStopReading = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           />
-         <div className="flex gap-2">
+         <div className="flex gap-2 justify-center items-center">
           <label htmlFor="content" className="text-gray-500">
             Content:
           </label>  
 
           {!isConnected ? (
-    <Chip label="🔊 Read Note" variant="filled" onClick={handleReadNote} />
+            <Button variant="contained" loading={loading} onClick={handleReadNote} >Your Ai Assistant</Button>
+   
   ) : (
     <div className="flex items-center gap-3">
       <span style={{ fontWeight: 'bold', color: '#333' }}>

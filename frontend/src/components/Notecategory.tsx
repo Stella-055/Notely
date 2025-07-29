@@ -62,7 +62,7 @@ const Notecategory = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                setSearchvalue("All");
+                setSearchvalue("");
                 setgenrevalue("All");
               }}
             >
