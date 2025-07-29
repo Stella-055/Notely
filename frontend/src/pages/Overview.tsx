@@ -323,10 +323,12 @@ function Overview() {
                               navigate(`/dashboard/notes/${entry.id}`)
                             }
                           />
-                          <Popover open={isopen} onOpenChange={setIsOpen}>
-                            <PopoverTrigger>
-                              <RiChatDeleteLine size={25} color="#3B82F6" />
-                            </PopoverTrigger>
+                          <Popover open={isopen} onOpenChange={setIsOpen}  >
+                          <PopoverTrigger asChild>
+        <button type="button">
+          <RiChatDeleteLine size={25} color="#3B82F6" />
+        </button>
+      </PopoverTrigger>
                             <PopoverContent className="bg-white flex flex-col justify-center">
                               <div className="flex items-center justify-center ">
                                 <svg
