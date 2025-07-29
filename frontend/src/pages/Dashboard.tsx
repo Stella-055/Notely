@@ -1,10 +1,11 @@
-import SideNav from "@/components/SideNav";
+import Drawer from "@/components/Drawer";
+
 import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <div className="flex">
-      <SideNav />
+      <Drawer />
       <Outlet />
     </div>
   );

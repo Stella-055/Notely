@@ -58,7 +58,8 @@ const SideNav = () => {
   }
 
   return (
-    <div className=" flex-col bg-blue-500 h-screen p-4 pt-7 justify-between sm:flex hidden">
+    
+    <div className=" flex-col bg-blue-500 h-screen p-4 pt-7 justify-between flex ">
       <div className="flex flex-col justify-between  h-80 ">
         <a href="/">
           <div className="flex gap-2.5 rounded-2xl">
