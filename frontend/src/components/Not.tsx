@@ -405,7 +405,7 @@ const handleStopReading = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           />
-         <div className="flex gap-2 justify-center ">
+         <div className="flex gap-2 items-center ">
           <label htmlFor="content" className="text-gray-500">
             Content:
           </label>  
@@ -421,7 +421,7 @@ const handleStopReading = () => {
       <button
         onClick={handleStopReading}
         style={{
-          background: '#ff4444',
+          background: '#3B82F6',
           color: '#fff',
           border: 'none',
           borderRadius: '6px',
