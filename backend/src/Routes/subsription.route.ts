@@ -3,11 +3,11 @@ import { Router } from "express";
 import { stripe } from "../stripe";
 import { PrismaClient } from "@prisma/client";
 import { validateUser } from "../Middlewares/entries.middleware";
-
+import { Request, Response } from "express";
 const router = Router();
 const prisma = new PrismaClient();
 
-router.post("/create-checkout-session", validateUser, async (req, res) => {
+router.post("/create-checkout-session", validateUser, async (req:Request, res:Response) => {
   const { id } = req.user;
   const { packageType } = req.body;
 
@@ -58,10 +58,54 @@ router.post("/create-checkout-session", validateUser, async (req, res) => {
       metadata: { id, packageType },
     });
 
-    res.json({ url: session.url });
+  return res.status(200).json({ url: session.url });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Stripe session failed" });
+   return res.status(500).json({ message: "Stripe session failed" });
+  }
+});
+
+router.post("/free-tier",validateUser,async (req:Request, res:Response) => {
+
+  const {id}=req.user
+  const { packageType } = req.body;
+  try {
+    
+    await prisma.user.update({
+      where:{id},
+      data:{package:packageType}
+    })
+    return res.status(200).json({ message:"Updated subscription package" });
+  } catch (error) {
+   return res.status(500).json({ message: "Subscription Change failed" });
+  }
+})
+
+router.post("/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+  const sig = req.headers["stripe-signature"]!;
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+  try {
+    const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object as any;
+      const userId = session.metadata.id;
+      const packageType = session.metadata.packageType;
+
+      await prisma.user.update({
+        where: { id:userId},
+        data: {
+          package: packageType,
+          subscriptionEnd: new Date(new Date().setMonth(new Date().getMonth() + 1)), 
+        },
+      });
+    }
+
+    return res.status(200).json({ received: true });
+  } catch (err) {
+    console.error(err);
+     return res.status(400).send(`Webhook Error: ${(err as Error).message}`);
   }
 });
 

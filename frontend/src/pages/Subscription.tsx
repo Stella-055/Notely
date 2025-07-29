@@ -33,6 +33,31 @@ type packagetype={
     },
   });
 
+  const freePackage = useMutation({
+    mutationKey: ["subscription"],
+    mutationFn: async (pack:packagetype) => {
+      const response = await api.post("/subscription/free-tier", pack);
+
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message, {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Something went wrong", {
+          position: "top-center",
+        });
+      }
+    },
+    onSuccess: () => {
+      toast.success("You have moved to Free Tier",{
+        position: "top-center",
+      })
+    },
+  });
+
   return (
     <div className="w-full">
       <Usernav />
@@ -115,8 +140,9 @@ type packagetype={
             <div className="border-t p-6">
               <Button
                 variant="contained"
+                loading={freePackage.isPending}
                 fullWidth
-                href="/dashboard/billing"
+               onClick={()=>freePackage.mutate({packageType:"Free-Tier"})}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
@@ -344,7 +370,8 @@ type packagetype={
               <Button
                 variant="contained"
                 fullWidth
-                href="/dashboard/billing"
+                loading={isPending}
+                onClick={()=>mutate({packageType:"enterprise"})}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
