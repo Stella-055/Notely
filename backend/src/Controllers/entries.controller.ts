@@ -63,10 +63,10 @@ export const getBookmarkedEntries = async (req: Request, res: Response) => {
     }
 
     const bookmarkedEntries = await prisma.entry.findMany({
-      where: {
-        id: {
-          in: user.bookmarks,
-        },
+      where: {AND:[{isDeleted:false}, {id: {
+        in: user.bookmarks,
+      },}]
+       
       },
       include: { user: true },
     });

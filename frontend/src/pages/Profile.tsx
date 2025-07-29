@@ -200,7 +200,7 @@ const Profile = () => {
                   <p className="text-gray-500/80 mt-1">Attach the file below</p>
                   <label
                     htmlFor="fileInput"
-                    className="border-2 border-dotted border-gray-400  mt-6 flex flex-col items-center gap-4 cursor-pointer hover:border-blue-500 transition"
+                    className="border-2 border-dotted border-gray-400 p-2  mt-6 flex flex-col items-center gap-4 cursor-pointer hover:border-blue-500 transition"
                   >
                     <input
                       id="fileInput"
