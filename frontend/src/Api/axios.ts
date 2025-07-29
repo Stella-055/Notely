@@ -9,13 +9,19 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    if (!originalRequest._retryCount) {
+      originalRequest._retryCount = 0;
+    }
     if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retryCount += 1;
       try {
         await api.post("/auth/refresh");
         return api(originalRequest);
       } catch (refreshError) {
-        window.location.href = "/signin";
+        if (originalRequest._retryCount >= 2) {
+          window.location.href = "/signin";
+        }
+      
         return Promise.reject(refreshError);
       }
     }
