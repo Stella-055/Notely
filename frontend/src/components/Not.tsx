@@ -179,9 +179,20 @@ useEffect(() => {
 
 
 
-const handleReadNote = () => {
-  vapi.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
-  
+const ensureMicAccess = async () => {
+  try {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (err) {
+    alert("Microphone access is required to use voice assistant.");
+  }
+};
+
+
+const handleReadNote  = async () => {
+  await ensureMicAccess();
+  if (vapi) {
+    vapi.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
+  }
 };
 
 const handleStopReading = () => {
