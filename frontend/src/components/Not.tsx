@@ -209,18 +209,26 @@ const handleReadNote = async () => {
     toast.error("Assistant ID is not configured.");
     return;
   }
-
+  
   const hasMicAccess = await ensureMicAccess();
   if (!hasMicAccess) return;
 
   try {
     if (vapiRef.current) {
     
-      await vapiRef.current.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
-     vapiRef.current.send({
-        type: "say",
-        message: notedetails.content
+      await vapiRef.current?.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!, {
+        model: {
+          provider: "openai",          
+          model: "gpt-4o",             
+          messages: [
+            {
+              role: "system",
+              content: `You are a helpful assistant. Read the following note aloud:\n\n${notedetails.content}`,
+            },
+          ],
+        },
       });
+      
      
        
      }
