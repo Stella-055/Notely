@@ -19,7 +19,7 @@ const Profile = () => {
     queryKey: ["get-user-details"],
     queryFn: async () => {
       const response = await api.get("/user");
-      console.log(response.data);
+  
       return response.data;
     },
   });
