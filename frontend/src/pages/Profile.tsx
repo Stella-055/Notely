@@ -31,6 +31,7 @@ const Profile = () => {
     useremail: string;
     profileImg: string;
     bio: string;
+    package:string
   };
   const [image, setImage] = useState<File | null>();
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,7 @@ const Profile = () => {
     useremail: "-",
     bio: "",
     profileImg: "",
+    package:"Package"
   });
   const { isPending, mutate } = useMutation({
     mutationKey: ["update-primary-info"],
@@ -100,6 +102,7 @@ const Profile = () => {
         useremail: data.user.useremail,
         profileImg: data.user.profileImg || "",
         bio: data.user.bio,
+        package:data.package
       });
     }
   }, [data]);
@@ -235,7 +238,7 @@ const Profile = () => {
                 </PopoverContent>
               </Popover>
             </div>
-            <Chip label="Free Tier" />
+            <Chip label={userdetails.package} />
           </div>
           <div className="flex flex-wrap gap-4">
             <div>
