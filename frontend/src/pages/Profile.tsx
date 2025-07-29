@@ -102,7 +102,7 @@ const Profile = () => {
         useremail: data.user.useremail,
         profileImg: data.user.profileImg || "",
         bio: data.user.bio,
-        package:data.package
+        package:data.user.package
       });
     }
   }, [data]);
