@@ -31,15 +31,10 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { toast } from "sonner";
-
-
-
 function Overview() {
   const navigate = useNavigate();
-
-
-
-  const [searchvalue, setSearchvalue] = useState("");
+const [searchvalue, setSearchvalue] = useState("");
+  const [isopen, setIsOpen] = useState(false);
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
     queryFn: async () => {
@@ -323,7 +318,7 @@ function Overview() {
                               navigate(`/dashboard/notes/${entry.id}`)
                             }
                           />
-                          <Popover  >
+                          <Popover  open={isopen} onOpenChange={setIsOpen} >
                             <PopoverTrigger>
                               <RiChatDeleteLine size={25} color="#3B82F6" />
                             </PopoverTrigger>
@@ -350,7 +345,7 @@ function Overview() {
                               <div className="w-full justify-center flex gap-3">
                                 <Button
                                   variant="contained"
-                                 
+                                  onClick={() => setIsOpen(false)}
                                   sx={{ backgroundColor: "gray" }}
                                 >
                                   Cancel

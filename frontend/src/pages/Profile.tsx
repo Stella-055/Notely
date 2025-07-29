@@ -200,31 +200,8 @@ const Profile = () => {
                   <p className="text-gray-500/80 mt-1">Attach the file below</p>
                   <label
                     htmlFor="fileInput"
-                    className="border-2 border-dotted border-gray-400 p-8 mt-6 flex flex-col items-center gap-4 cursor-pointer hover:border-blue-500 transition"
+                    className="border-2 border-dotted border-gray-400  mt-6 flex flex-col items-center gap-4 cursor-pointer hover:border-blue-500 transition"
                   >
-                    <svg
-                      width="31"
-                      height="31"
-                      viewBox="0 0 31 31"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M18.085 2.583H7.75a2.583 2.583 0 0 0-2.583 2.584v20.666a2.583 2.583 0 0 0 2.583 2.584h15.5a2.583 2.583 0 0 0 2.584-2.584v-15.5m-7.75-7.75 7.75 7.75m-7.75-7.75v7.75h7.75M15.5 23.25V15.5m-3.875 3.875h7.75"
-                        stroke="#2563EB"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <p className="text-gray-500">Drag picture here to upload</p>
-                    <p className="text-gray-400">
-                      Or{" "}
-                      <span className="text-blue-500 underline">
-                        click here
-                      </span>{" "}
-                      to select a file
-                    </p>
                     <input
                       id="fileInput"
                       type="file"
