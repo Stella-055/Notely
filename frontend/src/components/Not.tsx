@@ -215,16 +215,15 @@ const handleReadNote = async () => {
 
   try {
     if (vapiRef.current) {
-      vapiRef.current.send({
-        type: "say",
-         message: notedetails.content
-       });
+    
       await vapiRef.current.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!);
+      const sendResult = await vapiRef.current.send({
+        type: "say",
+        message: notedetails.content
+      });
+      console.log("Message sent:", sendResult);
        
-       
-      
-     
-    }
+     }
   } catch (error) {
     console.error("Error starting voice assistant:", error);
     toast.error("Failed to start the voice assistant.");
