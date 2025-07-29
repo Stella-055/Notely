@@ -405,13 +405,13 @@ const handleStopReading = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           />
-         <div className="flex gap-2 justify-center items-center">
+         <div className="flex gap-2 justify-center ">
           <label htmlFor="content" className="text-gray-500">
             Content:
           </label>  
 
           {!isConnected ? (
-            <Button variant="contained" loading={loading} onClick={handleReadNote} >Your Ai Assistant</Button>
+            <Button variant="contained" size="small" loading={loading} onClick={handleReadNote} >Your Ai Assistant</Button>
    
   ) : (
     <div className="flex items-center gap-3">
