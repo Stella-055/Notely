@@ -15,8 +15,15 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios from "axios";
 import { useState } from "react";
+import SideNav from "@/components/SideNav";
+import {Drawer }from "@mui/material";
+import { TiThMenu } from "react-icons/ti";
 const Bookmarked = () => {
   const [searchvalue, setSearchvalue] = useState("");
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
   type User = {
     username: string;
     profileImg: string;
@@ -82,6 +89,18 @@ const Bookmarked = () => {
   return (
     <div className="flex flex-col  w-full">
       <div className="flex justify-between bg-white w-full p-4">
+        <div className="flex sm:hidden py-4 bg-white ">
+                          <TiThMenu
+                            color="#3B82F6 "
+                            onClick={toggleDrawer(true)}
+                            size="30"
+                          />
+                           <Drawer open={open} onClose={toggleDrawer(false)}>
+                          
+                      <SideNav/>
+                    
+                                </Drawer>
+                        </div>
         <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
