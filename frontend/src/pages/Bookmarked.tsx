@@ -90,7 +90,7 @@ const Bookmarked = () => {
     <div className="flex flex-col  w-full">
       <div className="flex justify-between bg-white w-full p-4">
         
-        <div>
+        <div className="flex">
         <div className="flex sm:hidden py-4 bg-white ">
                           <TiThMenu
                             color="#3B82F6 "
