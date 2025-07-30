@@ -8,6 +8,7 @@ import { ImParagraphRight } from "react-icons/im";
 import { MdOutlineEditNote } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { SlCallEnd } from "react-icons/sl";
 import he from "he";
 import {
   Popover,
@@ -418,20 +419,10 @@ const handleStopReading = () => {
       <span style={{ fontWeight: 'bold', color: '#333' }}>
         {isSpeaking ? 'Assistant Speaking...' : 'Listening...'}
       </span>
-      <button
-        onClick={handleStopReading}
-        style={{
-          background: '#3B82F6',
-          color: "white",
-          border: 'none',
-          borderRadius: '6px',
-          padding: '6px 12px',
-          fontSize: '12px',
-          cursor: 'pointer',
-        }}
-      >
-        ⏹ Stop
-      </button>
+      <Button variant="contained"onClick={handleStopReading} endIcon={<SlCallEnd  />}>
+  Stop
+</Button>
+    
     </div>
   )}
            </div>
