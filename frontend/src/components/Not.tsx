@@ -422,7 +422,7 @@ const handleStopReading = () => {
         onClick={handleStopReading}
         style={{
           background: '#3B82F6',
-          color: '#fff',
+          color: "white",
           border: 'none',
           borderRadius: '6px',
           padding: '6px 12px',
