@@ -49,12 +49,7 @@ const Usernav = () => {
             placeholder="Find a Note"
             className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 w-32 h-8 rounded-full text-sm text-white"
-          >
-            Search
-          </button>
+         
         </div>
       </div>
       <div className="flex items-center gap-2 text-gray-700">

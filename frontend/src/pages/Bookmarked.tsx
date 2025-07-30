@@ -89,6 +89,8 @@ const Bookmarked = () => {
   return (
     <div className="flex flex-col  w-full">
       <div className="flex justify-between bg-white w-full p-4">
+        
+        <div>
         <div className="flex sm:hidden py-4 bg-white ">
                           <TiThMenu
                             color="#3B82F6 "
@@ -101,7 +103,6 @@ const Bookmarked = () => {
                     
                                 </Drawer>
                         </div>
-        <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -118,12 +119,7 @@ const Bookmarked = () => {
               placeholder="Find a Note"
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
-            <button
-              type="submit"
-              className="bg-blue-500 w-32 h-8 rounded-full text-sm text-white"
-            >
-              Search
-            </button>
+          
           </div>
         </div>
         <div className="flex items-center gap-2 text-gray-700">

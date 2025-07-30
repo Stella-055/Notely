@@ -151,6 +151,8 @@ const toggleDrawer = (newOpen: boolean) => () => {
   return (
     <div className="w-full ">
       <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
+     
+        <div>
         <div className="flex sm:hidden py-4 bg-white ">
           <TiThMenu
             color="#3B82F6 "
@@ -163,7 +165,6 @@ const toggleDrawer = (newOpen: boolean) => () => {
     
                 </Drawer>
         </div>
-        <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
