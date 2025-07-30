@@ -158,9 +158,9 @@ const toggleDrawer = (newOpen: boolean) => () => {
             size="30"
           />
            <Drawer open={open} onClose={toggleDrawer(false)}>
-           <div className="flex w-80 ">
+          
       <SideNav/>
-    </div>
+    
                 </Drawer>
         </div>
         <div>
