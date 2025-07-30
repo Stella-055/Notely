@@ -436,7 +436,7 @@ const handleStopReading = () => {
   )}
            </div>
           {disableEditting ? (
-            <div className="h-72  flex items-center  p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
+            <div className="h-72  flex flex-col items-center  p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
            
                 <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
