@@ -7,7 +7,7 @@ import { TiThMenu } from "react-icons/ti";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-
+import {Drawer} from "@mui/material";
 import { Button } from "@mui/material";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import { Avatar } from "@mui/material";
@@ -31,10 +31,14 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { toast } from "sonner";
+import SideNav from "@/components/SideNav";
 function Overview() {
   const navigate = useNavigate();
 const [searchvalue, setSearchvalue] = useState("");
-
+const [open, setOpen] = useState(false);
+const toggleDrawer = (newOpen: boolean) => () => {
+  setOpen(newOpen);
+};
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
     queryFn: async () => {
@@ -150,9 +154,14 @@ const [searchvalue, setSearchvalue] = useState("");
         <div className="flex sm:hidden py-4 bg-white ">
           <TiThMenu
             color="#3B82F6 "
-           
+            onClick={toggleDrawer(true)}
             size="30"
           />
+           <Drawer open={open} onClose={toggleDrawer(false)}>
+           <div className="flex w-80 ">
+      <SideNav/>
+    </div>
+                </Drawer>
         </div>
         <div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
