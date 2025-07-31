@@ -3,11 +3,8 @@ import { useState } from "react";
 
 const Cancel = () => {
     const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  
-    const threshold = 12;
-
-    const handleMove = (e:React.MouseEvent) => {
+const threshold = 12;
+const handleMove = (e:React.MouseEvent) => {
         const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
         const x = (e.clientX - left) / width - 0.5;
         const y = (e.clientY - top) / height - 0.5;
