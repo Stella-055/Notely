@@ -50,7 +50,7 @@ const Notecategory = () => {
         )
       : data;
   return (
-    <div className="flex flex-col h-screen  w-80 p-6 gap-2 border-r-1">
+    <div className="sm:flex hidden flex-col h-screen  w-80 p-6 gap-2 border-r-1">
       <div className="flex justify-between">
         <h1 className="font-semibold ">{genrevalue}</h1>
         <DropdownMenu>

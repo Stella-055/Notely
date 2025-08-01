@@ -9,6 +9,9 @@ import { MdOutlineEditNote } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SlCallEnd } from "react-icons/sl";
+import { Drawer } from "@mui/material";
+import { TiThMenu } from "react-icons/ti";
+import SideNav from "@/components/SideNav";
 import he from "he";
 import {
   Popover,
@@ -48,7 +51,11 @@ const Not = () => {
     isPublished: boolean;
   };
   const { id } = useParams();
-
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (newOpen: boolean) => () => {
+ 
+    setOpen(newOpen);
+  };
   const [isopen, setIsOpen] = useState(false);
   const entryid = id;
   const info = !entryid ? "Note will show here" : null;
@@ -243,6 +250,12 @@ const Not = () => {
   return (
     <div className=" flex flex-col h-screen w-full p-5 overflow-x-hidden">
       <div className="flex justify-between mb-6 items-center">
+       < div className="flex sm:hidden ">
+                    <TiThMenu color="#3B82F6 " onClick={toggleDrawer(true)} size="30" />
+                    <Drawer open={open} onClose={toggleDrawer(false)}   ModalProps={{ keepMounted: true }}>
+                      <SideNav />
+                    </Drawer>
+                  </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Chip label={notedetails.genre || "Genre"} />

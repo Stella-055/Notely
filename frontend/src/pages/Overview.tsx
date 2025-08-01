@@ -37,6 +37,7 @@ function Overview() {
   const [searchvalue, setSearchvalue] = useState("");
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
+ 
     setOpen(newOpen);
   };
   const { data, isLoading, error } = useQuery({
@@ -154,7 +155,7 @@ function Overview() {
         <div className="flex items-center gap-1.5">
           <div className="flex sm:hidden py-4 bg-white ">
             <TiThMenu color="#3B82F6 " onClick={toggleDrawer(true)} size="30" />
-            <Drawer open={open} onClose={toggleDrawer(false)}>
+            <Drawer open={open} onClose={toggleDrawer(false)}   ModalProps={{ keepMounted: true }}>
               <SideNav />
             </Drawer>
           </div>

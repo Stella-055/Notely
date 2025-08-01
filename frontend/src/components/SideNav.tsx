@@ -118,7 +118,7 @@ const SideNav = () => {
                 Settings <TbSettings color="white" size={20} />
               </h1>{" "}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent  className="z-[9999]" >
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
