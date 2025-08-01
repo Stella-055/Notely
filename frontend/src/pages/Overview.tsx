@@ -151,7 +151,7 @@ function Overview() {
       : data;
   return (
     <div className="w-full ">
-      <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
+      <div className="flex justify-between bg-white w-full p-4 items-center ">
         <div className="flex items-center gap-1.5">
           <div className="flex sm:hidden py-4 bg-white ">
             <TiThMenu color="#3B82F6 " onClick={toggleDrawer(true)} size="30" />
