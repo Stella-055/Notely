@@ -187,7 +187,7 @@ function Overview() {
           ) : (
             <Avatar sx={{ bgcolor: "gray" }}>
               {" "}
-              {(userdet?.data?.username || "User").slice(0, 2)}
+              {(userdet?.data?.username || "User").slice(0, 1)}
             </Avatar>
           )}
           Hi {userdet?.data?.username || "user"}{" "}

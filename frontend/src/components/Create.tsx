@@ -93,7 +93,7 @@ const Create = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-white sm:w-1/2 w-full py-12">
+    <div className="flex flex-col items-center justify-center  sm:w-1/2 w-full py-12 sm:mt-0 mt-24  ">
       <div className="flex flex-col items-center pt-6">
         <h1 className="text-2xl font-bold ">Create Your Note</h1>
         <p>Just a few steps and you will be there</p>
