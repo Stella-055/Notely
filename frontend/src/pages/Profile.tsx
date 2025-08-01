@@ -19,7 +19,7 @@ const Profile = () => {
     queryKey: ["get-user-details"],
     queryFn: async () => {
       const response = await api.get("/user");
-  
+
       return response.data;
     },
   });
@@ -31,7 +31,7 @@ const Profile = () => {
     useremail: string;
     profileImg: string;
     bio: string;
-    package:string
+    package: string;
   };
   const [image, setImage] = useState<File | null>();
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ const Profile = () => {
     useremail: "-",
     bio: "",
     profileImg: "",
-    package:"Package"
+    package: "Package",
   });
   const { isPending, mutate } = useMutation({
     mutationKey: ["update-primary-info"],
@@ -102,7 +102,7 @@ const Profile = () => {
         useremail: data.user.useremail,
         profileImg: data.user.profileImg || "",
         bio: data.user.bio,
-        package:data.user.package
+        package: data.user.package,
       });
     }
   }, [data]);
@@ -208,7 +208,6 @@ const Profile = () => {
                     <input
                       id="fileInput"
                       type="file"
-                    
                       accept="image/*"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const file = e.target.files?.[0];

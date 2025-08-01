@@ -2,7 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import { useQuery } from "@tanstack/react-query";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import api from "@/Api/axios";
-import {Drawer} from "@mui/material";
+import { Drawer } from "@mui/material";
 import { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import SideNav from "@/components/SideNav";
@@ -22,18 +22,12 @@ const Usernav = () => {
   return (
     <div className="flex justify-between bg-white w-full p-4">
       <div className="flex items-center gap-1.5">
-         <div className="flex sm:hidden py-4 bg-white ">
-                  <TiThMenu
-                    color="#3B82F6 "
-                    onClick={toggleDrawer(true)}
-                    size="30"
-                  />
-                   <Drawer open={open} onClose={toggleDrawer(false)}>
-                  
-              <SideNav/>
-            
-                        </Drawer>
-                </div>
+        <div className="flex sm:hidden py-4 bg-white ">
+          <TiThMenu color="#3B82F6 " onClick={toggleDrawer(true)} size="30" />
+          <Drawer open={open} onClose={toggleDrawer(false)}>
+            <SideNav />
+          </Drawer>
+        </div>
         <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +43,6 @@ const Usernav = () => {
             placeholder="Find a Note"
             className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
           />
-         
         </div>
       </div>
       <div className="flex items-center gap-2 text-gray-700">

@@ -170,7 +170,6 @@ const Create = () => {
                     type="checkbox"
                     name="publish"
                     id="publish"
-                   
                     onChange={() =>
                       setFormData({
                         ...formData,

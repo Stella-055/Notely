@@ -46,5 +46,5 @@ route.post(
   updatePasswordValidation,
   updateUserPassword,
 );
-route.get("/me",validateUser,getUser)
+route.get("/me", validateUser, getUser);
 export default route;

@@ -165,7 +165,7 @@ function App() {
               </Protected>
             }
           />
-            <Route
+          <Route
             path="success"
             element={
               <Protected>
@@ -174,12 +174,12 @@ function App() {
               </Protected>
             }
           />
-            <Route
+          <Route
             path="cancel"
             element={
               <Protected>
                 {" "}
-                <Cancel/>{" "}
+                <Cancel />{" "}
               </Protected>
             }
           />

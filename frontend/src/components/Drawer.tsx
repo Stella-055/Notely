@@ -1,12 +1,11 @@
-import SideNav from "./SideNav"
-
+import SideNav from "./SideNav";
 
 const DrawerSidenav = () => {
   return (
     <div className="sm:flex hidden ">
-      <SideNav/>
+      <SideNav />
     </div>
-  )
-}
+  );
+};
 
-export default DrawerSidenav
+export default DrawerSidenav;

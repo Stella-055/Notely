@@ -37,9 +37,9 @@ route.get(
         where: { id: user.id },
         data: { refreshToken: refreshToken },
       });
-      console.log(accessToken)
-          console.log(refreshToken)
-              console.log(user.username)
+      console.log(accessToken);
+      console.log(refreshToken);
+      console.log(user.username);
       res
         .clearCookie("accessToken")
         .clearCookie("refreshToken")
@@ -59,8 +59,8 @@ route.get(
         })
         .cookie("username", user.username, {
           maxAge: 1000 * 60 * 15,
-           httpOnly: false,
-             sameSite: "none",
+          httpOnly: false,
+          sameSite: "none",
           path: "/",
           secure: true,
         })

@@ -22,13 +22,13 @@ import Switch from "@mui/material/Switch";
 import { HashLoader } from "react-spinners";
 import { Button } from "@mui/material";
 import { Alert } from "@mui/material";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { MdPublishedWithChanges } from "react-icons/md";
 import { MdUnpublished } from "react-icons/md";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import Vapi from '@vapi-ai/web';
+import Vapi from "@vapi-ai/web";
 import { useRef } from "react";
 
 import {
@@ -40,7 +40,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 const Not = () => {
-  
   type Note = {
     genre: string;
     title: string;
@@ -138,114 +137,108 @@ const Not = () => {
   }, [data]);
 
   const [isConnected, setIsConnected] = useState(false);
-const [isSpeaking, setIsSpeaking] = useState(false);
-const[loading,setLoading]=useState(false)
-const vapiRef = useRef<Vapi | null>(null);
-useEffect(() => {
-  
-  if (!vapiRef.current) {
-    vapiRef.current = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!);
-    
-    const vapi = vapiRef.current;
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const vapiRef = useRef<Vapi | null>(null);
+  useEffect(() => {
+    if (!vapiRef.current) {
+      vapiRef.current = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY!);
 
-    vapi.on("call-start", () => {
-      console.log("Call started");
-      setIsConnected(true);
-    });
+      const vapi = vapiRef.current;
 
-    vapi.on("call-end", () => {
-      console.log("Call ended");
-      setIsConnected(false);
-      setIsSpeaking(false);
-    });
+      vapi.on("call-start", () => {
+        console.log("Call started");
+        setIsConnected(true);
+      });
 
-    vapi.on("speech-start", () => {
-      setIsSpeaking(true);
-    });
+      vapi.on("call-end", () => {
+        console.log("Call ended");
+        setIsConnected(false);
+        setIsSpeaking(false);
+      });
 
-    vapi.on("speech-end", () => {
-      setIsSpeaking(false);
-    });
+      vapi.on("speech-start", () => {
+        setIsSpeaking(true);
+      });
 
-    vapi.on("error", (error) => {
-      console.error("Vapi error:", error);
-      setIsConnected(false);
-      setIsSpeaking(false);
-    });
+      vapi.on("speech-end", () => {
+        setIsSpeaking(false);
+      });
 
-    vapi.on("message", (message) => {
-      if (message.role === "assistant" && message.type === "conversation-update") {
-      
+      vapi.on("error", (error) => {
+        console.error("Vapi error:", error);
+        setIsConnected(false);
+        setIsSpeaking(false);
+      });
+
+      vapi.on("message", (message) => {
+        if (
+          message.role === "assistant" &&
+          message.type === "conversation-update"
+        ) {
+        }
+      });
+    }
+
+    return () => {
+      if (vapiRef.current) {
+        vapiRef.current.stop();
       }
-    });
-  }
+    };
+  }, []);
 
-  return () => {
+  const ensureMicAccess = async () => {
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      return true;
+    } catch (err) {
+      toast.error("Microphone access is required to use voice assistant.");
+      return false;
+    }
+  };
+
+  const handleReadNote = async () => {
+    setLoading(true);
+    if (!notedetails.content) {
+      toast.error("Note content is empty. Please add content to the note.");
+      return;
+    }
+
+    if (!import.meta.env.VITE_VAPI_ASSISTANT_ID) {
+      toast.error("Assistant ID is not configured.");
+      return;
+    }
+
+    const hasMicAccess = await ensureMicAccess();
+    if (!hasMicAccess) return;
+
+    try {
+      if (vapiRef.current) {
+        await vapiRef.current?.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!, {
+          model: {
+            provider: "openai",
+            model: "gpt-4o",
+            messages: [
+              {
+                role: "system",
+                content: `You are a helpful assistant. Read the following note aloud:\n\n${notedetails.content}`,
+              },
+            ],
+          },
+        });
+
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Failed to start the voice assistant.");
+    }
+  };
+  const handleStopReading = () => {
     if (vapiRef.current) {
       vapiRef.current.stop();
     }
   };
-}, []);
-
-
-
-
-const ensureMicAccess = async () => {
-  try {
-    await navigator.mediaDevices.getUserMedia({ audio: true });
-    return true;
-  } catch (err) {
-    toast.error("Microphone access is required to use voice assistant.");
-    return false;
-  }
-};
-
-
-const handleReadNote = async () => {
-  setLoading(true)
-  if (!notedetails.content) {
-    toast.error("Note content is empty. Please add content to the note.");
-    return;
-  }
-
-  if (!import.meta.env.VITE_VAPI_ASSISTANT_ID) {
-    toast.error("Assistant ID is not configured.");
-    return;
-  }
-  
-  const hasMicAccess = await ensureMicAccess();
-  if (!hasMicAccess) return;
-
-  try {
-    if (vapiRef.current) {
-    
-      await vapiRef.current?.start(import.meta.env.VITE_VAPI_ASSISTANT_ID!, {
-        model: {
-          provider: "openai",          
-          model: "gpt-4o",             
-          messages: [
-            {
-              role: "system",
-              content: `You are a helpful assistant. Read the following note aloud:\n\n${notedetails.content}`,
-            },
-          ],
-        },
-      });
-      
-     setLoading(false)
-       
-     }
-  } catch (error) {
-   setLoading(false)
-    toast.error("Failed to start the voice assistant.");
-  }
-};
-const handleStopReading = () => {
-  if (vapiRef.current) {
-    vapiRef.current.stop();
-  }
-};
-
 
   return (
     <div className=" flex flex-col h-screen w-full p-5 overflow-x-hidden">
@@ -406,37 +399,48 @@ const handleStopReading = () => {
               setNotedetails({ ...notedetails, synopsis: e.target.value })
             }
           />
-         <div className="flex gap-2 items-center ">
-          <label htmlFor="content" className="text-gray-500">
-            Content:
-          </label>  
+          <div className="flex gap-2 items-center ">
+            <label htmlFor="content" className="text-gray-500">
+              Content:
+            </label>
 
-          {!isConnected ? (
-            <Button variant="contained" size="small" loading={loading} onClick={handleReadNote} >Your Ai Assistant</Button>
-   
-  ) : (
-    <div className="flex items-center gap-3">
-      <span style={{ fontWeight: 'bold', color: '#333' }}>
-        {isSpeaking ? 'Assistant Speaking...' : 'Listening...'}
-      </span>
-      <Button variant="contained"onClick={handleStopReading} endIcon={<SlCallEnd  />}>
-  Stop
-</Button>
-    
-    </div>
-  )}
-           </div>
+            {!isConnected ? (
+              <Button
+                variant="contained"
+                size="small"
+                loading={loading}
+                onClick={handleReadNote}
+              >
+                Your Ai Assistant
+              </Button>
+            ) : (
+              <div className="flex items-center gap-3">
+                <span style={{ fontWeight: "bold", color: "#333" }}>
+                  {isSpeaking ? "Assistant Speaking..." : "Listening..."}
+                </span>
+                <Button
+                  variant="contained"
+                  onClick={handleStopReading}
+                  endIcon={<SlCallEnd />}
+                >
+                  Stop
+                </Button>
+              </div>
+            )}
+          </div>
           {disableEditting ? (
             <div className="h-72  mt-1  p-2 overflow-y-auto sm:w-[50rem]   border rounded text-gray-700">
-           
-                <ReactMarkdown
+              <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                   h1: ({ ...props }) => (
                     <h1 className="text-3xl font-bold mb-4" {...props} />
                   ),
                   h2: ({ ...props }) => (
-                    <h2 className="text-2xl font-semibold mt-6 mb-2" {...props} />
+                    <h2
+                      className="text-2xl font-semibold mt-6 mb-2"
+                      {...props}
+                    />
                   ),
                   p: ({ ...props }) => (
                     <p className="text-base text-gray-700 mb-4" {...props} />
@@ -457,17 +461,15 @@ const handleStopReading = () => {
                     <code className="bg-gray-100 px-1 rounded" {...props} />
                   ),
                 }}
-                >
-                    {he.decode(notedetails.content)}
-             
-                </ReactMarkdown>{" "}
-              
+              >
+                {he.decode(notedetails.content)}
+              </ReactMarkdown>{" "}
             </div>
           ) : (
             <textarea
               id="content"
               className="h-64 text-gray-500 p-2"
-              value={ notedetails.content}
+              value={notedetails.content}
               onChange={(e) =>
                 setNotedetails({ ...notedetails, content: e.target.value })
               }

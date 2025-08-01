@@ -267,7 +267,7 @@ export const updateUserPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const getUser= async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
@@ -275,11 +275,9 @@ export const getUser= async (req: Request, res: Response) => {
 
     if (!user) return res.status(404);
     res.status(200).json({
-   
       username: user.username,
-     
     });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
-}
+};

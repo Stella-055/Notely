@@ -1,5 +1,3 @@
-
-
 import DrawerSidenav from "@/components/Drawer";
 import { Outlet } from "react-router-dom";
 

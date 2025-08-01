@@ -4,16 +4,19 @@ import axios from "axios";
 import api from "@/Api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-
+import { useState } from "react";
 const Subscription = () => {
-type packagetype={
-  packageType:string
-}
-
+  type packagetype = {
+    packageType: string;
+  };
+  const [isLoading, setisLoading] = useState(false);
   const { mutate, isPending } = useMutation({
     mutationKey: ["subscription"],
-    mutationFn: async (pack:packagetype) => {
-      const response = await api.post("/subscription/create-checkout-session", pack);
+    mutationFn: async (pack: packagetype) => {
+      const response = await api.post(
+        "/subscription/create-checkout-session",
+        pack,
+      );
 
       return response.data;
     },
@@ -35,7 +38,7 @@ type packagetype={
 
   const freePackage = useMutation({
     mutationKey: ["subscription"],
-    mutationFn: async (pack:packagetype) => {
+    mutationFn: async (pack: packagetype) => {
       const response = await api.post("/subscription/free-tier", pack);
 
       return response.data;
@@ -52,9 +55,9 @@ type packagetype={
       }
     },
     onSuccess: () => {
-      toast.success("You have moved to Free Tier",{
+      toast.success("You have moved to Free Tier", {
         position: "top-center",
-      })
+      });
     },
   });
 
@@ -142,7 +145,7 @@ type packagetype={
                 variant="contained"
                 loading={freePackage.isPending}
                 fullWidth
-               onClick={()=>freePackage.mutate({packageType:"Free-Tier"})}
+                onClick={() => freePackage.mutate({ packageType: "Free-Tier" })}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
@@ -247,7 +250,7 @@ type packagetype={
                 variant="contained"
                 fullWidth
                 loading={isPending}
-              onClick={()=>mutate({packageType:"pro"})}
+                onClick={() => mutate({ packageType: "pro" })}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}
@@ -370,8 +373,12 @@ type packagetype={
               <Button
                 variant="contained"
                 fullWidth
-                loading={isPending}
-                onClick={()=>mutate({packageType:"enterprise"})}
+                loading={isLoading}
+                onClick={() => {
+                  (setisLoading(true),
+                    mutate({ packageType: "enterprise" }),
+                    setisLoading(false));
+                }}
                 sx={{ bgcolor: "#6B7280", borderRadius: 3 }}
               >
                 {" "}

@@ -7,7 +7,7 @@ import { TiThMenu } from "react-icons/ti";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import {Drawer} from "@mui/material";
+import { Drawer } from "@mui/material";
 import { Button } from "@mui/material";
 import { IoNotificationsCircleOutline } from "react-icons/io5";
 import { Avatar } from "@mui/material";
@@ -34,11 +34,11 @@ import { toast } from "sonner";
 import SideNav from "@/components/SideNav";
 function Overview() {
   const navigate = useNavigate();
-const [searchvalue, setSearchvalue] = useState("");
-const [open, setOpen] = useState(false);
-const toggleDrawer = (newOpen: boolean) => () => {
-  setOpen(newOpen);
-};
+  const [searchvalue, setSearchvalue] = useState("");
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-enteries"],
     queryFn: async () => {
@@ -151,20 +151,13 @@ const toggleDrawer = (newOpen: boolean) => () => {
   return (
     <div className="w-full ">
       <div className="flex justify-between bg-white w-full p-4 items-center flex-wrap">
-     
         <div className="flex items-center gap-1.5">
-        <div className="flex sm:hidden py-4 bg-white ">
-          <TiThMenu
-            color="#3B82F6 "
-            onClick={toggleDrawer(true)}
-            size="30"
-          />
-           <Drawer open={open} onClose={toggleDrawer(false)}>
-          
-      <SideNav/>
-    
-                </Drawer>
-        </div>
+          <div className="flex sm:hidden py-4 bg-white ">
+            <TiThMenu color="#3B82F6 " onClick={toggleDrawer(true)} size="30" />
+            <Drawer open={open} onClose={toggleDrawer(false)}>
+              <SideNav />
+            </Drawer>
+          </div>
           <div className="flex items-center border-b gap-2 border-gray-500/30 h-[40px] overflow-hidden max-w-md w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +175,6 @@ const toggleDrawer = (newOpen: boolean) => () => {
               className="w-full h-full outline-none placeholder-gray-500 text-gray-500 bg-transparent text-sm"
             />
           </div>
-     
         </div>
         <div className="flex items-center gap-2 text-gray-700">
           {userdet?.data?.profileImg ? (
@@ -199,7 +191,7 @@ const toggleDrawer = (newOpen: boolean) => () => {
           )}
           Hi {userdet?.data?.username || "user"}{" "}
           <IoNotificationsCircleOutline size={20} />{" "}
-      </div>
+        </div>
       </div>
 
       <div className="flex justify-between m-2">
@@ -328,7 +320,7 @@ const toggleDrawer = (newOpen: boolean) => () => {
                               navigate(`/dashboard/notes/${entry.id}`)
                             }
                           />
-                          <Popover   >
+                          <Popover>
                             <PopoverTrigger>
                               <RiChatDeleteLine size={25} color="#3B82F6" />
                             </PopoverTrigger>
@@ -355,7 +347,6 @@ const toggleDrawer = (newOpen: boolean) => () => {
                               <div className="w-full justify-center flex gap-3">
                                 <Button
                                   variant="contained"
-                                
                                   sx={{ backgroundColor: "gray" }}
                                 >
                                   Cancel

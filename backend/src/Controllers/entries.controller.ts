@@ -63,10 +63,15 @@ export const getBookmarkedEntries = async (req: Request, res: Response) => {
     }
 
     const bookmarkedEntries = await prisma.entry.findMany({
-      where: {AND:[{isDeleted:false}, {id: {
-        in: user.bookmarks,
-      },}]
-       
+      where: {
+        AND: [
+          { isDeleted: false },
+          {
+            id: {
+              in: user.bookmarks,
+            },
+          },
+        ],
       },
       include: { user: true },
     });
@@ -163,8 +168,8 @@ export const unbookmarkEntry = async (req: Request, res: Response) => {
 export const getPublishednotes = async (req: Request, res: Response) => {
   try {
     const publishedEntries = await prisma.entry.findMany({
-    where:{AND:[  { isPublished: true },{isDeleted:false}]},
-     
+      where: { AND: [{ isPublished: true }, { isDeleted: false }] },
+
       include: { user: true },
     });
     return res.status(200).json({ entries: publishedEntries });
